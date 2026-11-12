@@ -54,7 +54,7 @@ def style_for_slot(slot: str) -> str:
 
 def build_prompt(post, slot, style):
     rnd = random.Random("SHAM-characters-" + slot)
-    scene = SCENES.get(post.get("scene"), SCENES["life"])
+    scene = post.get("visual") or SCENES.get(post.get("scene"), SCENES["life"])
     reaction = rnd.choice(REACTIONS)
     person = rnd.choice([
         "young adult man with dark short hair",

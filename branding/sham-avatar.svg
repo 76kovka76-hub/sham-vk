@@ -1,16 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
-<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#150a31"/><stop offset=".53" stop-color="#090b17"/><stop offset="1" stop-color="#26205b"/></linearGradient><linearGradient id="acid" x2="0" x1="1" y2="1"><stop stop-color="#DFFF3B"/><stop offset="1" stop-color="#87F9B2"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="22"/></filter><filter id="shadow"><feDropShadow dx="0" dy="17" stdDeviation="9" flood-color="#01000a" flood-opacity=".8"/></filter></defs>
-<rect width="1024" height="1024" rx="222" fill="url(#bg)"/>
-<circle cx="515" cy="465" r="313" fill="none" stroke="#6E3CFF" stroke-width="72" opacity=".36" filter="url(#glow)"/>
-<path d="M80 180 L318 85 M690 124 L931 256 M98 760 L300 913 M741 876 L967 706" stroke="#b993ff" stroke-width="10" opacity=".6"/>
-<path d="M77 400H254 M805 410H963 M74 663H245 M799 681H965" stroke="#DAFF36" stroke-width="15" stroke-linecap="round" opacity=".85"/>
-<circle cx="512" cy="493" r="260" fill="#DFFF3B" stroke="#04040b" stroke-width="24" filter="url(#shadow)"/>
-<path d="M343 427 Q400 393 465 411 M558 411 Q621 391 684 424" fill="none" stroke="#08080c" stroke-width="28" stroke-linecap="round"/>
-<path d="M378 463 L458 466 M567 466 L646 463" stroke="#08080c" stroke-width="36" stroke-linecap="round"/>
-<path d="M352 545 Q509 681 679 542" fill="none" stroke="#0A0A12" stroke-width="39" stroke-linecap="round"/>
-<path d="M462 616 L554 615" stroke="#F5006B" stroke-width="19" stroke-linecap="round"/>
-<rect x="99" y="722" width="826" height="186" rx="26" fill="#080811" stroke="#E9FF43" stroke-width="8" transform="rotate(-5 512 815)"/>
-<text x="512" y="847" font-family="DejaVu Sans,Arial,sans-serif" font-size="168" font-weight="1000" text-anchor="middle" letter-spacing="-10" fill="#EEFF40" transform="rotate(-5 512 815)">SHAM</text>
-<path d="M236 103 L275 149 L318 93 M765 115L808 78L832 132" stroke="#F500AD" stroke-width="18" fill="none" stroke-linecap="round"/>
-<text x="512" y="962" font-family="DejaVu Sans,Arial,sans-serif" font-size="32" font-weight="700" text-anchor="middle" letter-spacing="10" fill="#FAF9FF">МЕМЫ БЕЗ ТОРМОЗОВ</text>
-</svg>
+<defs>
+  <linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#151423"/><stop offset=".52" stop-color="#090A12"/><stop offset="1" stop-color="#0F0D1D"/></linearGradient>
+  <radialGradient id="aura" cx="49%" cy="47%" r="53%"><stop offset="0" stop-color="#7B61FF" stop-opacity=".5"/><stop offset=".7" stop-color="#352BA6" stop-opacity=".2"/><stop offset="1" stop-color="#0D0C17" stop-opacity="0"/></radialGradient>
+  <linearGradient id="word" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".52" stop-color="#F3F1FA"/><stop offset="1" stop-color="#C9C5D7"/></linearGradient>
+  <pattern id="lines" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(-28)"><path d="M 0 0 L 0 18" stroke="#A39CFF" opacity=".18" stroke-width="3"/></pattern>
+  <clipPath id="safe"><circle cx="512" cy="512" r="489"/></clipPath>
+</defs>
+<rect x="0" y="0" width="1024" height="1024" rx="240" fill="url(#background)"/>
+<g clip-path="url(#safe)">
+ <circle cx="512" cy="512" r="494" fill="url(#aura)"/>
+ <path d="M-30 260 L940 -60 M58 1010 L1120 400" stroke="#6B50FF" stroke-width="116" opacity=".15"/>
+ <path d="M-70 155 L815 -240 M161 1201 L1140 640" stroke="#C3B4FF" stroke-width="2" opacity=".6"/>
+ <circle cx="512" cy="498" r="365" fill="none" stroke="#7B67FF" stroke-width="5" opacity=".6"/>
+ <circle cx="512" cy="498" r="335" fill="none" stroke="#F5F2FF" stroke-width="2" opacity=".22" stroke-dasharray="7 18"/>
+ <circle cx="512" cy="498" r="311" fill="url(#lines)" opacity=".45"/>
+ <circle cx="512" cy="498" r="292" fill="#131321" opacity=".82"/>
+ <path d="M211 316 L829 316 L779 729 L166 729Z" fill="#6D5BFF" opacity=".2"/>
+ <path d="M190 335 L854 335 L815 708 L161 708Z" fill="#1A182E" stroke="#C1B7FF" stroke-width="3"/>
+ <path d="M176 351 L843 351 L824 688 L155 688Z" fill="#11111B"/>
+ <g font-family="DejaVu Sans, Arial, sans-serif" font-size="214" font-weight="900" letter-spacing="-20" text-anchor="middle" transform="rotate(-4 512 510)">
+   <text x="527" y="586" fill="#FF4B77" stroke="#FF4B77" stroke-width="9" transform="skewX(-7)">SHAM</text>
+   <text x="514" y="567" fill="#5845FF" stroke="#5845FF" stroke-width="9" transform="skewX(-7)">SHAM</text>
+   <text x="506" y="558" fill="url(#word)" stroke="#FFFFFF" stroke-width="2.4" transform="skewX(-7)">SHAM</text>
+ </g>
+ <path d="M246 617 L748 617" stroke="#FF527B" stroke-width="10" stroke-linecap="round"/>
+ <g fill="#FAF7FF" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="7" text-anchor="middle"><text x="510" y="686">MEMES WITHOUT RULES</text></g>
+ <g fill="#FF547E"><path d="M176 174 L194 222 L245 239 L194 258 L176 311 L158 258 L106 239 L158 222Z"/><path d="M834 722 L849 762 L890 777 L849 791 L834 833 L819 791 L777 777 L819 762Z"/></g>
+ <g fill="none" stroke="#B3A5FF" stroke-width="10" stroke-linecap="round"><path d="M735 162 l46 0 M758 139 l0 47"/><path d="M188 816 l43 -37 M207 831 l43 -37"/></g>
+ <g font-family="DejaVu Sans, Arial, sans-serif" font-weight="900" fill="#F2EDFF"><text x="514" y="240" font-size="21" text-anchor="middle" letter-spacing="7">⚡  THE INTERNET IS BROKEN  ⚡</text><text x="511" y="818" font-size="22" text-anchor="middle" letter-spacing="9">EST. 2026</text></g>
+ <path d="M249 859 L777 859" stroke="#6553F3" stroke-width="3" opacity=".55"/>
+</g></svg>

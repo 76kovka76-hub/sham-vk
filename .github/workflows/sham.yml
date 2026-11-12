@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'preview — только картинка; publish — публикация при PUBLISH_ENABLED=true'
+        description: 'preview — только картинка; publish — отправка в ВК (если не стоит SHAM_PAUSED=true)'
         required: true
         default: preview
         type: choice
@@ -46,8 +46,9 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Generate meme or publish to VK
         env:
-          MODE: ${{ github.event.inputs.mode || (github.event_name == 'schedule' && 'publish') || 'preview' }}
-          PUBLISH_ENABLED: ${{ vars.PUBLISH_ENABLED }}
+          MODE: ${{ github.event.inputs.mode || (github.event_name == 'schedule' && 'publish') || (github.event_name == 'push' && contains(github.event.head_commit.message, '[START_SHAM]') && 'publish') || 'preview' }}
+          PUBLISH_ENABLED: 'true'
+          SHAM_PAUSED: ${{ vars.SHAM_PAUSED }}
           VK_USER_TOKEN: ${{ secrets.VK_USER_TOKEN }}
           VK_GROUP_TOKEN: ${{ secrets.VK_GROUP_TOKEN }}
         run: |

@@ -25,9 +25,35 @@
       "vedismm_job_id": "155b475a-5716-4eb2-aa0a-874d70bac53f",
       "publication_status": "published",
       "vk_url": "https://vk.com/wall-243230846_2"
+    },
+    {
+      "top": "Решил переставить мебель.",
+      "bottom": "Еда так и не заспавнилась. Жду обновление.",
+      "caption": "Кто тоже король бытового хаоса?",
+      "scene": "home",
+      "id": "307264aa2ee2db4970fc5aeab82202f4a924ebf140cb928fcb78489d7cdc1dc5",
+      "hashtags": [
+        "#домосед",
+        "#мемыиприколы",
+        "#юмор2026"
+      ],
+      "slot": "2026-11-12-21-00",
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "ecbd592d-a623-4fd9-866b-a02587e538a2",
+        "model": "stable_diffusion",
+        "seed": "2146905612",
+        "worker": "esson-arch-gemini-sd15"
+      },
+      "vedismm_post_id": 4965,
+      "vedismm_job_id": "c3dfd5c2-2775-4b3e-8050-32fdb62b9e60",
+      "publication_status": "published",
+      "vk_url": "https://vk.com/wall-243230846_3"
     }
   ],
   "slots": [
-    "2026-11-12-20-03"
+    "2026-11-12-20-03",
+    "2026-11-12-21-00"
   ]
 }

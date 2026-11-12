@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#150a31"/><stop offset=".53" stop-color="#090b17"/><stop offset="1" stop-color="#26205b"/></linearGradient><linearGradient id="acid" x2="0" x1="1" y2="1"><stop stop-color="#DFFF3B"/><stop offset="1" stop-color="#87F9B2"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="22"/></filter><filter id="shadow"><feDropShadow dx="0" dy="17" stdDeviation="9" flood-color="#01000a" flood-opacity=".8"/></filter></defs>
+<rect width="1024" height="1024" rx="222" fill="url(#bg)"/>
+<circle cx="515" cy="465" r="313" fill="none" stroke="#6E3CFF" stroke-width="72" opacity=".36" filter="url(#glow)"/>
+<path d="M80 180 L318 85 M690 124 L931 256 M98 760 L300 913 M741 876 L967 706" stroke="#b993ff" stroke-width="10" opacity=".6"/>
+<path d="M77 400H254 M805 410H963 M74 663H245 M799 681H965" stroke="#DAFF36" stroke-width="15" stroke-linecap="round" opacity=".85"/>
+<circle cx="512" cy="493" r="260" fill="#DFFF3B" stroke="#04040b" stroke-width="24" filter="url(#shadow)"/>
+<path d="M343 427 Q400 393 465 411 M558 411 Q621 391 684 424" fill="none" stroke="#08080c" stroke-width="28" stroke-linecap="round"/>
+<path d="M378 463 L458 466 M567 466 L646 463" stroke="#08080c" stroke-width="36" stroke-linecap="round"/>
+<path d="M352 545 Q509 681 679 542" fill="none" stroke="#0A0A12" stroke-width="39" stroke-linecap="round"/>
+<path d="M462 616 L554 615" stroke="#F5006B" stroke-width="19" stroke-linecap="round"/>
+<rect x="99" y="722" width="826" height="186" rx="26" fill="#080811" stroke="#E9FF43" stroke-width="8" transform="rotate(-5 512 815)"/>
+<text x="512" y="847" font-family="DejaVu Sans,Arial,sans-serif" font-size="168" font-weight="1000" text-anchor="middle" letter-spacing="-10" fill="#EEFF40" transform="rotate(-5 512 815)">SHAM</text>
+<path d="M236 103 L275 149 L318 93 M765 115L808 78L832 132" stroke="#F500AD" stroke-width="18" fill="none" stroke-linecap="round"/>
+<text x="512" y="962" font-family="DejaVu Sans,Arial,sans-serif" font-size="32" font-weight="700" text-anchor="middle" letter-spacing="10" fill="#FAF9FF">МЕМЫ БЕЗ ТОРМОЗОВ</text>
+</svg>

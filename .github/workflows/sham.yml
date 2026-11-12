@@ -6,6 +6,7 @@ on:
       - 'main.py'
       - 'README.md'
       - 'vedismm_publisher.py'
+      - 'photo_style.py'
       - 'meme_bank.py'
       - 'hashtags.py'
       - 'tests/**'
@@ -54,6 +55,7 @@ jobs:
           VK_USER_TOKEN: ${{ secrets.VK_USER_TOKEN }}
           VK_GROUP_TOKEN: ${{ secrets.VK_GROUP_TOKEN }}
           SHAM_BACKEND: ${{ secrets.VEDISMM_TOKEN != '' && 'vedismm' || vars.SHAM_BACKEND || 'vk' }}
+          SHAM_VISUAL_STYLE: 'photo'
           VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
           VEDISMM_ACCOUNT_ID: ${{ vars.VEDISMM_ACCOUNT_ID }}
         run: |
@@ -70,6 +72,7 @@ jobs:
           path: |
             output/sham_meme.png
             output/preview.json
+            output/photo_source.json
           if-no-files-found: ignore
           retention-days: 7
       - name: Remember published posts (avoid repeats)

@@ -50,10 +50,36 @@
       "vedismm_job_id": "c3dfd5c2-2775-4b3e-8050-32fdb62b9e60",
       "publication_status": "published",
       "vk_url": "https://vk.com/wall-243230846_3"
+    },
+    {
+      "top": "Решил переставить мебель.",
+      "bottom": "Мой внутренний взрослый снова не вышел на смену.",
+      "caption": "Кто тоже король бытового хаоса?",
+      "scene": "home",
+      "id": "223523891cf74ce2e403e95fed822c5e8b63b636d1a54a48998d13599a22b2b4",
+      "hashtags": [
+        "#посудa",
+        "#вайб",
+        "#смехдослез"
+      ],
+      "slot": "2026-11-12-21-03",
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "123b6301-773a-4241-a295-b9632ff77ac9",
+        "model": "stable_diffusion",
+        "seed": "3553591368",
+        "worker": "Simebone"
+      },
+      "vedismm_post_id": 4966,
+      "scheduled_at": "2026-11-12T21:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
     "2026-11-12-20-03",
-    "2026-11-12-21-00"
+    "2026-11-12-21-00",
+    "2026-11-12-21-03"
   ]
 }

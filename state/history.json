@@ -158,12 +158,41 @@
       "scheduled_at": "2026-11-12T23:30:00Z",
       "publication_status": "scheduled",
       "vk_url": ""
+    },
+    {
+      "top": "Решил почистить фотоплёнку.",
+      "bottom": "Теперь понял, зачем в телефоне есть пароль.",
+      "scene": "phone",
+      "topic": "photo_gallery",
+      "visual": "person shocked while reviewing awkward old selfies on smartphone",
+      "caption": "Некоторые воспоминания лучше в архиве.",
+      "id": "6b7959865fda278e8ed8ee7c0350a01750f61adca97d9df34a37b6af095dbf9d",
+      "hashtags": [
+        "#скроллинг",
+        "#сатира",
+        "#юмордлясвоих"
+      ],
+      "slot": "2026-11-13-00-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "realistic",
+        "request_id": "f5e4509c-1748-4d6c-966a-fb4ce0a033bd",
+        "model": "stable_diffusion",
+        "seed": "1930249471",
+        "worker": "esson-arch-gemini-sd15"
+      },
+      "vedismm_post_id": 4971,
+      "scheduled_at": "2026-11-13T00:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
     "2026-11-12-20-03",
     "2026-11-12-21-00",
     "2026-11-12-21-03",
-    "2026-11-12-23-02"
+    "2026-11-12-23-02",
+    "2026-11-13-00-00"
   ]
 }

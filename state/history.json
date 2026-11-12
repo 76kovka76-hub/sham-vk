@@ -73,7 +73,7 @@
       },
       "vedismm_post_id": 4966,
       "scheduled_at": "2026-11-12T21:45:00Z",
-      "publication_status": "scheduled",
+      "publication_status": "delivered_unverified",
       "vk_url": ""
     },
     {
@@ -98,14 +98,13 @@
       },
       "vedismm_post_id": 4967,
       "scheduled_at": "2026-11-12T22:45:00Z",
-      "publication_status": "scheduled",
+      "publication_status": "unscheduled_low_quality",
       "vk_url": ""
     }
   ],
   "slots": [
     "2026-11-12-20-03",
     "2026-11-12-21-00",
-    "2026-11-12-21-03",
-    "2026-11-12-22-03"
+    "2026-11-12-21-03"
   ]
 }

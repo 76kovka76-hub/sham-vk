@@ -184,8 +184,10 @@ def generate_image(post, slot, style, deadline_seconds=370):
                 pass
 
 
-def make_horde_image(post, slot, out: Path, font, centered_text):
-    style = style_for_slot(slot)
+def make_horde_image(post, slot, out: Path, font, centered_text, style_override=None):
+    if style_override is not None and style_override not in ("anime", "realistic"):
+        raise ValueError("Only anime or realistic preview overrides are allowed")
+    style = style_override or style_for_slot(slot)
     original, metadata = generate_image(post, slot, style)
     image = ImageOps.fit(original, (1080, 1080),
                          method=Image.Resampling.LANCZOS,

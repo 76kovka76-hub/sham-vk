@@ -46,8 +46,7 @@ def _find_account_id(token):
     if not isinstance(result, list):
         raise RuntimeError("VediSMM did not return an account list")
     match = [a for a in result if a.get("network") == "vk"
-             and str(a.get("external_id", "")).lstrip("-") == "243230846"
-             and a.get("status") == "active"]
+             and str(a.get("external_id", "")).lstrip("-") == "243230846"]
     if len(match) != 1:
         raise RuntimeError(
             "SHAM (VK ID 243230846) must be connected and active in VediSMM. "

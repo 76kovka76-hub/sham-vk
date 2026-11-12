@@ -100,11 +100,40 @@
       "scheduled_at": "2026-11-12T22:45:00Z",
       "publication_status": "unscheduled_low_quality",
       "vk_url": ""
+    },
+    {
+      "top": "Ждал ответ и смотрел на три точки.",
+      "bottom": "Такую паузу даже в кино не выдерживают.",
+      "scene": "social",
+      "topic": "typing",
+      "visual": "adult person anxiously watching a typing indicator on phone",
+      "caption": "Три точки — главный триллер интернета.",
+      "id": "2df678562cc0d56ca17e036b0bb359b3381af31f7dbf57905e78f1121571d69e",
+      "hashtags": [
+        "#общение",
+        "#жиза",
+        "#смешноидно"
+      ],
+      "slot": "2026-11-12-23-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "8065c5cc-6ce1-4e86-bb72-75b65ec1591a",
+        "model": "stable_diffusion",
+        "seed": "3160830833",
+        "worker": "esson-arch-gemini-sd15"
+      },
+      "vedismm_post_id": 4968,
+      "scheduled_at": "2026-11-12T23:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
     "2026-11-12-20-03",
     "2026-11-12-21-00",
-    "2026-11-12-21-03"
+    "2026-11-12-21-03",
+    "2026-11-12-23-00"
   ]
 }

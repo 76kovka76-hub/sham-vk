@@ -1,0 +1,75 @@
+name: SHAM — 8 мемов в сутки
+on:
+  schedule:
+    - cron: '23 0,3,6,9,12,15,18,21 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'preview — только картинка; publish — публикация при PUBLISH_ENABLED=true'
+        required: true
+        default: preview
+        type: choice
+        options:
+          - preview
+          - publish
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sham-publisher
+  cancel-in-progress: false
+
+jobs:
+  meme:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Tests
+        run: python -m unittest discover -s tests -v
+      - name: Generate meme or publish to VK
+        env:
+          MODE: ${{ github.event.inputs.mode || 'publish' }}
+          PUBLISH_ENABLED: ${{ vars.PUBLISH_ENABLED }}
+          VK_USER_TOKEN: ${{ secrets.VK_USER_TOKEN }}
+          VK_GROUP_TOKEN: ${{ secrets.VK_GROUP_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SHAM_IMAGE_MODE: ${{ vars.SHAM_IMAGE_MODE || 'local' }}
+          SHAM_IMAGE_MODEL: ${{ vars.SHAM_IMAGE_MODEL || 'gpt-image-2' }}
+          SHAM_TEXT_MODEL: ${{ vars.SHAM_TEXT_MODEL || 'gpt-4.1-mini' }}
+        run: |
+          if [ "$MODE" = "preview" ]; then
+            python main.py --preview
+          else
+            python main.py --publish
+          fi
+      - name: Save preview image and text
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sham-preview-${{ github.run_id }}
+          path: |
+            output/sham_meme.png
+            output/preview.json
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Remember published posts (avoid repeats)
+        if: success() && (github.event_name == 'schedule' || github.event.inputs.mode == 'publish')
+        run: |
+          if git diff --quiet -- state/history.json; then
+            echo "No new VK post to record"
+            exit 0
+          fi
+          git config user.name "sham-bot"
+          git config user.email "sham-bot@users.noreply.github.com"
+          git add state/history.json
+          git commit -m "bot: remember published VK meme"
+          git push

@@ -1,7 +1,16 @@
 name: SHAM — пост каждые 15 минут
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'main.py'
+      - 'meme_bank.py'
+      - 'hashtags.py'
+      - 'tests/**'
+      - 'requirements.txt'
+      - '.github/workflows/sham.yml'
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '8,23,38,53 * * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -37,7 +46,7 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Generate meme or publish to VK
         env:
-          MODE: ${{ github.event.inputs.mode || 'publish' }}
+          MODE: ${{ github.event.inputs.mode || (github.event_name == 'schedule' && 'publish') || 'preview' }}
           PUBLISH_ENABLED: ${{ vars.PUBLISH_ENABLED }}
           VK_USER_TOKEN: ${{ secrets.VK_USER_TOKEN }}
           VK_GROUP_TOKEN: ${{ secrets.VK_GROUP_TOKEN }}

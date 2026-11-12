@@ -262,6 +262,9 @@ def main():
         parser.error("Выберите --preview или --publish")
     state = get_state()
     slot = current_slot()
+    if args.publish and os.getenv("SHAM_PAUSED", "").strip().lower() == "true":
+        print("SHAM_PAUSED=true: публикация отключена оператором.")
+        return
     if args.publish and os.getenv("PUBLISH_ENABLED", "").strip().lower() != "true":
         print("PUBLISH_ENABLED != true: публикация отключена.")
         return

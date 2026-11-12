@@ -53,12 +53,16 @@ def clean_legacy_queue(state):
                     if attempt == 2:
                         error_code = ""
                         try:
-                            error_code = request.json().get("error", {}).get("code", "")
+                            payload = request.json()
+                            error_code = payload.get("code") or payload.get("error", {}).get("code", "")
+                            error_detail = payload.get("detail", "")
                         except (ValueError, AttributeError):
-                            pass
+                            error_detail = ""
                         raise RuntimeError(
                             f"VediSMM {pid} version conflict (HTTP 412) "
-                            f"after 3 reads; code={error_code!r}"
+                            f"after 3 reads; current_version={remote.get('version')}; "
+                            f"etag={etag!r}; code={error_code!r}; "
+                            f"detail={error_detail[:140]!r}"
                         )
                     continue
                 request.raise_for_status()

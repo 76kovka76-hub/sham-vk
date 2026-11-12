@@ -32,13 +32,48 @@ SCENES = {
     "social": "reading a shocking message on a smartphone while sitting in a cafe",
     "life": "sitting in pajamas at a breakfast table facing a ridiculously early morning",
 }
-REACTIONS = [
-    "comically surprised, mouth open, wide expressive eyes",
-    "exhausted, resigned, deeply unimpressed",
-    "trying not to laugh, eyebrows raised",
-    "dramatically shocked, incredulous",
-    "facepalm, frustrated but funny",
-]
+TOPIC_REACTIONS = {
+    # A story-specific expression overrides the previous random emotion.
+    "typing": "extremely anxious, tense and impatient, eyes fixed on the smartphone, visibly worried eyebrows, mouth closed, NOT smiling",
+    "need_talk": "worried and alarmed, eyes wide with anxiety, holding smartphone in the foreground, NOT smiling",
+    "date": "nervous and embarrassed on a first date, awkward shy smile, looking at another person",
+    "voice_messages": "exasperated and bored, listening intently to phone, eyes rolling",
+    "groupchat": "overwhelmed, tired, staring with disbelief at smartphone screen",
+    "five_minute_meeting": "exhausted and bored on never-ending video meeting, blank expression",
+    "boss_friday": "shocked and annoyed by new work message, furrowed eyebrows",
+    "excel": "frustrated and bewildered by spreadsheet on laptop, serious expression",
+    "deadline": "stressed and panicked staring at clock and laptop, NOT smiling",
+    "after_vacation": "horrified by hundreds of unread emails, startled and exhausted",
+    "salary": "shocked and distraught at small bank balance on phone, NOT smiling",
+    "grocery_total": "in disbelief at expensive grocery receipt, worried surprised face",
+    "discount": "surprised and conflicted about shopping bags and sale signs",
+    "rent": "stunned and worried by expensive rental listing on laptop",
+    "subscriptions": "annoyed and disappointed while reviewing charges on phone",
+    "scrolling": "exhausted and sleepy while compulsively scrolling phone in dark bedroom",
+    "battery": "desperately anxious, staring at smartphone battery dying, NOT smiling",
+    "screen_time": "ashamed and shocked by huge phone usage hours",
+    "photo_gallery": "embarrassed and cringing while looking at old photo on phone",
+    "notifications": "overwhelmed by constant buzzing phone, exhausted",
+    "fridge": "hungry and disappointed in nearly empty refrigerator",
+    "dishes": "deeply exhausted staring at huge mountain of dirty dishes",
+    "cleaning": "tired and annoyed surrounded by household clutter",
+    "socks": "puzzled and suspicious holding one unpaired sock",
+    "delivery": "hungry and impatient tracking food delivery on phone",
+    "alarm": "sleepy and grumpy, tired eyes, reaching for buzzing alarm",
+    "weekend": "disappointed and exhausted on Sunday night",
+    "adult_bills": "stressed and weary reading utility bills at kitchen table",
+    "fitness": "tired and sore after first workout, comically exhausted",
+    "to_do": "overwhelmed and worried by extremely long to-do list",
+}
+SCENE_REACTIONS = {
+    "work": "visibly tired and frustrated",
+    "wallet": "shocked by prices and finances",
+    "phone": "tired and focused on smartphone",
+    "home": "exhausted by household chores",
+    "social": "anxious and nervous reading messages on phone",
+    "life": "grumpy and overwhelmed by ordinary life",
+}
+
 
 
 def style_for_slot(slot: str) -> str:
@@ -55,7 +90,7 @@ def style_for_slot(slot: str) -> str:
 def build_prompt(post, slot, style):
     rnd = random.Random("SHAM-characters-" + slot)
     scene = post.get("visual") or SCENES.get(post.get("scene"), SCENES["life"])
-    reaction = rnd.choice(REACTIONS)
+    reaction = TOPIC_REACTIONS.get(post.get('topic'), SCENE_REACTIONS.get(post.get('scene'), 'frustrated and tired'))
     person = rnd.choice([
         "young adult man with dark short hair",
         "young adult woman with wavy brown hair",
@@ -67,7 +102,8 @@ def build_prompt(post, slot, style):
     common = (
         f"An original fictional {person}, {scene}, {reaction}. "
         "One clearly visible adult human face, expressive facial features, "
-        "memorable comic reaction, scene tells a joke without any writing, "
+        "the expression MUST match the emotional situation (no inappropriate happy grin), "
+        "the main prop and the person's action must be clearly visible, "
         "cinematic dynamic composition, waist-up medium shot, subject centered, "
         "clear face with open space top and bottom for later meme captions, "
         "safe for work, no visible letters, no signatures."

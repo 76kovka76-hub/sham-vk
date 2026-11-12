@@ -20,7 +20,7 @@ def clean_legacy_queue(state):
     for item in state.get("posts", []):
         if item.get("publication_status") != "scheduled":
             continue
-        if item.get("quality_version", 0) >= 2:
+        if item.get("quality_version", 0) >= 2 and not item.get("review_rejected", False):
             continue
         pid = item.get("vedismm_post_id")
         if not isinstance(pid, int) or pid <= 0:

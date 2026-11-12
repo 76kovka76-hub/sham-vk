@@ -107,5 +107,23 @@ jobs:
           git config user.name "sham-bot"
           git config user.email "sham-bot@users.noreply.github.com"
           git add state/history.json
-          git commit -m "bot: remember published VK meme"
-          git push
+          git commit -m "bot: remember SHAM queue and verified VK posts"
+          if git push; then
+            exit 0
+          fi
+          # Another commit may have advanced main while the generator worked.
+          # Rebase safely. Never force push or silently discard state/history.
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if ! git rebase origin/main; then
+              echo "::error::SHAM history conflict. Scheduled post may exist on VediSMM; do not blindly republish."
+              git rebase --abort || true
+              exit 1
+            fi
+            if git push; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          echo "::error::Could not safely save queue history to GitHub."
+          exit 1

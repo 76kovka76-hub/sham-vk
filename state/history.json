@@ -75,11 +75,37 @@
       "scheduled_at": "2026-11-12T21:45:00Z",
       "publication_status": "scheduled",
       "vk_url": ""
+    },
+    {
+      "top": "Решил ничего не заказывать и готовить сам.",
+      "bottom": "Кухня объявила себя независимой республикой.",
+      "caption": "Дом, милый дом. Но это неточно.",
+      "scene": "home",
+      "id": "dc982a95381a9cea7aa9aa3ebe63242e751e01c49ac0e2e84aa580704b886dd2",
+      "hashtags": [
+        "#дом",
+        "#чтозажизнь",
+        "#смех"
+      ],
+      "slot": "2026-11-12-22-03",
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "9636d0e6-2b68-4fc4-a014-770c019fff4b",
+        "model": "stable_diffusion",
+        "seed": "1995409036",
+        "worker": "PARACAS-5060-8GB"
+      },
+      "vedismm_post_id": 4967,
+      "scheduled_at": "2026-11-12T22:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
     "2026-11-12-20-03",
     "2026-11-12-21-00",
-    "2026-11-12-21-03"
+    "2026-11-12-21-03",
+    "2026-11-12-22-03"
   ]
 }

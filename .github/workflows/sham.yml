@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'main.py'
+      - 'README.md'
       - 'vedismm_publisher.py'
       - 'meme_bank.py'
       - 'hashtags.py'

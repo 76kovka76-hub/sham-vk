@@ -39,7 +39,7 @@ def _find_account_id(token):
         return _positive_int(configured, "VEDISMM_ACCOUNT_ID")
     response = requests.get(
         BASE + "/accounts", headers={"Authorization": f"Bearer {token}"},
-        params={"limit": 100}, timeout=35,
+        timeout=35,
     )
     response.raise_for_status()
     result = response.json().get("data")

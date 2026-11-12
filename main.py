@@ -195,27 +195,38 @@ def publish_vk(image_path, caption, slot):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--preview", action="store_true", help="Сделать мем без публикации")
-    parser.add_argument("--publish", action="store_true", help="Публикация (при PUBLISH_ENABLED=true)")
+    parser.add_argument("--publish", action="store_true", help="Опубликовать немедленно")
+    parser.add_argument("--enqueue", action="store_true", help="Пополнить отложенную очередь ВедиSMM")
     args = parser.parse_args()
-    if args.preview == args.publish:
-        parser.error("Выберите --preview или --publish")
+    if sum((args.preview, args.publish, args.enqueue)) != 1:
+        parser.error("Выберите только один режим: --preview / --publish / --enqueue")
     state = get_state()
     slot = current_slot()
-    if args.publish and os.getenv("SHAM_PAUSED", "").strip().lower() == "true":
-        print("SHAM_PAUSED=true: публикация отключена оператором.")
+    scheduled_time = None
+    posting = args.publish or args.enqueue
+    if posting and os.getenv("SHAM_PAUSED", "").strip().lower() == "true":
+        print("SHAM_PAUSED=true: автоматические публикации отключены.")
         return
-    if args.publish and os.getenv("PUBLISH_ENABLED", "").strip().lower() != "true":
+    if posting and os.getenv("PUBLISH_ENABLED", "").strip().lower() != "true":
         print("PUBLISH_ENABLED != true: публикация отключена.")
         return
     if args.publish and slot in state["slots"]:
         print(f"Слот {slot} уже обработан; пропуск.")
         return
+    if args.enqueue:
+        from queue_planner import next_missing_slot
+        slot, scheduled_time = next_missing_slot(state)
+        if slot is None:
+            print("Очередь ВедиSMM заполнена на ближайшие 12 часов, пропуск генерации.")
+            return
     backend = os.getenv("SHAM_BACKEND", "vk").strip().lower()
     if backend not in ("vk", "vedismm"):
         raise RuntimeError("SHAM_BACKEND должен быть vk или vedismm")
-    if args.publish and backend == "vk" and not os.getenv("VK_USER_TOKEN", "").strip():
+    if args.enqueue and backend != "vedismm":
+        raise RuntimeError("Отложенная очередь требует SHAM_BACKEND=vedismm")
+    if posting and backend == "vk" and not os.getenv("VK_USER_TOKEN", "").strip():
         raise RuntimeError("Нужен VK_USER_TOKEN или переключите SHAM_BACKEND=vedismm; стена не изменена")
-    if args.publish and backend == "vedismm" and not os.getenv("VEDISMM_TOKEN", "").strip():
+    if posting and backend == "vedismm" and not os.getenv("VEDISMM_TOKEN", "").strip():
         raise RuntimeError("Нужен VEDISMM_TOKEN (GitHub Actions Secret); стена не изменена")
     post = generate_post(state, slot)
     tags = create_tags(post["scene"], state, slot)
@@ -239,7 +250,14 @@ def main():
     if args.preview:
         print("Режим предпросмотра: в VK ничего не отправлено.")
         return
-    if backend == "vedismm":
+    if args.enqueue:
+        from vedismm_publisher import schedule_vedismm
+        result = schedule_vedismm(image, message, slot, scheduled_time)
+        publication = {"vedismm_post_id": result["post_id"],
+                       "scheduled_at": result["scheduled_at"],
+                       "publication_status": "scheduled",
+                       "vk_url": ""}
+    elif backend == "vedismm":
         from vedismm_publisher import publish_vedismm
         result = publish_vedismm(image, message, slot)
         publication = {"vedismm_post_id": result["post_id"],
@@ -255,7 +273,10 @@ def main():
                            "slot": slot, "image_source": image_source, **publication})
     STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
     STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    if publication["publication_status"] == "published":
+    if publication["publication_status"] == "scheduled":
+        print(f"Запланировано в ВедиSMM на {publication['scheduled_at']}: post {publication['vedismm_post_id']}.")
+        print("Пост пока НЕ опубликован в ВК: публикация выполнится позднее.")
+    elif publication["publication_status"] == "published":
         print(f"Опубликовано: {publication['vk_url']}")
     else:
         print(f"Поставлено в очередь ВедиSMM (НЕ подтверждено ВК): {publication['vedismm_job_id']}")

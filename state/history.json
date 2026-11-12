@@ -130,11 +130,40 @@
       "vk_url": "",
       "review_rejected": true,
       "review_note": "Visual QA: smiling anime character contradicts anxious waiting-for-reply caption"
+    },
+    {
+      "top": "Сказал коллегам, что немного знаю Excel.",
+      "bottom": "Из одной формулы выпало ещё сорок проблем.",
+      "scene": "work",
+      "topic": "excel",
+      "visual": "employee squinting at a massive Excel spreadsheet in office",
+      "caption": "Excel, пожалуйста, пощади.",
+      "id": "821edc1b43a814c8c0393c366124774237e36683a21e2f9d266b5f546d492b0d",
+      "hashtags": [
+        "#работамоя",
+        "#юморвк",
+        "#мемология"
+      ],
+      "slot": "2026-11-12-23-02",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "8c52e2e3-a0fc-4214-a1c5-c87a7bb898b9",
+        "model": "stable_diffusion",
+        "seed": "3368306149",
+        "worker": "esson-arch-gemini-sd15"
+      },
+      "vedismm_post_id": 4969,
+      "scheduled_at": "2026-11-12T23:30:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
     "2026-11-12-20-03",
     "2026-11-12-21-00",
-    "2026-11-12-21-03"
+    "2026-11-12-21-03",
+    "2026-11-12-23-02"
   ]
 }

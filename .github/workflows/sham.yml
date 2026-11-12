@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'main.py'
+      - 'vedismm_publisher.py'
       - 'meme_bank.py'
       - 'hashtags.py'
       - 'tests/**'
@@ -51,6 +52,9 @@ jobs:
           SHAM_PAUSED: ${{ vars.SHAM_PAUSED }}
           VK_USER_TOKEN: ${{ secrets.VK_USER_TOKEN }}
           VK_GROUP_TOKEN: ${{ secrets.VK_GROUP_TOKEN }}
+          SHAM_BACKEND: ${{ vars.SHAM_BACKEND || 'vk' }}
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+          VEDISMM_ACCOUNT_ID: ${{ vars.VEDISMM_ACCOUNT_ID }}
         run: |
           if [ "$MODE" = "preview" ]; then
             python main.py --preview

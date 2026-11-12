@@ -271,8 +271,13 @@ def main():
     if args.publish and slot in state["slots"]:
         print(f"Слот {slot} уже обработан; пропуск.")
         return
-    if args.publish and not os.getenv("VK_USER_TOKEN", "").strip():
-        raise RuntimeError("Нужен VK_USER_TOKEN (GitHub Actions Secret); стена не изменена")
+    backend = os.getenv("SHAM_BACKEND", "vk").strip().lower()
+    if backend not in ("vk", "vedismm"):
+        raise RuntimeError("SHAM_BACKEND должен быть vk или vedismm")
+    if args.publish and backend == "vk" and not os.getenv("VK_USER_TOKEN", "").strip():
+        raise RuntimeError("Нужен VK_USER_TOKEN или переключите SHAM_BACKEND=vedismm; стена не изменена")
+    if args.publish and backend == "vedismm" and not os.getenv("VEDISMM_TOKEN", "").strip():
+        raise RuntimeError("Нужен VEDISMM_TOKEN (GitHub Actions Secret); стена не изменена")
     post = generate_post(state, slot)
     tags = create_tags(post["scene"], state, slot)
     message = add_hashtags(post["caption"], tags)
@@ -287,13 +292,26 @@ def main():
     if args.preview:
         print("Режим предпросмотра: в VK ничего не отправлено.")
         return
-    post_id = publish_vk(image, message, slot)
+    if backend == "vedismm":
+        from vedismm_publisher import publish_vedismm
+        result = publish_vedismm(image, message, slot)
+        publication = {"vedismm_post_id": result["post_id"],
+                       "vedismm_job_id": result["job_id"],
+                       "publication_status": result["status"],
+                       "vk_url": result["url"]}
+    else:
+        post_id = publish_vk(image, message, slot)
+        publication = {"vk_post_id": post_id, "publication_status": "published",
+                       "vk_url": f"https://vk.com/wall-{GROUP_ID}_{post_id}"}
     state["slots"].append(slot)
     state["posts"].append({**post, "id": identity(post), "hashtags": tags,
-                           "slot": slot, "vk_post_id": post_id})
+                           "slot": slot, **publication})
     STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
     STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Опубликовано: https://vk.com/wall-{GROUP_ID}_{post_id}")
+    if publication["publication_status"] == "published":
+        print(f"Опубликовано: {publication['vk_url']}")
+    else:
+        print(f"Поставлено в очередь ВедиSMM (НЕ подтверждено ВК): {publication['vedismm_job_id']}")
 
 
 if __name__ == "__main__":

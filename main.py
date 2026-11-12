@@ -147,12 +147,13 @@ def centered_text(draw, text, y0, y1, color, max_size):
         y += advance
 
 
-def make_image(post, slot, state=None):
+def make_image(post, slot, state=None, style_override=None):
     visual_style = os.getenv("SHAM_VISUAL_STYLE", "horde").strip().lower()
     if visual_style != "horde":
         raise RuntimeError("SHAM only supports AI Horde realism/anime; Openverse/cartoon disabled")
     from horde_style import make_horde_image
-    return make_horde_image(post, slot, OUT, font, centered_text)
+    return make_horde_image(post, slot, OUT, font, centered_text,
+                            style_override=style_override)
 
 
 def vk_call(method, token, **fields):
@@ -219,7 +220,12 @@ def main():
     post = generate_post(state, slot)
     tags = create_tags(post["scene"], state, slot)
     message = add_hashtags(post["caption"], tags)
-    image = make_image(post, slot, state)
+    qa_style = os.getenv("SHAM_PREVIEW_STYLE", "").strip().lower() if args.preview else ""
+    if qa_style == "auto":
+        qa_style = ""
+    if qa_style and qa_style not in ("anime", "realistic"):
+        raise ValueError("SHAM_PREVIEW_STYLE must be anime, realistic or auto")
+    image = make_image(post, slot, state, style_override=qa_style or None)
     source_file = OUT / "image_source.json"
     image_source = json.loads(source_file.read_text(encoding="utf-8"))
     OUT.mkdir(parents=True, exist_ok=True)

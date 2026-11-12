@@ -33,11 +33,34 @@ def _response_data(response, expected):
     return obj["data"]
 
 
+def _find_account_id(token):
+    configured = os.getenv("VEDISMM_ACCOUNT_ID", "").strip()
+    if configured:
+        return _positive_int(configured, "VEDISMM_ACCOUNT_ID")
+    response = requests.get(
+        BASE + "/accounts", headers={"Authorization": f"Bearer {token}"},
+        params={"limit": 100}, timeout=35,
+    )
+    response.raise_for_status()
+    result = response.json().get("data")
+    if not isinstance(result, list):
+        raise RuntimeError("VediSMM did not return an account list")
+    match = [a for a in result if a.get("network") == "vk"
+             and str(a.get("external_id", "")).lstrip("-") == "243230846"
+             and a.get("status") == "active"]
+    if len(match) != 1:
+        raise RuntimeError(
+            "SHAM (VK ID 243230846) must be connected and active in VediSMM. "
+            "Otherwise provide VEDISMM_ACCOUNT_ID manually."
+        )
+    return _positive_int(match[0].get("id"), "VediSMM SHAM account id")
+
+
 def publish_vedismm(image_path: Path, caption: str, slot: str):
     token = os.getenv("VEDISMM_TOKEN", "").strip()
     if not token:
         raise RuntimeError("Missing VEDISMM_TOKEN (GitHub Actions Secret)")
-    account_id = _positive_int(os.getenv("VEDISMM_ACCOUNT_ID"), "VEDISMM_ACCOUNT_ID")
+    account_id = _find_account_id(token)
     headers = {"Authorization": f"Bearer {token}"}
     # Service upload is separate from VK's photos.getWallUploadServer.
     with image_path.open("rb") as src:

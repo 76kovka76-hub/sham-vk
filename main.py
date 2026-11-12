@@ -200,7 +200,13 @@ def local_background(post, seed):
 
 
 
-def make_image(post, slot):
+def make_image(post, slot, state=None):
+    visual_style = os.getenv("SHAM_VISUAL_STYLE", "photo").strip().lower()
+    if visual_style == "photo":
+        from photo_style import make_photo_image
+        return make_photo_image(post, slot, state or {"posts": []}, OUT, font, centered_text)
+    if visual_style != "cartoon":
+        raise RuntimeError("SHAM_VISUAL_STYLE must be photo or cartoon")
     seed = int(hashlib.sha256(slot.encode("utf-8")).hexdigest()[:8], 16)
     image = local_background(post, seed)
     d = ImageDraw.Draw(image, "RGBA")
@@ -281,10 +287,15 @@ def main():
     post = generate_post(state, slot)
     tags = create_tags(post["scene"], state, slot)
     message = add_hashtags(post["caption"], tags)
-    image = make_image(post, slot)
+    image = make_image(post, slot, state)
+    source_file = OUT / "photo_source.json"
+    photo_source = (json.loads(source_file.read_text(encoding="utf-8"))
+                    if source_file.exists() and os.getenv("SHAM_VISUAL_STYLE", "photo").strip().lower() == "photo"
+                    else None)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "preview.json").write_text(
-        json.dumps({**post, "hashtags": tags, "message": message}, ensure_ascii=False, indent=2),
+        json.dumps({**post, "hashtags": tags, "message": message,
+                    "photo_source": photo_source}, ensure_ascii=False, indent=2),
         encoding="utf-8")
     print("Мем:", post["top"], "—", post["bottom"])
     print("Подпись:", message)
@@ -305,7 +316,7 @@ def main():
                        "vk_url": f"https://vk.com/wall-{GROUP_ID}_{post_id}"}
     state["slots"].append(slot)
     state["posts"].append({**post, "id": identity(post), "hashtags": tags,
-                           "slot": slot, **publication})
+                           "slot": slot, "photo_source": photo_source, **publication})
     STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
     STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if publication["publication_status"] == "published":

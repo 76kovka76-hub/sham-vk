@@ -116,3 +116,58 @@ def publish_vedismm(image_path: Path, caption: str, slot: str):
             raise RuntimeError(f"VediSMM VK publication failed: {job_state.get('error_code') or state}")
     return {"post_id": post_id, "job_id": job_id, "status": "queued",
             "url": ""}  # pending on remote service: do not claim published
+
+
+def schedule_vedismm(image_path: Path, caption: str, slot: str, scheduled_at):
+    """Upload an image and reserve a *future* VediSMM calendar slot.
+
+    A successful response means scheduled in VediSMM, not posted to VK yet.
+    Per-slot Idempotency-Key prevents duplicate drafts after uncertain retries.
+    """
+    from datetime import datetime, timezone
+    if not isinstance(scheduled_at, datetime) or scheduled_at.tzinfo is None:
+        raise ValueError("scheduled_at must be timezone-aware")
+    if scheduled_at <= datetime.now(timezone.utc):
+        raise ValueError("Scheduled time must be in the future")
+    token = os.getenv("VEDISMM_TOKEN", "").strip()
+    if not token:
+        raise RuntimeError("Missing VEDISMM_TOKEN (GitHub Actions Secret)")
+    account_id = _find_account_id(token)
+    headers = {"Authorization": f"Bearer {token}"}
+    with image_path.open("rb") as src:
+        upload = requests.post(
+            BASE + "/media", headers=headers,
+            files={"file": ("sham.png", src, "image/png")}, timeout=90
+        )
+    media = _response_data(upload, 201)
+    media_id = _positive_int(media.get("id"), "uploaded VediSMM media id")
+    if media.get("type") != "image" or media.get("status") != "ready":
+        raise RuntimeError("VediSMM did not confirm a ready image; schedule cancelled")
+
+    key = "sham-schedule-" + hashlib.sha256(
+        f"v2:{account_id}:{slot}".encode()).hexdigest()[:40]
+    draft_resp = requests.post(
+        BASE + "/posts",
+        headers={**headers, "Idempotency-Key": key},
+        json={"title": f"SHAM {slot}", "content": caption,
+              "account_ids": [account_id], "media_ids": [media_id]},
+        timeout=45,
+    )
+    draft = _response_data(draft_resp, 201)
+    post_id = _positive_int(draft.get("id"), "VediSMM post id")
+    if draft.get("status") != "draft" or not draft.get("media"):
+        raise RuntimeError("VediSMM draft has no image; schedule cancelled")
+    etag = draft_resp.headers.get("ETag")
+    if not etag:
+        raise RuntimeError("VediSMM did not return required draft ETag")
+
+    utc_time = scheduled_at.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+    response = requests.post(
+        BASE + f"/posts/{post_id}/schedule",
+        headers={**headers, "If-Match": etag},
+        json={"scheduled_at": utc_time}, timeout=45,
+    )
+    saved = _response_data(response, 200)
+    if saved.get("status") != "scheduled" or saved.get("id") != post_id:
+        raise RuntimeError("VediSMM did not confirm scheduled post")
+    return {"post_id": post_id, "status": "scheduled", "scheduled_at": utc_time}

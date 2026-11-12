@@ -197,10 +197,27 @@ def main():
     parser.add_argument("--preview", action="store_true", help="Сделать мем без публикации")
     parser.add_argument("--publish", action="store_true", help="Опубликовать немедленно")
     parser.add_argument("--enqueue", action="store_true", help="Пополнить отложенную очередь ВедиSMM")
+    parser.add_argument("--health", action="store_true", help="Проверить выход отложенных записей")
     args = parser.parse_args()
-    if sum((args.preview, args.publish, args.enqueue)) != 1:
-        parser.error("Выберите только один режим: --preview / --publish / --enqueue")
+    if sum((args.preview, args.publish, args.enqueue, args.health)) != 1:
+        parser.error("Выберите режим: --preview / --publish / --enqueue / --health")
     state = get_state()
+    if args.health:
+        from queue_health import reconcile_scheduled
+        result = reconcile_scheduled(state)
+        if result["updated"]:
+            STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+            STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"Отложенные посты проверены: {result['checked']}, обновлены: {result['updated']}.")
+        for warning in result["warnings"]:
+            print("::warning::SHAM: " + warning)
+        if os.getenv("GITHUB_STEP_SUMMARY"):
+            summary = [f"### SHAM: проверка отложенных публикаций",
+                       f"Проверено: {result['checked']}; обновлено: {result['updated']}."]
+            summary.extend("- ⚠️ " + w for w in result["warnings"])
+            with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as out:
+                out.write("\n".join(summary) + "\n")
+        return
     slot = current_slot()
     scheduled_time = None
     posting = args.publish or args.enqueue

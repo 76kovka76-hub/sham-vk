@@ -17,6 +17,23 @@ class QueueCleanupTests(unittest.TestCase):
     @patch.dict("os.environ", {"VEDISMM_TOKEN": "test"})
     @patch("queue_cleanup.requests.post")
     @patch("queue_cleanup.requests.get")
+    def test_get_weak_etag_is_translated_to_strong_if_version_matches(self, get, post):
+        future = (datetime.now(timezone.utc) + timedelta(hours=3)).isoformat()
+        history = {"posts": [{
+            "publication_status": "scheduled", "vedismm_post_id": 4967,
+            "slot": "2027-01-01-00-01", "scheduled_at": future,
+        }], "slots": ["2027-01-01-00-01"]}
+        get.return_value = rsp({"id": 4967, "version": 2,
+                                "status": "scheduled"}, etag='W/"v2"')
+        post.return_value = rsp({"id": 4967, "status": "draft"})
+        result = clean_legacy_queue(history)
+        self.assertEqual(result["unscheduled"], [4967])
+        self.assertEqual(post.call_args.kwargs["headers"]["If-Match"], '"v2"')
+        self.assertEqual(history["posts"][0]["publication_status"], "unscheduled_low_quality")
+
+    @patch.dict("os.environ", {"VEDISMM_TOKEN": "test"})
+    @patch("queue_cleanup.requests.post")
+    @patch("queue_cleanup.requests.get")
     def test_unschedules_only_legacy_post_with_matching_etag(self, get, post):
         future = (datetime.now(timezone.utc) + timedelta(hours=4)).isoformat()
         history = {"posts": [

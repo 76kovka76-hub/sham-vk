@@ -227,7 +227,7 @@ def vk_call(method, token, **fields):
     return result["response"]
 
 
-def publish_vk(image_path, caption):
+def publish_vk(image_path, caption, slot):
     # В 2026 загрузка фотографий стены НЕ работает с токеном сообщества.
     # Нужен токен пользователя-администратора с разрешениями wall/photos.
     user_token = os.environ["VK_USER_TOKEN"].strip()
@@ -247,8 +247,9 @@ def publish_vk(image_path, caption):
     attachment = f"photo{photo['owner_id']}_{photo['id']}"
     token = os.getenv("VK_GROUP_TOKEN", "").strip() or user_token
     # Фото обязательно: никогда не публикуем один лишь текст вместо изображения.
+    dedup_guid = hashlib.sha256(f"SHAM:{GROUP_ID}:{slot}".encode("utf-8")).hexdigest()[:16]
     result = vk_call("wall.post", token, owner_id=-GROUP_ID, from_group=1,
-                     message=caption, attachments=attachment)
+                     message=caption, attachments=attachment, guid=dedup_guid)
     return result["post_id"]
 
 
@@ -283,7 +284,7 @@ def main():
     if args.preview:
         print("Режим предпросмотра: в VK ничего не отправлено.")
         return
-    post_id = publish_vk(image, message)
+    post_id = publish_vk(image, message, slot)
     state["slots"].append(slot)
     state["posts"].append({**post, "id": identity(post), "hashtags": tags,
                            "slot": slot, "vk_post_id": post_id})

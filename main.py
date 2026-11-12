@@ -131,10 +131,22 @@ def main():
     parser.add_argument("--publish", action="store_true", help="Опубликовать немедленно")
     parser.add_argument("--enqueue", action="store_true", help="Пополнить отложенную очередь ВедиSMM")
     parser.add_argument("--health", action="store_true", help="Проверить выход отложенных записей")
+    parser.add_argument("--clean-queue", action="store_true", help="Снять с очереди старые некачественные мемы")
     args = parser.parse_args()
-    if sum((args.preview, args.publish, args.enqueue, args.health)) != 1:
-        parser.error("Выберите режим: --preview / --publish / --enqueue / --health")
+    if sum((args.preview, args.publish, args.enqueue, args.health, args.clean_queue)) != 1:
+        parser.error("Выберите один режим: --preview / --publish / --enqueue / --health / --clean-queue")
     state = get_state()
+    if args.clean_queue:
+        from queue_cleanup import clean_legacy_queue
+        result = clean_legacy_queue(state)
+        STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"Старые отложенные мемы сняты: {result['unscheduled']}; пропущены: {result['skipped']}")
+        for error in result["errors"]:
+            print("::error::" + error)
+        if result["errors"]:
+            raise RuntimeError("Not all legacy queued memes could be safely unscheduled")
+        return
     if args.health:
         from queue_health import reconcile_scheduled
         result = reconcile_scheduled(state)
@@ -179,6 +191,8 @@ def main():
     if posting and backend == "vedismm" and not os.getenv("VEDISMM_TOKEN", "").strip():
         raise RuntimeError("Нужен VEDISMM_TOKEN (GitHub Actions Secret); стена не изменена")
     post = generate_post(state, slot)
+    from quality_guard import validate
+    validate(post, state["posts"])
     tags = create_tags(post["scene"], state, slot)
     message = add_hashtags(post["caption"], tags)
     qa_style = os.getenv("SHAM_PREVIEW_STYLE", "").strip().lower() if args.preview else ""
@@ -220,7 +234,8 @@ def main():
                        "vk_url": f"https://vk.com/wall-{GROUP_ID}_{post_id}"}
     state["slots"].append(slot)
     state["posts"].append({**post, "id": identity(post), "hashtags": tags,
-                           "slot": slot, "image_source": image_source, **publication})
+                           "slot": slot, "quality_version": 2,
+                           "image_source": image_source, **publication})
     STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
     STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if publication["publication_status"] == "scheduled":

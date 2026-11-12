@@ -126,7 +126,7 @@
       },
       "vedismm_post_id": 4968,
       "scheduled_at": "2026-11-12T23:00:00Z",
-      "publication_status": "scheduled",
+      "publication_status": "unscheduled_low_quality",
       "vk_url": "",
       "review_rejected": true,
       "review_note": "Visual QA: smiling anime character contradicts anxious waiting-for-reply caption"
@@ -135,7 +135,6 @@
   "slots": [
     "2026-11-12-20-03",
     "2026-11-12-21-00",
-    "2026-11-12-21-03",
-    "2026-11-12-23-00"
+    "2026-11-12-21-03"
   ]
 }

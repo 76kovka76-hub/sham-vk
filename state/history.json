@@ -127,7 +127,9 @@
       "vedismm_post_id": 4968,
       "scheduled_at": "2026-11-12T23:00:00Z",
       "publication_status": "scheduled",
-      "vk_url": ""
+      "vk_url": "",
+      "review_rejected": true,
+      "review_note": "Visual QA: smiling anime character contradicts anxious waiting-for-reply caption"
     }
   ],
   "slots": [

@@ -108,6 +108,7 @@ def choose_photo(post, slot, state):
     search_order = list(queries)
     rng.shuffle(search_order)
     errors = []
+    downloads_attempted = 0
     for query in search_order:
         page = rng.randint(1, 4)
         try:
@@ -128,6 +129,9 @@ def choose_photo(post, slot, state):
                 continue
             if min(item.get("width") or 0, item.get("height") or 0) < 700:
                 continue
+            downloads_attempted += 1
+            if downloads_attempted > 12:
+                break
             img = _download_photo(item)
             if img is not None:
                 source = {
@@ -139,6 +143,8 @@ def choose_photo(post, slot, state):
                     "query": query,
                 }
                 return img, source
+        if downloads_attempted > 12:
+            break
     raise RuntimeError(
         "No new usable CC0 photographic meme image available from Openverse; "
         "publication safely cancelled. API issues: " + ",".join(errors[:5])

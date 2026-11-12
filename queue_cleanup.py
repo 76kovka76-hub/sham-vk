@@ -45,6 +45,17 @@ def clean_legacy_queue(state):
                 etag = response.headers.get("ETag")
                 if not etag:
                     raise RuntimeError(f"VediSMM post {pid} has no ETag")
+                # The GET endpoint sometimes supplies a weak W/"vN" despite
+                # documenting a strong "vN". The API's If-Match requires the
+                # strong version tag. Only strip W/ if the returned numeric
+                # version exactly matches the embedded version number.
+                if etag.startswith('W/"v') and etag.endswith('"'):
+                    strong = etag[2:]
+                    version = remote.get("version")
+                    if strong == f'"v{version}"':
+                        etag = strong
+                    else:
+                        raise RuntimeError(f"VediSMM post {pid} ETag/version mismatch")
                 request = requests.post(
                     BASE + f"/posts/{pid}/unschedule",
                     headers={**headers, "If-Match": etag}, timeout=35,

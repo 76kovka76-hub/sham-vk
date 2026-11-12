@@ -1,4 +1,4 @@
-name: SHAM — пост каждые 15 минут
+name: SHAM — 92 аниме + 4 реалистичных мема в сутки
 on:
   push:
     branches: [main]
@@ -6,7 +6,7 @@ on:
       - 'main.py'
       - 'README.md'
       - 'vedismm_publisher.py'
-      - 'photo_style.py'
+      - 'horde_style.py'
       - 'meme_bank.py'
       - 'hashtags.py'
       - 'tests/**'
@@ -35,7 +35,7 @@ concurrency:
 jobs:
   meme:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,7 +55,8 @@ jobs:
           VK_USER_TOKEN: ${{ secrets.VK_USER_TOKEN }}
           VK_GROUP_TOKEN: ${{ secrets.VK_GROUP_TOKEN }}
           SHAM_BACKEND: ${{ secrets.VEDISMM_TOKEN != '' && 'vedismm' || vars.SHAM_BACKEND || 'vk' }}
-          SHAM_VISUAL_STYLE: 'photo'
+          SHAM_VISUAL_STYLE: 'horde'
+          AIHORDE_API_KEY: ${{ secrets.AIHORDE_API_KEY }}
           VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
           VEDISMM_ACCOUNT_ID: ${{ vars.VEDISMM_ACCOUNT_ID }}
         run: |
@@ -72,7 +73,7 @@ jobs:
           path: |
             output/sham_meme.png
             output/preview.json
-            output/photo_source.json
+            output/image_source.json
           if-no-files-found: ignore
           retention-days: 7
       - name: Remember published posts (avoid repeats)

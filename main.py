@@ -1,20 +1,17 @@
 """SHAM: оригинальные мемы -> картинка -> VK. Секреты только из окружения."""
 import argparse
-import base64
 import hashlib
-import io
 import json
-import math
 import os
 import random
 import re
-import textwrap
 from datetime import datetime, timezone
 from pathlib import Path
-import xml.etree.ElementTree as ET
 
 import requests
 from PIL import Image, ImageDraw, ImageFont
+from meme_bank import PACKS
+from hashtags import create_tags, add_hashtags
 
 ROOT = Path(__file__).resolve().parent
 STATE_PATH = ROOT / "state" / "history.json"
@@ -89,91 +86,38 @@ def identity(post):
 
 def current_slot():
     now = datetime.now(timezone.utc)
-    # GitHub Actions 8 раз/сутки в 00:23, 03:23 и т.д. UTC.
-    return f"{now.date().isoformat()}-{now.hour // 3:02d}"
-
-
-def load_trends():
-    """Только заголовки с RSS как контекст для AI; не выдаём их за факты в мемах."""
-    feeds = [
-        "https://news.google.com/rss/search?q=%D0%BC%D0%B5%D0%BC%D1%8B+%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%BD%D0%B5%D1%82&hl=ru&gl=RU&ceid=RU:ru",
-        "https://news.google.com/rss/search?q=%D0%B8%D0%B3%D1%80%D1%8B+%D1%81%D0%BE%D1%86%D1%81%D0%B5%D1%82%D0%B8+%D0%B3%D0%B0%D0%B4%D0%B6%D0%B5%D1%82%D1%8B&hl=ru&gl=RU&ceid=RU:ru",
-    ]
-    items = []
-    for url in feeds:
-        try:
-            resp = requests.get(url, timeout=12, headers={"User-Agent": "SHAM-MemeBot/1.0"})
-            resp.raise_for_status()
-            root = ET.fromstring(resp.content)
-            items.extend((i.findtext("title") or "").strip()[:160] for i in root.findall(".//item")[:8])
-        except (requests.RequestException, ET.ParseError):
-            continue
-    return [x for x in items if x][:12]
-
-
-def from_ai(state):
-    token = os.getenv("OPENAI_API_KEY", "").strip()
-    if not token:
-        return None
-    recent = [p.get("top", "") for p in state["posts"][-25:]]
-    topics = load_trends()
-    prompt = (
-        "Сделай ОДИН оригинальный русский мем для юмористического паблика SHAM: "
-        "дерзкий, абсурдный, ироничный, иногда чёрный юмор, допустим лёгкий мат. "
-        "Никакого копирования существующих мемов, оскорблений по защищённым признакам, "
-        "травли людей и непроверенных утверждений о реальных событиях. "
-        "Если заголовки новостей не подходят, придумай вечную жизненную ситуацию. "
-        "Ответ СТРОГО JSON с полями top (завязка до 65 символов), "
-        "bottom (панчлайн до 83 символов), caption (подпись до 130 символов), "
-        "scene (один из phone,work,wallet,home,social,life). "
-        "Текст должен быть остроумным, коротким и грамматически нормальным, без хештегов. "
-        f"Свежие заголовки только для вдохновения: {json.dumps(topics, ensure_ascii=False)}. "
-        f"Не повторяй прошлые завязки: {json.dumps(recent, ensure_ascii=False)}."
-    )
-    for _ in range(3):
-        try:
-            result = requests.post(
-                "https://api.openai.com/v1/responses",
-                headers={"Authorization": "Bearer " + token},
-                json={"model": os.getenv("SHAM_TEXT_MODEL", "gpt-4.1-mini"),
-                      "input": prompt, "max_output_tokens": 380},
-                timeout=55,
-            )
-            result.raise_for_status()
-            body = result.json()
-            output = "".join(c.get("text", "") for o in body.get("output", [])
-                             for c in o.get("content", []) if c.get("type") == "output_text")
-            match = re.search(r"\{.*\}", output, re.S)
-            p = json.loads(match.group(0) if match else output)
-            if not all(isinstance(p.get(k), str) and p[k].strip() for k in ("top", "bottom", "caption", "scene")):
-                continue
-            if len(p["top"]) > 80 or len(p["bottom"]) > 110 or len(p["caption"]) > 180:
-                continue
-            if p["scene"] not in {"phone", "work", "wallet", "home", "social", "life"}:
-                p["scene"] = "life"
-            if identity(p) in {old["id"] for old in state["posts"]}:
-                prompt += "\nСлишком похоже на прежний мем, придумай совершенно другой."
-                continue
-            return p
-        except (ValueError, KeyError, requests.RequestException) as exc:
-            print("AI text unavailable, local fallback:", type(exc).__name__)
-            break
-    return None
+    # График каждые 15 минут, 96 слотов в UTC за сутки.
+    return f"{now.date().isoformat()}-{now.hour:02d}-{now.minute // 15:02d}"
 
 
 def generate_post(state, slot):
-    result = from_ai(state)
-    if result is not None:
-        return result
-    used = {x["id"] for x in state["posts"]}
-    rng = random.Random(slot + "SHAM-local-v1")
-    order = list(JOKES)
-    rng.shuffle(order)
-    for top, bottom, caption, scene in order:
-        p = {"top": top, "bottom": bottom, "caption": caption, "scene": scene}
-        if identity(p) not in used:
-            return p
-    raise RuntimeError("Локальные мемы закончились. Настройте OPENAI_API_KEY для новых шуток.")
+    """Бесплатная генерация — выбор новой комбинации из тематического банка."""
+    used = {entry["id"] for entry in state.get("posts", []) if "id" in entry}
+    rng = random.Random(slot + "-SHAM-free-v3")
+    packs = list(PACKS)
+    rng.shuffle(packs)
+    for pack in packs:
+        # Перемешиваем целые пары, исключаем уже публиковавшиеся.
+        combinations = [(a, b) for a in pack["setups"] for b in pack["punchlines"]]
+        rng.shuffle(combinations)
+        for top, bottom in combinations:
+            post = {"top": top, "bottom": bottom,
+                    "caption": rng.choice(pack["captions"]),
+                    "scene": pack["scene"]}
+            if identity(post) not in used:
+                return post
+
+    # Дополнительный банк из полностью написанных шуток.
+    standalone = list(JOKES)
+    rng.shuffle(standalone)
+    for top, bottom, caption, scene in standalone:
+        post = {"top": top, "bottom": bottom, "caption": caption, "scene": scene}
+        if identity(post) not in used:
+            return post
+    raise RuntimeError(
+        "Банк оригинальных мемов исчерпан. Добавьте новые шаблоны в meme_bank.py. "
+        "Повторы не публикуем."
+    )
 
 
 def font(size):
@@ -255,43 +199,10 @@ def local_background(post, seed):
     return im
 
 
-def ai_background(post):
-    key = os.getenv("OPENAI_API_KEY", "").strip()
-    if os.getenv("SHAM_IMAGE_MODE", "local").lower() != "ai" or not key:
-        return None
-    desc = {
-        "phone": "young exhausted person staring at their smartphone at midnight",
-        "work": "overworked office worker overwhelmed by chaotic sticky notes and a laptop",
-        "wallet": "young adult discovering an empty wallet and giving a disbelieving reaction",
-        "home": "young adult staring into an empty fridge in a messy apartment",
-        "social": "young adult staring nervously at unread chat notifications on their phone",
-        "life": "young adult with a deadpan expression in a surreal everyday situation",
-    }[post["scene"]]
-    prompt = (
-        "Photorealistic absurdist Russian internet meme photo, expressive funny reaction, "
-        + desc + ". Dramatic cinematic lighting, bizarre but plausible real-world details, "
-        "high-quality editorial photography. Square composition, subject in middle, "
-        "clear top and bottom margin for captions. NO WORDS, NO TEXT, NO LOGOS, NO WATERMARKS."
-    )
-    try:
-        r = requests.post(
-            "https://api.openai.com/v1/images/generations",
-            headers={"Authorization": "Bearer " + key},
-            json={"model": os.getenv("SHAM_IMAGE_MODEL", "gpt-image-2"),
-                  "prompt": prompt, "size": "1024x1024", "n": 1},
-            timeout=150,
-        )
-        r.raise_for_status()
-        b64 = r.json()["data"][0]["b64_json"]
-        return Image.open(io.BytesIO(base64.b64decode(b64))).convert("RGB").resize((1080, 1080))
-    except (requests.RequestException, ValueError, KeyError, OSError) as exc:
-        print("AI image unavailable; using local drawing:", type(exc).__name__)
-        return None
-
 
 def make_image(post, slot):
     seed = int(hashlib.sha256(slot.encode("utf-8")).hexdigest()[:8], 16)
-    image = ai_background(post) or local_background(post, seed)
+    image = local_background(post, seed)
     d = ImageDraw.Draw(image, "RGBA")
     d.rectangle((0, 0, 1080, 300), fill=(5, 5, 12, 230))
     d.rectangle((0, 785, 1080, 1080), fill=(5, 5, 12, 237))
@@ -359,18 +270,23 @@ def main():
     if args.publish and not os.getenv("VK_USER_TOKEN", "").strip():
         raise RuntimeError("Нужен VK_USER_TOKEN (GitHub Actions Secret); стена не изменена")
     post = generate_post(state, slot)
+    tags = create_tags(post["scene"], state, slot)
+    message = add_hashtags(post["caption"], tags)
     image = make_image(post, slot)
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "preview.json").write_text(json.dumps(post, ensure_ascii=False, indent=2), encoding="utf-8")
+    (OUT / "preview.json").write_text(
+        json.dumps({**post, "hashtags": tags, "message": message}, ensure_ascii=False, indent=2),
+        encoding="utf-8")
     print("Мем:", post["top"], "—", post["bottom"])
-    print("Подпись:", post["caption"])
+    print("Подпись:", message)
     print("Картинка:", image)
     if args.preview:
         print("Режим предпросмотра: в VK ничего не отправлено.")
         return
-    post_id = publish_vk(image, post["caption"])
+    post_id = publish_vk(image, message)
     state["slots"].append(slot)
-    state["posts"].append({**post, "id": identity(post), "slot": slot, "vk_post_id": post_id})
+    state["posts"].append({**post, "id": identity(post), "hashtags": tags,
+                           "slot": slot, "vk_post_id": post_id})
     STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
     STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"Опубликовано: https://vk.com/wall-{GROUP_ID}_{post_id}")

@@ -1,1 +1,33 @@
-{"posts": [], "slots": []}
+{
+  "posts": [
+    {
+      "top": "Пришёл на созвон без кофе.",
+      "bottom": "Таблица смотрела на меня с человеческим разочарованием.",
+      "caption": "Кофе, держи меня за руку.",
+      "scene": "work",
+      "id": "fd73f13eed9ac20b6e6fadf3d7c2d5628d4a7c5628fb92c42db389f33f57c3b6",
+      "hashtags": [
+        "#понедельник",
+        "#мемыдлявсех",
+        "#шам"
+      ],
+      "slot": "2026-11-12-20-03",
+      "photo_source": {
+        "id": "904f71c1-e823-40c5-b083-2f9e9c3f8ea6",
+        "title": "Girl Woman",
+        "creator": "Startup Stock Photos",
+        "license": "CC0",
+        "source_url": "https://stocksnap.io/photo/girl-woman-8CNFR95RL3",
+        "photo_url": "https://cdn.stocksnap.io/img-thumbs/960w/8CNFR95RL3.jpg",
+        "query": "woman working computer"
+      },
+      "vedismm_post_id": 4964,
+      "vedismm_job_id": "155b475a-5716-4eb2-aa0a-874d70bac53f",
+      "publication_status": "published",
+      "vk_url": "https://vk.com/wall-243230846_2"
+    }
+  ],
+  "slots": [
+    "2026-11-12-20-03"
+  ]
+}

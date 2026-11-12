@@ -27,29 +27,51 @@ def clean_legacy_queue(state):
             errors.append("Missing VediSMM post ID for old queue item")
             continue
         try:
-            response = requests.get(BASE + f"/posts/{pid}", headers=headers, timeout=30)
-            response.raise_for_status()
-            remote = response.json().get("data")
-            if not isinstance(remote, dict) or remote.get("id") != pid:
-                raise RuntimeError(f"VediSMM did not return post {pid}")
-            status = remote.get("status")
-            if status != "scheduled":
-                skipped.append({"id": pid, "status": status})
-                # Do not pretend an already published post was stopped.
-                if status == "published":
+            # If-Match must match the *current* version. The scheduler can
+            # advance it between GET and POST, returning HTTP 412.
+            cancelled = False
+            remote_status = None
+            for attempt in range(3):
+                response = requests.get(
+                    BASE + f"/posts/{pid}", headers=headers, timeout=30
+                )
+                response.raise_for_status()
+                remote = response.json().get("data")
+                if not isinstance(remote, dict) or remote.get("id") != pid:
+                    raise RuntimeError(f"VediSMM did not return post {pid}")
+                remote_status = remote.get("status")
+                if remote_status != "scheduled":
+                    break
+                etag = response.headers.get("ETag")
+                if not etag:
+                    raise RuntimeError(f"VediSMM post {pid} has no ETag")
+                request = requests.post(
+                    BASE + f"/posts/{pid}/unschedule",
+                    headers={**headers, "If-Match": etag}, timeout=35,
+                )
+                if request.status_code == 412:
+                    if attempt == 2:
+                        error_code = ""
+                        try:
+                            error_code = request.json().get("error", {}).get("code", "")
+                        except (ValueError, AttributeError):
+                            pass
+                        raise RuntimeError(
+                            f"VediSMM {pid} version conflict (HTTP 412) "
+                            f"after 3 reads; code={error_code!r}"
+                        )
+                    continue
+                request.raise_for_status()
+                body = request.json().get("data")
+                if not isinstance(body, dict) or body.get("id") != pid or body.get("status") != "draft":
+                    raise RuntimeError(f"VediSMM did not confirm post {pid} was unscheduled")
+                cancelled = True
+                break
+            if not cancelled:
+                skipped.append({"id": pid, "status": remote_status})
+                if remote_status == "published":
                     item["publication_status"] = "delivered_unverified"
                 continue
-            etag = response.headers.get("ETag")
-            if not etag:
-                raise RuntimeError(f"VediSMM post {pid} has no ETag")
-            unscheduled = requests.post(
-                BASE + f"/posts/{pid}/unschedule",
-                headers={**headers, "If-Match": etag}, timeout=35
-            )
-            unscheduled.raise_for_status()
-            body = unscheduled.json().get("data")
-            if not isinstance(body, dict) or body.get("id") != pid or body.get("status") != "draft":
-                raise RuntimeError(f"VediSMM did not confirm post {pid} was unscheduled")
             item["publication_status"] = "unscheduled_low_quality"
             removed.append(pid)
             # Free the slot if future, so the fixed generator may replace it.

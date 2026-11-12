@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
-from PIL import Image, ImageDraw, ImageFont
+from PIL import ImageFont
 from meme_bank import PACKS
 from hashtags import create_tags, add_hashtags
 
@@ -59,14 +59,6 @@ JOKES = [
     ("Купил дорогой кофе для бодрости", "Теперь бодрый и без денег.", "Баланс восстановлен.", "wallet"),
     ("Когда Wi-Fi завис на секунду", "Почувствовал дыхание каменного века.", "Так вот как жили предки.", "phone"),
 ]
-
-PALETTES = [
-    ((20, 9, 42), (95, 28, 128), (218, 255, 59)),
-    ((12, 20, 39), (16, 93, 112), (255, 215, 63)),
-    ((42, 12, 29), (128, 37, 71), (150, 251, 250)),
-    ((21, 13, 57), (98, 55, 193), (255, 223, 70)),
-]
-
 
 def get_state():
     if not STATE_PATH.exists():
@@ -155,77 +147,12 @@ def centered_text(draw, text, y0, y1, color, max_size):
         y += advance
 
 
-def local_background(post, seed):
-    rng = random.Random(seed)
-    a, b, acid = rng.choice(PALETTES)
-    im = Image.new("RGB", (1080, 1080), a)
-    d = ImageDraw.Draw(im)
-    for y in range(1080):
-        k = y / 1080
-        d.line((0, y, 1080, y), fill=tuple(int(a[i] * (1-k) + b[i] * k) for i in range(3)))
-    for i in range(44):
-        x, y = rng.randrange(1080), rng.randrange(180, 900)
-        r = rng.randrange(5, 65)
-        d.ellipse((x-r, y-r, x+r, y+r), outline=rng.choice([(136, 72, 235), (246, 60, 153), acid]), width=rng.randrange(2, 8))
-    # Оригинальная иллюстрация-реакция: лицо + тематический предмет.
-    d.ellipse((245, 315, 835, 915), fill=acid, outline=(9, 9, 20), width=24)
-    d.arc((341, 437, 506, 547), 190, 350, fill=(10, 10, 19), width=25)
-    d.arc((557, 437, 724, 547), 190, 350, fill=(10, 10, 19), width=25)
-    d.arc((355, 560, 725, 784), 15, 160, fill=(10, 10, 19), width=34)
-    icon = post["scene"]
-    if icon == "phone":
-        d.rounded_rectangle((730, 493, 918, 762), radius=25, fill=(28, 32, 48), outline=(250, 249, 252), width=9)
-        d.rounded_rectangle((758, 525, 891, 714), radius=12, fill=(123, 94, 248))
-        d.ellipse((809, 728, 838, 750), fill=acid)
-    elif icon == "wallet":
-        d.rounded_rectangle((721, 598, 975, 769), radius=26, fill=(40, 26, 63), outline=(248, 247, 250), width=8)
-        d.rounded_rectangle((816, 629, 965, 705), radius=18, fill=(250, 67, 141))
-        d.ellipse((847, 653, 879, 686), fill=(255, 242, 70))
-    elif icon == "work":
-        d.rounded_rectangle((717, 579, 1006, 765), radius=15, fill=(23, 31, 57), outline=(251, 248, 255), width=10)
-        d.line((734, 741, 990, 741), fill=(175, 110, 255), width=8)
-        d.text((748, 629), "!!!", font=font(72), fill=(255, 65, 134))
-    elif icon == "home":
-        d.polygon([(749, 590), (858, 496), (977, 596)], fill=(250, 84, 161))
-        d.rectangle((782, 590, 947, 767), fill=(35, 33, 64))
-        d.rectangle((844, 647, 897, 767), fill=(255, 216, 64))
-    elif icon == "social":
-        d.rounded_rectangle((728, 528, 988, 728), radius=43, fill=(24, 22, 42), outline=(248, 248, 250), width=8)
-        d.text((762, 575), "???", font=font(75), fill=(248, 85, 149))
-    else:
-        for j in range(3):
-            x = 754 + j*76
-            d.line([(x-22, 611), (x+16, 681), (x-18, 681), (x+30, 745)], fill=(252, 79, 145), width=14, joint="curve")
-    return im
-
-
-
 def make_image(post, slot, state=None):
     visual_style = os.getenv("SHAM_VISUAL_STYLE", "horde").strip().lower()
     if visual_style != "horde":
         raise RuntimeError("SHAM only supports AI Horde realism/anime; Openverse/cartoon disabled")
     from horde_style import make_horde_image
     return make_horde_image(post, slot, OUT, font, centered_text)
-
-
-def _retired_image_style(post, slot):
-    """Unused historical code; not reachable from publishing or preview."""
-    # Historical Pillow placeholder, kept only for compatibility while migrating.
-    # Publishing NEVER calls this function; it cannot silently fall back.
-    seed = int(hashlib.sha256(slot.encode("utf-8")).hexdigest()[:8], 16)
-    image = local_background(post, seed)
-    d = ImageDraw.Draw(image, "RGBA")
-    d.rectangle((0, 0, 1080, 300), fill=(5, 5, 12, 230))
-    d.rectangle((0, 785, 1080, 1080), fill=(5, 5, 12, 237))
-    d.rectangle((0, 295, 1080, 308), fill=(225, 255, 58, 255))
-    d.text((51, 26), "SHAM / МЕМЫ БЕЗ ТОРМОЗОВ", font=font(27), fill=(219, 255, 74, 255))
-    centered_text(d, post["top"], 74, 291, (255, 255, 255, 255), 68)
-    centered_text(d, post["bottom"], 807, 1030, (220, 255, 63, 255), 71)
-    d.text((1005, 1048), "@SHAM", font=font(22), anchor="ra", fill=(194, 187, 218, 255))
-    OUT.mkdir(parents=True, exist_ok=True)
-    path = OUT / "sham_meme.png"
-    image.save(path, "PNG", optimize=True)
-    return path
 
 
 def vk_call(method, token, **fields):

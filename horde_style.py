@@ -254,23 +254,42 @@ def make_horde_image(post, slot, out: Path, font, centered_text, style_override=
             raise ValueError("SHAM blocked an illustrated style in photo-only production")
     validate_joke_visual_brief(post, build_prompt(post, slot, style))
     preferred = os.getenv("SHAM_FREE_IMAGE_PROVIDER", "horde").strip().lower()
-    if preferred == "ovh":
-        from sham_free_image import generate_image as ovh_free_image
-        try:
-            original, metadata = ovh_free_image(post, slot, style)
-        except (requests.RequestException, ValueError, RuntimeError, OSError) as exc:
-            print("::warning::Free OVH failed; using volunteer AI Horde: "
-                  + str(exc)[:160], flush=True)
-            original, metadata = generate_image(post, slot, style)
-    elif preferred == "horde":
-        original, metadata = generate_image(post, slot, style)
-    else:
+    if preferred not in ("ovh", "horde"):
         raise ValueError("SHAM_FREE_IMAGE_PROVIDER must be ovh or horde")
-    metadata = {**metadata, **validate_artwork(original, state)}
-    metadata["style_policy"] = ("photo_only" if os.getenv("SHAM_PHOTO_ONLY", "").lower()
-                                 in ("true", "1", "yes") else "mixed")
-    vision_mode = os.getenv('SHAM_VISION_CHECK', 'off').strip().lower()
-    metadata = {**metadata, **review_visual(original, post, mode=vision_mode)}
+    attempts = int(os.getenv("SHAM_IMAGE_ATTEMPTS", "1"))
+    if not 1 <= attempts <= 3:
+        raise ValueError("SHAM_IMAGE_ATTEMPTS must be 1..3")
+    vision_mode = os.getenv("SHAM_VISION_CHECK", "off").strip().lower()
+    for attempt in range(attempts):
+        # Different deterministic source seeds for retries, same scheduled slot.
+        candidate_slot = slot if attempt == 0 else f"{slot}-photo-retry-{attempt+1}"
+        try:
+            if preferred == "ovh":
+                from sham_free_image import generate_image as ovh_free_image
+                try:
+                    original, metadata = ovh_free_image(post, candidate_slot, style)
+                except (requests.RequestException, ValueError, RuntimeError, OSError) as exc:
+                    print("::warning::Free OVH generation unavailable; using AI Horde: "
+                          + str(exc)[:160], flush=True)
+                    original, metadata = generate_image(post, candidate_slot, style)
+            else:
+                original, metadata = generate_image(post, candidate_slot, style)
+            metadata = {**metadata, **validate_artwork(original, state)}
+            metadata["style_policy"] = (
+                "photo_only" if os.getenv("SHAM_PHOTO_ONLY", "").lower()
+                in ("true", "1", "yes") else "mixed"
+            )
+            metadata = {**metadata, **review_visual(original, post, mode=vision_mode)}
+            metadata["image_attempt"] = attempt + 1
+            break
+        except (requests.RequestException, ValueError, RuntimeError, OSError) as exc:
+            print(f"::warning::SHAM rejects candidate image {attempt+1}/{attempts}: "
+                  + str(exc)[:220], flush=True)
+            if attempt == attempts - 1:
+                raise RuntimeError(
+                    "All SHAM candidate images failed quality or photo checks; "
+                    "nothing sent to VediSMM"
+                ) from exc
     image, layout = render_meme(original, post, slot, font, centered_text)
     metadata["caption_layout"] = layout
     out.mkdir(parents=True, exist_ok=True)

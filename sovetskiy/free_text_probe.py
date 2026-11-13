@@ -33,7 +33,7 @@ SYSTEM=(
 def probe(post=requests.post):
     request={"model":MODEL,"messages":[{"role":"system","content":SYSTEM},
         {"role":"user","content":"Придумай три не похожие друг на друга оригинальные шутки: 1 про магазин, 2 про работу, 3 про квартиру. Возвращай JSON."}],
-        "temperature":0.85,"max_tokens":950,"stream":False}
+        "temperature":0.75,"max_tokens":1800,"stream":False}
     response=post(API,json=request,
         headers={"Content-Type":"application/json","accept":"application/json"},
         timeout=110)
@@ -50,8 +50,14 @@ def probe(post=requests.post):
     if not isinstance(result,str) or len(result)>9000:
         raise RuntimeError("Invalid generated meme text")
     cleaned=result.strip()
-    cleaned=re.sub(r"^\\x60{3}(?:json)?\\s*","",cleaned,flags=re.I)
-    cleaned=re.sub(r"\\x60{3}\\s*$","",cleaned)
+    print("SOVETSKIY_ANONYMOUS_LLM_RAW_START:",repr(cleaned[:1600]),flush=True)
+    if not cleaned:
+        raise RuntimeError("Free text model returned empty answer")
+    # Read only the JSON array, not chatter/Markdown before or after it.
+    begin=cleaned.find("[")
+    end=cleaned.rfind("]")
+    if begin>=0 and end>begin:
+        cleaned=cleaned[begin:end+1]
     items=json.loads(cleaned)
     if not isinstance(items,list) or len(items)!=3:
         raise RuntimeError("Need exactly three newly generated jokes")

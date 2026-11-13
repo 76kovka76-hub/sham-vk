@@ -27,7 +27,7 @@ class NeverAnimeInNewSHAMPostsTests(unittest.TestCase):
         slot = "2026-11-14-13-00"
         style = story_style(post, slot)
         prompt = build_prompt(post, slot, style)
-        self.assertIn("Actual live-action photographic capture", prompt)
+        self.assertIn("Real-life reportage photograph", prompt)
         self.assertIn("Real-life reportage photograph", prompt)
         self.assertNotIn("anime", prompt.lower())
         self.assertIn("stool in a park", prompt)
@@ -65,7 +65,7 @@ class NeverAnimeInNewSHAMPostsTests(unittest.TestCase):
                 "visual": "A photo of a physical light bulb holding a microphone at a press conference"
             }, "2026-11-14-13-00", "photojournalism")
         requested = post.call_args.kwargs["json"]["prompt"]
-        self.assertIn("RAW PHOTOGRAPH", requested)
+        self.assertIn("RAW REAL-WORLD PHOTOGRAPH", requested)
         self.assertIn("RAW REAL-WORLD PHOTOGRAPH", requested)
         self.assertNotIn("anime", requested.lower())
         self.assertIn("light bulb holding a microphone", requested)

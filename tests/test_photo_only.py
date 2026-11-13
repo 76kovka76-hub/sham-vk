@@ -28,7 +28,8 @@ class NeverAnimeInNewSHAMPostsTests(unittest.TestCase):
         style = story_style(post, slot)
         prompt = build_prompt(post, slot, style)
         self.assertIn("Actual live-action photographic capture", prompt)
-        self.assertIn("NEVER anime", prompt)
+        self.assertIn("Real-life reportage photograph", prompt)
+        self.assertNotIn("anime", prompt.lower())
         self.assertIn("stool in a park", prompt)
 
     def test_scheduled_illustration_flags_only_safe_future_not_published(self):
@@ -65,7 +66,8 @@ class NeverAnimeInNewSHAMPostsTests(unittest.TestCase):
             }, "2026-11-14-13-00", "photojournalism")
         requested = post.call_args.kwargs["json"]["prompt"]
         self.assertIn("RAW PHOTOGRAPH", requested)
-        self.assertIn("No anime or cartoons", requested)
+        self.assertIn("RAW REAL-WORLD PHOTOGRAPH", requested)
+        self.assertNotIn("anime", requested.lower())
         self.assertIn("light bulb holding a microphone", requested)
 
 

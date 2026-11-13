@@ -1,0 +1,79 @@
+[
+  {
+    "id": "aelita_face",
+    "file": "Aelita screenshot.jpg",
+    "movie": "Аэлита (1924)",
+    "role": "удивление",
+    "author": "Яков Протазанов",
+    "source": "https://commons.wikimedia.org/wiki/File:Aelita_screenshot.jpg",
+    "rights": "public_domain",
+    "rights_proof": "https://commons.wikimedia.org/wiki/File:Aelita_screenshot.jpg",
+    "editor_approved": true
+  },
+  {
+    "id": "aelita_batalov",
+    "file": "Nikolai Batalov dans Aelita.JPG",
+    "movie": "Аэлита (1924)",
+    "role": "задумчивость",
+    "author": "Яков Протазанов",
+    "source": "https://commons.wikimedia.org/wiki/File:Nikolai_Batalov_dans_Aelita.JPG",
+    "rights": "public_domain",
+    "rights_proof": "https://commons.wikimedia.org/wiki/File:Nikolai_Batalov_dans_Aelita.JPG",
+    "editor_approved": true
+  },
+  {
+    "id": "potemkin_2",
+    "file": "Potemkin-still2.jpg",
+    "movie": "Броненосец «Потёмкин» (1925)",
+    "role": "серьёзность",
+    "author": "Сергей Эйзенштейн",
+    "source": "https://commons.wikimedia.org/wiki/File:Potemkin-still2.jpg",
+    "rights": "public_domain",
+    "rights_proof": "https://commons.wikimedia.org/wiki/File:Potemkin-still2.jpg",
+    "editor_approved": true
+  },
+  {
+    "id": "potemkin_5",
+    "file": "Potemkin-still5.jpg",
+    "movie": "Броненосец «Потёмкин» (1925)",
+    "role": "тревога",
+    "author": "Сергей Эйзенштейн",
+    "source": "https://commons.wikimedia.org/wiki/File:Potemkin-still5.jpg",
+    "rights": "public_domain",
+    "rights_proof": "https://commons.wikimedia.org/wiki/File:Potemkin-still5.jpg",
+    "editor_approved": true
+  },
+  {
+    "id": "potemkin_6",
+    "file": "Potemkin-still6.jpg",
+    "movie": "Броненосец «Потёмкин» (1925)",
+    "role": "напряжение",
+    "author": "Сергей Эйзенштейн",
+    "source": "https://commons.wikimedia.org/wiki/File:Potemkin-still6.jpg",
+    "rights": "public_domain",
+    "rights_proof": "https://commons.wikimedia.org/wiki/File:Potemkin-still6.jpg",
+    "editor_approved": true
+  },
+  {
+    "id": "potemkin_soldati",
+    "file": "Soldati potemkin.jpg",
+    "movie": "Броненосец «Потёмкин» (1925)",
+    "role": "толпа",
+    "author": "Сергей Эйзенштейн",
+    "source": "https://commons.wikimedia.org/wiki/File:Soldati_potemkin.jpg",
+    "rights": "public_domain",
+    "rights_proof": "https://commons.wikimedia.org/wiki/File:Soldati_potemkin.jpg",
+    "editor_approved": true
+  },
+  {
+    "id": "potemkin_ship",
+    "file": "Battleship Potemkin-Ship portrait.jpg",
+    "movie": "Броненосец «Потёмкин» (1925)",
+    "role": "масштаб",
+    "author": "Сергей Эйзенштейн",
+    "source": "https://commons.wikimedia.org/wiki/File:Battleship_Potemkin-Ship_portrait.jpg",
+    "rights": "public_domain",
+    "rights_proof": "https://commons.wikimedia.org/wiki/File:Battleship_Potemkin-Ship_portrait.jpg",
+    "editor_approved": true
+  }
+]

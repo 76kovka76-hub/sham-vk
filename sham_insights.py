@@ -77,6 +77,89 @@ def fetch_analytics(days=7, *, now=None, getter=None):
                 "reason": type(exc).__name__, "posts": []}
 
 
+def fetch_vk_stats(state, *, now=None, getter=None):
+    """Real VK counters from our own already published wall entries only."""
+    import re
+    now = _utc(now or datetime.now(timezone.utc))
+    token = os.getenv("VK_USER_TOKEN", "").strip() or os.getenv("VK_GROUP_TOKEN", "").strip()
+    if not token:
+        return {"status": "unavailable", "reason": "no_vk_token", "posts": []}
+    entries = []
+    for local in state.get("posts", [])[-300:]:
+        if local.get("publication_status") != "published":
+            continue
+        p_id = local.get("vedismm_post_id")
+        match = re.fullmatch(
+            r"https://(?:www\\.)?vk\\.(?:com|ru)/wall-243230846_([0-9]+)",
+            str(local.get("vk_url") or ""))
+        if not match or not isinstance(p_id, int):
+            continue
+        slot = str(local.get("slot") or "")
+        try:
+            published_day = datetime.strptime(slot[:10], "%Y-%m-%d").date()
+            if (now.date() - published_day).days > 8:
+                continue
+        except ValueError:
+            continue
+        entries.append((int(match.group(1)), p_id))
+    if not entries:
+        return {"status": "unavailable", "reason": "no_confirmed_vk_posts", "posts": []}
+    getter = getter or requests.get
+    posts = []
+    try:
+        for start in range(0, len(entries), 20):
+            batch = entries[start:start + 20]
+            response = getter("https://api.vk.com/method/wall.getById",
+                              params={"posts": ",".join(
+                                  f"-243230846_{n}" for n, _ in batch),
+                                  "v": "5.199", "access_token": token},
+                              timeout=18)
+            response.raise_for_status()
+            payload = response.json()
+            if "error" in payload:
+                return {"status": "unavailable", "reason": "vk_wall_api_error",
+                        "posts": []}
+            remote = payload.get("response", [])
+            if isinstance(remote, dict):
+                remote = remote.get("items", [])
+            if not isinstance(remote, list):
+                return {"status": "unavailable", "reason": "vk_bad_response",
+                        "posts": []}
+            known = {wall_id: local_id for wall_id, local_id in batch}
+            for item in remote:
+                if not isinstance(item, dict) or item.get("owner_id") != -243230846:
+                    continue
+                wall_id = item.get("id")
+                if wall_id not in known:
+                    continue
+                metrics = {}
+                for provider, output in (("likes", "likes"), ("comments", "comments"),
+                                         ("reposts", "shares"), ("views", "impressions")):
+                    raw = item.get(provider)
+                    if isinstance(raw, dict) and _as_nonnegative(raw.get("count")) is not None:
+                        metrics[output] = raw["count"]
+                if not {"likes", "shares"}.issubset(metrics):
+                    continue
+                posts.append({"id": known[wall_id], "is_demo": False,
+                              "available_metrics": list(metrics),
+                              **metrics})
+        return {"status": "ok" if posts else "unavailable",
+                "source": "vk_public_wall", "posts": posts}
+    except (requests.RequestException, ValueError, TypeError):
+        return {"status": "unavailable", "reason": "vk_fetch_failed", "posts": []}
+
+
+def fetch_best_analytics(state, *, now=None):
+    """VediSMM first, VK wall counters if real per-post metrics are absent."""
+    now = _utc(now or datetime.now(timezone.utc))
+    primary = fetch_analytics(days=7, now=now)
+    if summarize(state, primary)["observed_posts"]:
+        primary["source"] = "vedismm"
+        return primary
+    secondary = fetch_vk_stats(state, now=now)
+    return secondary if secondary.get("posts") else primary
+
+
 def summarize(history, remote, *, since=None):
     """Join VediSMM post IDs against own saved SHAM posts only."""
     entries = history.get("posts", [])
@@ -131,7 +214,10 @@ def summarize(history, remote, *, since=None):
 
 def main():
     from main import get_state
-    report = summarize(get_state(), fetch_analytics())
+    history = get_state()
+    remote = fetch_best_analytics(history)
+    report = summarize(history, remote)
+    report["source"] = remote.get("source", "vedismm")
     out = Path("output/sham_insights.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

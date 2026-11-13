@@ -11,7 +11,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
-from sham_insights import fetch_analytics, summarize
+from sham_insights import fetch_best_analytics, summarize
 
 
 def _font(n):
@@ -68,7 +68,8 @@ def weekly_top(*, preview=False, now=None):
     if not preview and now.isoweekday() != 7:
         return {"status": "skipped", "reason": "not_sunday"}
     from main import get_state
-    summary = summarize(get_state(), fetch_analytics(days=7, now=now))
+    state = get_state()
+    summary = summarize(state, fetch_best_analytics(state, now=now))
     verified = [p for p in summary["top"]
                 if p.get("vk_url", "").startswith("https://vk.")]
     if summary["status"] != "ok" or len(verified) < 3:

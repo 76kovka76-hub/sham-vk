@@ -7,6 +7,8 @@ on:
       - 'README.md'
       - 'vedismm_publisher.py'
       - 'horde_style.py'
+      - 'style_catalog.py'
+      - 'hard_jokes.py'
       - 'sham_free_image.py'
       - 'visual_gags.py'
       - 'short_jokes.py'
@@ -40,7 +42,7 @@ on:
           - clean-queue
           - publish
       visual_style:
-        description: 'Для preview: auto (по расписанию), anime или realistic'
+        description: 'Для preview: auto (разнообразие) или конкретный стиль'
         required: false
         default: auto
         type: choice
@@ -48,6 +50,12 @@ on:
           - auto
           - anime
           - realistic
+          - phone_photo
+          - photomontage
+          - surreal_photo
+          - cinematic
+          - 3d_render
+          - paper_collage
 
 permissions:
   contents: write

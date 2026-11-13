@@ -27,6 +27,12 @@ def similar(a, b, limit=0.9):
 
 
 def approved(p):
+    if (p.get("source") == "ovh_chat_reviewed_v1"
+            and str(p.get("topic", "")).startswith("gen_")
+            and isinstance(p.get("visual"), str) and len(p["visual"].split()) >= 9
+            and p.get("scene") in ("work", "wallet", "phone", "home", "social", "life")
+            and p.get("idea_key")):
+        return True
     if any(all(p.get(k) == item[k] for k in ("topic","scene","top","bottom","visual"))
            for item in SPECIAL_JOKES):
         return True

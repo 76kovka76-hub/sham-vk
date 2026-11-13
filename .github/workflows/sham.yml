@@ -10,6 +10,7 @@ on:
       - 'style_catalog.py'
       - 'hard_jokes.py'
       - 'fresh_jokes.py'
+      - 'live_jokes.py'
       - 'meaning_guard.py'
       - 'image_guard.py'
       - 'sham_free_image.py'
@@ -92,6 +93,7 @@ jobs:
           SHAM_BACKEND: ${{ secrets.VEDISMM_TOKEN != '' && 'vedismm' || vars.SHAM_BACKEND || 'vk' }}
           SHAM_VISUAL_STYLE: 'horde'
           SHAM_FREE_IMAGE_PROVIDER: 'ovh'
+          SHAM_LIVE_TEXT: 'true'
           SHAM_PREVIEW_STYLE: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[TEST_REALISTIC]') && 'realistic') || github.event.inputs.visual_style || 'auto' }}
           AIHORDE_API_KEY: ${{ secrets.AIHORDE_API_KEY }}
           VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}

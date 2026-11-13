@@ -81,6 +81,10 @@ def _if_match(reply,draft):
 
 
 def schedule_one():
+    settings=json.loads((ROOT/"settings.json").read_text(encoding="utf-8"))
+    if settings.get("group_id")!=VK_GROUP_ID or settings.get("autopublish") is not True:
+        print("SOVETSKIY_AUTOPUBLISH_DISABLED: preview/tests only; no VediSMM post")
+        return
     state=load_state()
     slot,at=next_slot(state)
     if slot is None:

@@ -247,6 +247,13 @@ def main():
     print("Подпись:", message)
     print("Картинка:", image)
     if args.preview:
+        if os.getenv("SHAM_MOTION_PREVIEW", "").strip().lower() in ("1", "true", "yes"):
+            try:
+                from sham_motion import make_motion_previews
+                media = make_motion_previews(image, OUT)
+                print("SHAM motion preview (never auto-posted):", media)
+            except (OSError, ValueError, RuntimeError) as exc:
+                print("::warning::Animated previews unavailable: " + str(exc)[:160])
         print("Режим предпросмотра: в VK ничего не отправлено.")
         return
     if args.enqueue:

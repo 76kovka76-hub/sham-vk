@@ -56,7 +56,7 @@ def select_post(state, slot):
     used = {x.get("id") or joke_id(x) for x in history
             if x.get("top") and x.get("bottom")}
     top_recent = [x.get("top", "") for x in history[-105:]]
-    ending_recent = [x.get("bottom", "") for x in history[-50:]]
+    ending_recent = [x.get("bottom", "") for x in history[-60:]]
     topic_recent = {x.get("topic") for x in history[-18:]}
     scenes_recent = {x.get("scene") for x in history[-2:]}
     caption_recent = {norm(x.get("caption", "")) for x in history[-12:]}

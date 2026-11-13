@@ -522,6 +522,192 @@
       "scheduled_at": "2026-11-13T08:45:00Z",
       "publication_status": "scheduled",
       "vk_url": ""
+    },
+    {
+      "top": "После ужина посмотрел на раковину.",
+      "bottom": "Посуда успела размножиться без моего участия.",
+      "scene": "home",
+      "topic": "dishes",
+      "visual": "exhausted person facing a mountain of dishes in kitchen sink",
+      "caption": "Домашние дела никогда не заканчиваются.",
+      "id": "c37e9b7909d20eb49d9a325fda5a4140f61826b7a69270aab016034a725f9fa0",
+      "hashtags": [
+        "#домашниедела",
+        "#смешнаяжизнь",
+        "#шуткисосмыслом"
+      ],
+      "slot": "2026-11-13-09-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "exhausted person facing a mountain of dishes in kitchen sink"
+      },
+      "vedismm_post_id": 5016,
+      "scheduled_at": "2026-11-13T09:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_voice_podcast",
+      "scene": "social",
+      "top": "Друг прислал голосовое сообщение.",
+      "bottom": "На седьмой минуте закончил здороваться.",
+      "caption": "Похоже, я подписался на подкаст.",
+      "visual": "Tired person with long gray beard in an armchair listening to phone voice message while calendar sheets and used coffee cups pile up",
+      "id": "084736d7188a843aa5325970922e77a6d4b7548312d29b15bcac671feec0a7ac",
+      "hashtags": [
+        "#знакомства",
+        "#приколывк",
+        "#прикол"
+      ],
+      "slot": "2026-11-13-09-01",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Tired person with long gray beard in an armchair listening to phone voice message while calendar sheets and used coffee cups pile up"
+      },
+      "vedismm_post_id": 5017,
+      "scheduled_at": "2026-11-13T09:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_bread_receipt",
+      "scene": "wallet",
+      "top": "Пришёл в магазин за хлебом.",
+      "bottom": "На кассе предложили оформить ипотеку.",
+      "caption": "Вроде хлеб, а чек как на квартиру.",
+      "visual": "A shocked shopper holding only one loaf of bread while cashier hands a ridiculously long paper receipt coiling around the whole checkout",
+      "id": "5e98c37fcda964c18ff01fbca2bfc728b4aaa4d509755e1cc5ddd9f1fcfbcce1",
+      "hashtags": [
+        "#расходы",
+        "#SHAM",
+        "#поржать"
+      ],
+      "slot": "2026-11-13-09-02",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "A shocked shopper holding only one loaf of bread while cashier hands a ridiculously long paper receipt coiling around the whole checkout"
+      },
+      "vedismm_post_id": 5018,
+      "scheduled_at": "2026-11-13T09:30:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Пробежал первые пять минут после зимы.",
+      "bottom": "Мышцы узнали о моих планах последними.",
+      "scene": "life",
+      "topic": "fitness",
+      "visual": "adult person exhausted after gym workout in sports clothes",
+      "caption": "ЗОЖ начинается с переговоров с телом.",
+      "id": "e8183197ba554dd70d4a9ecd3c7114bb0018b9e1b826f1fae219ce655a4a0e37",
+      "hashtags": [
+        "#проснулся",
+        "#мемно",
+        "#шутим"
+      ],
+      "slot": "2026-11-13-09-03",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "bda10c7c-3617-4760-b06b-8ee58db6b954",
+        "model": "stable_diffusion",
+        "seed": "494234677",
+        "worker": "Simebone"
+      },
+      "vedismm_post_id": 5019,
+      "scheduled_at": "2026-11-13T09:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Начал убирать комнату утром.",
+      "bottom": "Нашёл чек из прошлого десятилетия. День пропал.",
+      "scene": "home",
+      "topic": "cleaning",
+      "visual": "tired adult in apartment with mop and scattered household things",
+      "caption": "Генеральная уборка — это археология.",
+      "id": "1b3168abee45f27675a7810da2d04ee09b107bacbd708bbc69285e490bdd60b3",
+      "hashtags": [
+        "#диван",
+        "#чёрныйюмор",
+        "#стендапвк"
+      ],
+      "slot": "2026-11-13-10-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "tired adult in apartment with mop and scattered household things"
+      },
+      "vedismm_post_id": 5020,
+      "scheduled_at": "2026-11-13T10:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_cat_promotion",
+      "scene": "work",
+      "top": "Кот случайно нажал клавиатуру.",
+      "bottom": "Ему сразу предложили повышение.",
+      "caption": "Я работал пять лет, между прочим.",
+      "visual": "Fat smug cat in suit sits in office boss chair behind a laptop while human employee holds cardboard box of office belongings",
+      "id": "f62b9ad9fbbab1dab3831b0bdc206fb8b1224c2f6de82b1d27a1850d9335a48b",
+      "hashtags": [
+        "#коллеги",
+        "#вирусныемемы",
+        "#смешнойпост"
+      ],
+      "slot": "2026-11-13-10-01",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Fat smug cat in suit sits in office boss chair behind a laptop while human employee holds cardboard box of office belongings"
+      },
+      "vedismm_post_id": 5021,
+      "scheduled_at": "2026-11-13T10:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_alarm_court",
+      "scene": "life",
+      "top": "Будильник поднял меня с кровати.",
+      "bottom": "Подушка подала на него в суд.",
+      "caption": "С утра уже идёт заседание.",
+      "visual": "Groggy adult in pajamas watches angry pillow dressed as a judge interrogate tiny alarm clock on bedroom table, absurd morning scene",
+      "id": "8d53ec26d8402b9447466e01d1093fbb81ab804bf7e77d70df6c10b9084b426d",
+      "hashtags": [
+        "#пятница",
+        "#подборкамемов",
+        "#мемасик"
+      ],
+      "slot": "2026-11-13-10-02",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "d7570263-6b2c-412d-8c32-07ea3c92a83e",
+        "model": "stable_diffusion",
+        "seed": "209751015",
+        "worker": "esson-arch-gemini-sd15"
+      },
+      "vedismm_post_id": 5022,
+      "scheduled_at": "2026-11-13T10:30:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
@@ -541,6 +727,13 @@
     "2026-11-13-08-00",
     "2026-11-13-08-01",
     "2026-11-13-08-02",
-    "2026-11-13-08-03"
+    "2026-11-13-08-03",
+    "2026-11-13-09-00",
+    "2026-11-13-09-01",
+    "2026-11-13-09-02",
+    "2026-11-13-09-03",
+    "2026-11-13-10-00",
+    "2026-11-13-10-01",
+    "2026-11-13-10-02"
   ]
 }

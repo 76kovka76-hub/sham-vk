@@ -90,7 +90,7 @@ def fetch_vk_stats(state, *, now=None, getter=None):
             continue
         p_id = local.get("vedismm_post_id")
         match = re.fullmatch(
-            r"https://(?:www\\.)?vk\\.(?:com|ru)/wall-243230846_([0-9]+)",
+            r"https://(?:www\.)?vk\.(?:com|ru)/wall-243230846_([0-9]+)",
             str(local.get("vk_url") or ""))
         if not match or not isinstance(p_id, int):
             continue

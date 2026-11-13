@@ -53,8 +53,11 @@ def choose_joke(state):
     previous_themes=[x.get("theme") for x in state["entries"][-3:]]
     options=[j for j in JOKES if j.key not in used_jokes
              and not any(f in used_frames for f in j.source_ids)]
-    options.sort(key=lambda j:(j.theme in previous_themes, len(j.source_ids)!=2,
-                               [item.key for item in JOKES].index(j.key)))
+    # Rotate singles and collages; first post uses just one source image.
+    prefer_collage=(len(state["entries"]) % 3 == 1)
+    options.sort(key=lambda j:(j.theme in previous_themes,
+                   (j.format=="collage")!=prefer_collage,
+                   [item.key for item in JOKES].index(j.key)))
     return options[0] if options else None
 
 

@@ -5,6 +5,7 @@ import random
 import re
 
 from quality_bank import TOPICS
+from short_jokes import SHORT_JOKES
 
 
 def norm(s):
@@ -21,6 +22,9 @@ def similar(a, b, limit=0.9):
 
 
 def approved(p):
+    if any(all(p.get(k) == item[k] for k in ("topic","scene","top","bottom","visual"))
+           for item in SHORT_JOKES):
+        return True
     return any(p.get("topic") == t["topic"] and p.get("scene") == t["scene"]
                and p.get("visual") == t["visual"]
                and p.get("top") in t["setups"]
@@ -52,6 +56,23 @@ def select_post(state, slot):
     scenes_recent = {x.get("scene") for x in history[-2:]}
     caption_recent = {norm(x.get("caption", "")) for x in history[-12:]}
     rng = random.Random(slot + "-SHAM-approved-v2")
+    # About one third of slots may draw a separately edited short anecdote,
+    # instead of repeatedly mixing text from the longer themed banks.
+    # Each short anecdote has its own action-specific photo/illustration.
+    if rng.randrange(3) == 0:
+        jokes = list(SHORT_JOKES)
+        rng.shuffle(jokes)
+        for mini in jokes:
+            if mini["topic"] in topic_recent or mini["scene"] in scenes_recent:
+                continue
+            if joke_id(mini) in used:
+                continue
+            if any(similar(mini["top"], p, 0.92) for p in top_recent):
+                continue
+            if any(similar(mini["bottom"], p, 0.94) for p in ending_recent):
+                continue
+            validate(mini, history)
+            return dict(mini)
     topics = list(TOPICS)
     rng.shuffle(topics)
     topics.sort(key=lambda t: sum(x.get("topic") == t["topic"] for x in history[-120:]))

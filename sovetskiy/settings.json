@@ -1,7 +1,17 @@
 {
-  "schema": 1,
+  "schema": 2,
   "group_id": "243244760",
   "autopublish": false,
-  "pilot_posts_per_day": 4,
-  "description": "Enable only after visual review of a generated original vintage Soviet film-frame meme."
+  "posts_per_day": 96,
+  "interval_minutes": 15,
+  "buffer_hours": 14,
+  "lead_minutes": 45,
+  "free_only": true,
+  "source_order": [
+    "reviewed_public_domain_film",
+    "reviewed_public_domain_photo",
+    "free_generated_fictional_soviet_photo"
+  ],
+  "quality_policy": "Caption tied to scene; no unreviewed film frames, no repeated authored meme, stop on quota or generator failure.",
+  "notes": "Ready to switch to true only after 96-slot workflow tests pass."
 }

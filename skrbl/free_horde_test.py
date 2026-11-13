@@ -19,6 +19,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps, ImageChops, 
 import requests
 
 from publish_test import BASE, _data, _target_account, _valid_vk_url
+from pencil_gags import hand_text, decorate_email_comic
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "free_comic_trial.png"
@@ -77,7 +78,7 @@ def _convert_to_pencil(im, panel_size=(696, 527)):
     edges = edges.point(lambda x: min(255, int(x*0.92 + 11)))
     pencil = ImageChops.darker(dodge, edges)
     pencil = ImageOps.autocontrast(pencil, cutoff=1)
-    pencil = pencil.point(lambda x: min(255, int(x * 0.71 + 73)))
+    pencil = pencil.point(lambda x: min(255, int(x * 0.93 + 12)))
     # Warm ink-on-paper instead of generic grayscale photography.
     return ImageOps.colorize(pencil, black="#302c2a", white="#fcfaf2").convert("RGB")
 
@@ -224,7 +225,7 @@ def make_comic(frame_provider=None):
         d.line([(px+3,py+5),(px+PW-4,py+8)],fill=(85,75,75),width=2)
         d.line([(px+5,py+PH-9),(px+PW-6,py+PH-5)],fill=(99,91,89),width=2)
         text=config["top"]
-        _text_center(d,text,py+20,PW,max_font=40,origin_x=px)
+        hand_text(img,text,px,py+20,PW,max_size=40,seed=200+i)
         # Character scenes occupy most of each panel.
         inner=ImageOps.fit(panel,(PW-12,PH-145),method=Image.Resampling.LANCZOS)
         img.paste(inner,(px+6,py+133))
@@ -235,6 +236,8 @@ def make_comic(frame_provider=None):
             yy=py+110+j*3
             d.line([(xx,yy),(px+PW-11-rng.randrange(16),yy+rng.randrange(-3,4))],
                    fill=(175,166,150),width=1)
+        # True visual joke: living angry envelopes and exaggerated impact lines.
+        decorate_email_comic(img,i,px,py,PW,PH)
     # Small logo only; no photos or image generation in ChatGPT.
     d.text((W-41,H-14),"SKRBL",font=_font(20),fill=STROKE,anchor="rd")
     img.save(OUT,format="PNG",optimize=True)

@@ -73,9 +73,6 @@ def make_motion_previews(png, out_dir, *, render_mp4=True):
         if result["mp4"] is None and target.exists():
             target.unlink()
     return result
-        if target.exists() and target.stat().st_size > 10000:
-            result["mp4"] = str(target)
-    return result
 
 
 if __name__ == "__main__":

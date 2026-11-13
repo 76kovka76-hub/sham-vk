@@ -1,8 +1,6 @@
-"""AI Horde: free, volunteer-powered image generator for SHAM.
+"""Free volunteer image generator for SHAM with diverse visual genres.
 
-Four of the 96 scheduled UTC slots use photorealistic *fictional* people.
-The other 92 use anime aesthetics. No Openverse or cartoon fallback.
-The volunteer queue is best-effort and may fail or time out.
+The image must depict the specific joke, not a generic smiling anime portrait.
 """
 import base64
 import hashlib
@@ -16,6 +14,7 @@ from urllib.parse import urlparse
 
 import requests
 from PIL import Image, ImageDraw, ImageOps
+from style_catalog import STYLE_PROMPTS, style_for_slot
 
 API = "https://aihorde.net/api/v2"
 CLIENT_AGENT = "SHAM-VK:1.0:https://github.com/76kovka76-hub/sham-vk"
@@ -76,53 +75,56 @@ SCENE_REACTIONS = {
 
 
 
-def style_for_slot(slot: str) -> str:
-    """Four realistic pictures/day, at UTC 00:00, 06:00, 12:00, 18:00 slots."""
-    try:
-        date, hour, quarter = slot.rsplit("-", 2)
-        if len(date) != 10 or not (0 <= int(hour) < 24) or not (0 <= int(quarter) < 4):
-            raise ValueError("Invalid UTC slot")
-        return "realistic" if int(hour) % 6 == 0 and int(quarter) == 0 else "anime"
-    except (TypeError, ValueError, AttributeError) as exc:
-        raise ValueError(f"Bad SHAM slot: {slot!r}") from exc
-
-
 def build_prompt(post, slot, style):
-    rnd = random.Random("SHAM-characters-" + slot)
+    if style not in STYLE_PROMPTS:
+        raise ValueError("Unknown SHAM visual genre: " + str(style))
+    rng = random.Random("SHAM-characters-" + slot)
     from visual_gags import get_visual_gag
-    scene = get_visual_gag(post) or SCENES.get(post.get("scene"), SCENES["life"])
-    reaction = TOPIC_REACTIONS.get(post.get('topic'), SCENE_REACTIONS.get(post.get('scene'), 'frustrated and tired'))
-    person = rnd.choice([
-        "young adult man with dark short hair",
-        "young adult woman with wavy brown hair",
-        "adult man with curly hair",
-        "adult woman with short black hair",
-        "adult man with long brown hair tied back",
-        "adult woman with a messy bun",
-    ])
-    common = (
-        f"An original fictional {person}, {scene}, {reaction}. "
-        "One clearly visible adult human face, expressive facial features, "
-        "the expression MUST match the emotional situation (no inappropriate happy grin), "
-        "the main prop and the person's action must be clearly visible, "
-        "cinematic dynamic composition, waist-up medium shot, subject centered, "
-        "clear face with open space top and bottom for later meme captions, "
-        "safe for work, no visible letters, no signatures."
+
+    # The per-joke scene is indispensable; the topic gag adds physical comedy.
+    own_scene = (post.get("visual") or "").strip()
+    gag = (get_visual_gag(post) or "").strip()
+    scene = own_scene or gag or SCENES.get(post.get("scene"), SCENES["life"])
+    if gag and gag != scene:
+        scene += ". Additional physical comedy: " + gag
+    reaction = TOPIC_REACTIONS.get(
+        post.get("topic"),
+        SCENE_REACTIONS.get(post.get("scene"), "surprised by the ridiculous situation"),
     )
-    if style == "realistic":
-        return (
-            "Hyperrealistic editorial photography, candid 35mm photography, "
-            "natural human skin texture, highly realistic fictional person, "
-            "professional lighting, rich colors, sharp focus. " + common
-        )
-    if style == "anime":
-        return (
-            "High quality hand-drawn Japanese anime illustration, polished anime "
-            "character design, expressive anime eyes and facial emotions, vivid "
-            "clean cel shading, detailed anime background, cinematic lighting, "
-            "authentic 2D animation film frame. " + common
-        )
-    raise ValueError("SHAM only supports anime and realistic styles")
+    person = rng.choice([
+        "adult man with dark short hair",
+        "adult woman with wavy hair",
+        "middle-aged man with curly hair",
+        "middle-aged woman with short black hair",
+        "elderly person with silver hair",
+        "young adult person with messy hair",
+        "adult with long braided hair",
+        "adult with glasses and expressive eyebrows",
+        "fictional adult in ordinary work clothes",
+    ])
+    framing = rng.choice([
+        "dynamic wide shot showing environment and all essential props",
+        "candid eye-level medium shot with the main action clearly visible",
+        "dramatic low-angle view of the ridiculous event",
+        "over-the-shoulder view of the comic situation",
+        "off-center documentary-style composition with visible physical action",
+    ])
+    return (
+        STYLE_PROMPTS[style] + " "
+        "SPECIFIC JOKE TO DEPICT: " + scene + ". "
+        "When people are required, use an original fictional " + person + ". "
+        "When the action instead centers on animals or objects, depict those "
+        "without inserting an unrelated human face. "
+        "CHARACTER REACTION: " + reaction + ". "
+        "CAMERA: " + framing + ". "
+        "The image must physically show the exact joke setup and its key props; "
+        "the image is not a generic portrait or generic background. "
+        "Create one clear readable visual gag. Avoid extra unrelated objects. "
+        "Leave clear negative space at top and bottom for separately typeset "
+        "Russian meme captions. no visible letters, no embedded captions, "
+        "no signs, no signatures, no watermarks. "
+        "All human subjects are fictional adults."
+    )
 
 
 def _json(response):

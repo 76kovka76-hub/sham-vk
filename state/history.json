@@ -1078,6 +1078,192 @@
       "scheduled_at": "2026-11-13T14:00:00Z",
       "publication_status": "scheduled",
       "vk_url": ""
+    },
+    {
+      "top": "Зашёл просто посмотреть акции.",
+      "bottom": "Покупка бессмысленная, зато с гордой экономией.",
+      "scene": "wallet",
+      "topic": "discount",
+      "visual": "shopper staring at enormous SALE sign with shopping bags",
+      "caption": "Скидки умеют гипнотизировать.",
+      "id": "e7a108c5db3860903876b82f566380214923bbb91a54c4ad9fbb8869abc47a8b",
+      "hashtags": [
+        "#экономия",
+        "#походужиза",
+        "#прикольно"
+      ],
+      "slot": "2026-11-13-14-01",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "shopper staring at enormous SALE sign with shopping bags"
+      },
+      "vedismm_post_id": 5050,
+      "scheduled_at": "2026-11-13T14:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_wifi_family",
+      "scene": "home",
+      "top": "На час отключили интернет.",
+      "bottom": "Узнал, что дома живут ещё трое.",
+      "caption": "Оказались вполне приличные люди.",
+      "visual": "Family of four sit around kitchen table staring at each other in surprise as dead wifi router lies on back like a broken robot",
+      "id": "5a3a1a995a77343bc2c446f0a7d4b816e6b4d6383be3de8bc2d7158e069aa6ad",
+      "hashtags": [
+        "#готовка",
+        "#шуточныйпост",
+        "#шуткипрожизнь"
+      ],
+      "slot": "2026-11-13-14-02",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Family of four sit around kitchen table staring at each other in surprise as dead wifi router lies on back like a broken robot"
+      },
+      "vedismm_post_id": 5051,
+      "scheduled_at": "2026-11-13T14:30:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_boss_five",
+      "scene": "work",
+      "top": "Начальник попросил пять минут.",
+      "bottom": "К концу разговора я успел поседеть.",
+      "caption": "В офисе время течёт иначе.",
+      "visual": "Young employee ages into an old gray-bearded man with cobwebs while endless video call continues on laptop, office clock spinning",
+      "id": "75854ed81e0e001ae024a498f41135a45d7fd050eb48dcb37209dc8c776ed661",
+      "hashtags": [
+        "#работаем",
+        "#лучшиемемы",
+        "#весело"
+      ],
+      "slot": "2026-11-13-14-03",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "c7ed247f-8dc8-4571-8397-07561aa2c0cc",
+        "model": "stable_diffusion",
+        "seed": "4292595641",
+        "worker": "promptus-nekura2000"
+      },
+      "vedismm_post_id": 5052,
+      "scheduled_at": "2026-11-13T14:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Включил телефон перед сном на минуту.",
+      "bottom": "Будильник прозвенел в той же позе.",
+      "scene": "phone",
+      "topic": "scrolling",
+      "visual": "tired adult scrolling a smartphone on bed at night, clock visible",
+      "caption": "Последний ролик — самая длинная сказка.",
+      "id": "3c7104a107423ff7d41660e38d34a7d057b4f7d6175d4763eb6a6b9389f2d336",
+      "hashtags": [
+        "#тикток",
+        "#сарказм",
+        "#ор"
+      ],
+      "slot": "2026-11-13-15-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "tired adult scrolling a smartphone on bed at night, clock visible"
+      },
+      "vedismm_post_id": 5053,
+      "scheduled_at": "2026-11-13T15:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Сел напротив человека, который очень понравился.",
+      "bottom": "Мой мозг предложил обсудить цену бензина.",
+      "scene": "social",
+      "topic": "date",
+      "visual": "nervous adult on a first date at a cafe table",
+      "caption": "Пожалуйста, пусть будет второе.",
+      "id": "94e462fe0804efcd444e72893ec3eaefe8f4de3ee685fd20fac15c13b04428d3",
+      "hashtags": [
+        "#комментарии",
+        "#угарныемемы",
+        "#угар"
+      ],
+      "slot": "2026-11-13-15-01",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "nervous adult on a first date at a cafe table"
+      },
+      "vedismm_post_id": 5055,
+      "scheduled_at": "2026-11-13T15:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Проекту назначили новый дедлайн.",
+      "bottom": "План такой: сначала кофе, потом отрицание.",
+      "scene": "work",
+      "topic": "deadline",
+      "visual": "stressed office worker surrounded by paperwork and clock",
+      "caption": "Дедлайны, вы не друзья.",
+      "id": "f295fa3ac46e2dd422b8b9ddbfd055717a16d5c7932447fa2a45982b019c0eb5",
+      "hashtags": [
+        "#работяжка",
+        "#позитив",
+        "#жизненныйюмор"
+      ],
+      "slot": "2026-11-13-15-02",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "stressed office worker surrounded by paperwork and clock"
+      },
+      "vedismm_post_id": 5056,
+      "scheduled_at": "2026-11-13T15:30:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Решил начать утро с зарядки.",
+      "bottom": "Оказалось, разминка — это ещё не тренировка.",
+      "scene": "life",
+      "topic": "fitness",
+      "visual": "adult person exhausted after gym workout in sports clothes",
+      "caption": "Первый день — всегда самый спортивный.",
+      "id": "473a286f81ce65182538a7378b4d370f2f7e223e186774820514bcc30b7a49a3",
+      "hashtags": [
+        "#каждыйдень",
+        "#злойюмор",
+        "#смешныемоменты"
+      ],
+      "slot": "2026-11-13-15-03",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "a1e1c9fa-3ad2-4099-b5df-0770608662b3",
+        "model": "stable_diffusion",
+        "seed": "2211809808",
+        "worker": "esson-arch-gemini-sd15"
+      },
+      "vedismm_post_id": 5057,
+      "scheduled_at": "2026-11-13T15:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
@@ -1118,6 +1304,13 @@
     "2026-11-13-13-01",
     "2026-11-13-13-02",
     "2026-11-13-13-03",
-    "2026-11-13-14-00"
+    "2026-11-13-14-00",
+    "2026-11-13-14-01",
+    "2026-11-13-14-02",
+    "2026-11-13-14-03",
+    "2026-11-13-15-00",
+    "2026-11-13-15-01",
+    "2026-11-13-15-02",
+    "2026-11-13-15-03"
   ]
 }

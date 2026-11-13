@@ -14,7 +14,7 @@ from unittest.mock import Mock, patch
 from PIL import Image, ImageDraw
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import commons
-import queue as squeue
+import publisher as squeue
 from check_account import find_account
 from jokes import JOKES
 from render import render

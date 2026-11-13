@@ -5,6 +5,7 @@ the same prompt. There is intentionally no 92-anime/4-photo quota.
 """
 from datetime import date
 import hashlib
+import os
 
 STYLE_PROMPTS = {
     "realistic": "Hyperrealistic candid editorial photograph, natural skin and light, documentary color grading, believable physical objects.",
@@ -76,8 +77,24 @@ WIDE_SCENE_STYLES = (
 )
 
 
+# No anime, illustrations, oil painting, cartoons or 3D in automatic SHAM posts.
+# They remain in the catalog ONLY for explicit preview requests.
+PHOTO_FIRST_ORDER = (
+    "realistic", "photojournalism", "photomontage", "phone_photo",
+    "cinematic", "surreal_photo", "flash_photo", "street_photo",
+    "mockumentary", "practical_effects", "film_noir", "vintage_photo",
+    "security_camera", "polaroid", "tabloid_photo", "vhs_still",
+    "retro_advert",
+)
+assert set(PHOTO_FIRST_ORDER) <= PHOTO_STYLES
+
+
 def story_style(post, slot):
     preferred = style_for_slot(slot)
+    if os.getenv("SHAM_PHOTO_ONLY", "").lower() in ("true", "1", "yes"):
+        day_text, h_text, q_text = slot.rsplit("-", 2)
+        position = date.fromisoformat(day_text).toordinal() * 96 + int(h_text) * 4 + int(q_text)
+        preferred = PHOTO_FIRST_ORDER[position % len(PHOTO_FIRST_ORDER)]
     if not str(post.get("topic", "")).startswith("mini_"):
         return preferred
     visual = str(post.get("visual", "")).lower()

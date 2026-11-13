@@ -46,6 +46,11 @@ jobs:
           VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
           SKRBL_TEST_MODE: publish
         run: python skrbl/publish_test.py
+      - name: Publish approved four-panel original to SKRBL
+        if: ${{ github.event_name == 'push' && contains(github.event.head_commit.message, '[SKRBL_ORIGINAL]') }}
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+        run: python skrbl/publish_salary_original.py
       - name: Save SKRBL image and publication result
         if: always()
         uses: actions/upload-artifact@v4
@@ -54,5 +59,6 @@ jobs:
           path: |
             skrbl/skrbl_test.png
             skrbl/test_result.json
+            skrbl/salary_4panel_original.png
           retention-days: 14
           if-no-files-found: ignore

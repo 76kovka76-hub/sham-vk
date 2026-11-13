@@ -157,7 +157,8 @@ def fetch_best_analytics(state, *, now=None):
         primary["source"] = "vedismm"
         return primary
     secondary = fetch_vk_stats(state, now=now)
-    return secondary if secondary.get("posts") else primary
+    return (secondary if secondary.get("posts")
+            else {**primary, "vk_fallback_reason": secondary.get("reason", "unknown")})
 
 
 def summarize(history, remote, *, since=None):
@@ -218,6 +219,8 @@ def main():
     remote = fetch_best_analytics(history)
     report = summarize(history, remote)
     report["source"] = remote.get("source", "vedismm")
+    report["fallback_reason"] = remote.get("vk_fallback_reason", "")
+    report["unavailable_reason"] = remote.get("reason", "")
     out = Path("output/sham_insights.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -232,7 +235,8 @@ def main():
             lines.append("Достоверных данных пока недостаточно. Никаких демонстрационных чисел.")
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
             f.write("\n".join(lines) + "\n")
-    print("SHAM_INSIGHTS:", report["status"], "verified=", report["observed_posts"])
+    print("SHAM_INSIGHTS:", report["status"], "verified=", report["observed_posts"],
+          "source=", report["source"], "fallback=", report["fallback_reason"])
 
 
 if __name__ == "__main__":

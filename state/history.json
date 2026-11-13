@@ -242,6 +242,34 @@
       "scheduled_at": "2026-11-13T02:15:00Z",
       "publication_status": "scheduled",
       "vk_url": ""
+    },
+    {
+      "top": "Захотел перекусить и открыл холодильник.",
+      "bottom": "За это время там выросла только надежда.",
+      "scene": "home",
+      "topic": "fridge",
+      "visual": "hungry adult opening an almost empty refrigerator in kitchen",
+      "caption": "Взрослая жизнь начинается с похода в магазин.",
+      "id": "b154093e46f0dca2dccf2fac2db321694ce20ef38aadfbeb1fe066e18a0fe47f",
+      "hashtags": [
+        "#домашнийуют",
+        "#рекомендации",
+        "#жизненно"
+      ],
+      "slot": "2026-11-13-03-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "9c05c8e0-4aac-44e6-8dbc-33e1da625dc2",
+        "model": "stable_diffusion",
+        "seed": "3858178826",
+        "worker": "esson-arch-gemini-sd15"
+      },
+      "vedismm_post_id": 4978,
+      "scheduled_at": "2026-11-13T03:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
@@ -251,6 +279,7 @@
     "2026-11-12-23-02",
     "2026-11-13-00-00",
     "2026-11-13-01-00",
-    "2026-11-13-02-01"
+    "2026-11-13-02-01",
+    "2026-11-13-03-00"
   ]
 }

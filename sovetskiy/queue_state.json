@@ -397,6 +397,84 @@
       "media_id": 3345,
       "post_id": 5201,
       "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261113-93",
+      "scheduled_at": "2026-11-13T23:15:00Z",
+      "story_id": "borrow_neighbor",
+      "theme": "money",
+      "sha256": "f24fd978ed593d9dff0dd6ced3f337f8c8c0428efdd751922309eddd6d145558",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "Two men in a Soviet-style apartment stairwell; one man is holding a few banknotes and appears confused, while the other man is running down the stairs with a suitcase and some banknotes flying around.",
+        "explanation": "The image shows a man running down the stairs with a suitcase and banknotes, which aligns with the joke about borrowing money and the neighbor leaving for another city. The confused man holding banknotes also matches the context. The Cyrillic text is legible and clearly visible.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "ЗАНЯЛ СОСЕДУ ДО ПЯТНИЦЫ",
+      "bottom": "СОСЕД УЕХАЛ В ДРУГОЙ ГОРОД.",
+      "media_id": 3378,
+      "post_id": 5234,
+      "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261113-94",
+      "scheduled_at": "2026-11-13T23:30:00Z",
+      "story_id": "friday_end",
+      "theme": "work",
+      "sha256": "cb2366f830d366548f765e3e063597a06964e3952bd5e528cdb4b384fc134a98",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "A man in a coat holding a stack of papers stands near a door, looking back. The image is in black and white with a sepia tone.",
+        "explanation": "The central prop, a stack of papers, is clearly visible and the man's action of holding them while looking back matches the joke about being called back to work. The large Cyrillic captions are legible and fit the context of the humor.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "ПЯТНИЦА. УЖЕ СОБРАЛСЯ ДОМОЙ",
+      "bottom": "СЛЫШУ: А ТЫ НЕ ЗАНЯТ?",
+      "media_id": 3379,
+      "post_id": 5235,
+      "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261113-95",
+      "scheduled_at": "2026-11-13T23:45:00Z",
+      "story_id": "first_date",
+      "theme": "social",
+      "sha256": "15cf47ad462f7370880519a5cea564953e4a16048f8c8e30e9bec1d25fe6756f",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "Two people sitting at a table in a retro cafe setting, with one man leaning forward and the other woman looking slightly bored. The table has plates with food, including buckwheat.",
+        "explanation": "The image shows a man and a woman at a table, with the man appearing to be engaged in conversation. The central prop, buckwheat, is visible on the table, and the man's posture suggests he is talking about it, which aligns with the joke. The large Cyrillic text is legible and clearly visible.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "НА ПЕРВОМ СВИДАНИИ ХОТЕЛ БЫТЬ ТАИНСТВЕННЫМ",
+      "bottom": "ВЕСЬ ВЕЧЕР ГОВОРИЛ ПРО ЦЕНЫ НА ГРЕЧКУ.",
+      "media_id": 3380,
+      "post_id": 5236,
+      "vedismm_status": "scheduled"
     }
   ]
 }

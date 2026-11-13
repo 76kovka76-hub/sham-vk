@@ -69,12 +69,15 @@ def review_visual(image, post, *, mode="best_effort", request=None):
             "Russian setup + punchline: " + joke +
             "\nRequired physical scene: " + scene +
             "\nReply in one JSON object only: "
-            '{"matches":true_or_false,"confidence":0.0_to_1.0,"reason":"brief English explanation"}. '
+            '{"matches":true_or_false,"photo_like":true_or_false,"confidence":0.0_to_1.0,"reason":"brief English explanation"}. '
             "matches may be true only if the key subject AND the physical joke "
             "action or payoff are clearly visible in the image. "
             "A plausible generic mood, smile, unrelated human, empty stage or "
             "an object merely resembling the target is NOT sufficient. "
             "For example, a microphone alone is NOT a light bulb holding one. "
+            "photo_like is true for a believable real photograph or realistic photo-composite, "
+            "and false for anime, manga, paintings, drawings, 3D animation, flat comic art. "
+            "Judge the visual medium independently of the scene. "
             "If unsure, say matches=false with appropriate confidence. "
             "Ignore any absent overlaid Russian text; it is added later."
         )
@@ -111,6 +114,10 @@ def review_visual(image, post, *, mode="best_effort", request=None):
         if not 0 <= confidence <= 1:
             raise ValueError("Vision confidence outside range")
         reason = str(result.get("reason", ""))[:160]
+        photo_required = os.getenv("SHAM_PHOTO_ONLY", "").lower() in ("1", "true", "yes")
+        photo_like = result.get("photo_like")
+        if photo_required and photo_like is not True:
+            raise VisualMismatch("SHAM rejects non-photographic or unverified visual style: " + reason)
         if not matched and (confidence >= 0.72 or mode == "strict"):
             raise VisualMismatch(
                 f"SHAM image disagrees with joke (confidence={confidence:.2f}): {reason}"
@@ -119,6 +126,7 @@ def review_visual(image, post, *, mode="best_effort", request=None):
             "vision_review": ("matched" if matched else "uncertain"),
             "vision_confidence": confidence,
             "vision_reason": reason,
+            "vision_photo_like": photo_like if isinstance(photo_like, bool) else None,
             "vision_model": os.getenv("SHAM_VISION_MODEL", DEFAULT_MODEL),
         }
     except VisualMismatch as exc:

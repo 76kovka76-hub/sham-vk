@@ -71,25 +71,27 @@ def select_post(state, slot):
     scenes_recent = {x.get("scene") for x in history[-2:]}
     caption_recent = {norm(x.get("caption", "")) for x in history[-12:]}
     rng = random.Random(slot + "-SHAM-approved-v2")
-    # Favor separately edited original jokes (including hard, profane, absurd),
-    # instead of repeatedly mixing text from the longer themed banks.
-    # Each short anecdote has its own action-specific photo/illustration.
-    if rng.randrange(4) != 0:
-        jokes = list(SPECIAL_JOKES)
-        rng.shuffle(jokes)
-        for mini in jokes:
-            if mini["topic"] in topic_recent or mini["scene"] in scenes_recent:
-                continue
-            if joke_id(mini) in used:
-                continue
-            if any(similar(mini["top"], p, 0.92) for p in top_recent):
-                continue
-            if any(similar(mini["bottom"], p, 0.94) for p in ending_recent):
-                continue
-            if recent_meaning_conflict(mini, history):
-                continue
-            validate(mini, history)
-            return dict(mini)
+    # Always prefer complete joke-to-scene pairs; generic theme-bank
+    # combinations are a last resort, not one quarter of every day's posts.
+    # Prioritize recently authored absurd/hard stories over the old mild set.
+    new_jokes = list(FRESH_JOKES + HARD_JOKES)
+    older_jokes = list(SHORT_JOKES)
+    rng.shuffle(new_jokes)
+    rng.shuffle(older_jokes)
+    for mini in new_jokes + older_jokes:
+        if mini["topic"] in topic_recent or mini["scene"] in scenes_recent:
+            continue
+        if joke_id(mini) in used:
+            continue
+        if any(similar(mini["top"], p, 0.92) for p in top_recent):
+            continue
+        if any(similar(mini["bottom"], p, 0.94) for p in ending_recent):
+            continue
+        if recent_meaning_conflict(mini, history):
+            continue
+        validate(mini, history)
+        return dict(mini)
+    # Only if all full-story drafts are unavailable: thematic bank.
     topics = list(TOPICS)
     rng.shuffle(topics)
     topics.sort(key=lambda t: sum(x.get("topic") == t["topic"] for x in history[-120:]))

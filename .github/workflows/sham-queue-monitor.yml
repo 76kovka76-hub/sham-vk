@@ -30,6 +30,8 @@ jobs:
       - name: Test read-only audit
         run: python -m unittest discover -s tests -p 'test_queue_audit.py' -v
       - name: Scan slots for the next 12 hours
+        env:
+          SHAM_POST_INTERVAL_MINUTES: "60"
         run: python queue_audit.py
       - name: Publish queue report
         if: always()

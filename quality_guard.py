@@ -6,6 +6,9 @@ import re
 
 from quality_bank import TOPICS
 from short_jokes import SHORT_JOKES
+from hard_jokes import HARD_JOKES
+
+SPECIAL_JOKES = SHORT_JOKES + HARD_JOKES
 
 
 def norm(s):
@@ -23,7 +26,7 @@ def similar(a, b, limit=0.9):
 
 def approved(p):
     if any(all(p.get(k) == item[k] for k in ("topic","scene","top","bottom","visual"))
-           for item in SHORT_JOKES):
+           for item in SPECIAL_JOKES):
         return True
     return any(p.get("topic") == t["topic"] and p.get("scene") == t["scene"]
                and p.get("visual") == t["visual"]
@@ -43,6 +46,8 @@ def validate(p, history=()):
         raise ValueError("SHAM meme already used")
     if any(similar(p["top"], x.get("top", ""), 0.94) for x in history[-90:]):
         raise ValueError("SHAM setup nearly repeats a recent post")
+    if any(similar(p["bottom"], x.get("bottom", ""), 0.94) for x in history[-60:]):
+        raise ValueError("SHAM punchline repeats a recent post")
     return True
 
 
@@ -52,15 +57,15 @@ def select_post(state, slot):
             if x.get("top") and x.get("bottom")}
     top_recent = [x.get("top", "") for x in history[-105:]]
     ending_recent = [x.get("bottom", "") for x in history[-50:]]
-    topic_recent = {x.get("topic") for x in history[-10:]}
+    topic_recent = {x.get("topic") for x in history[-18:]}
     scenes_recent = {x.get("scene") for x in history[-2:]}
     caption_recent = {norm(x.get("caption", "")) for x in history[-12:]}
     rng = random.Random(slot + "-SHAM-approved-v2")
-    # About one third of slots may draw a separately edited short anecdote,
+    # Favor separately edited original jokes (including hard, profane, absurd),
     # instead of repeatedly mixing text from the longer themed banks.
     # Each short anecdote has its own action-specific photo/illustration.
-    if rng.randrange(3) == 0:
-        jokes = list(SHORT_JOKES)
+    if rng.randrange(2) == 0:
+        jokes = list(SPECIAL_JOKES)
         rng.shuffle(jokes)
         for mini in jokes:
             if mini["topic"] in topic_recent or mini["scene"] in scenes_recent:

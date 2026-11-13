@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "review_policy": "No human image review yet: every pairing remains pending. A real image must be inspected before approval.",
+  "matches": [
+    {
+      "joke_key": "price_shock",
+      "source_ids": [
+        "aelita_face"
+      ],
+      "status": "pending",
+      "expected_visual_story": "Крупная гримаса удивления должна передавать шок от стоимости покупки.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    },
+    {
+      "joke_key": "bank_suspects",
+      "source_ids": [
+        "aelita_batalov"
+      ],
+      "status": "pending",
+      "expected_visual_story": "Взгляд или напряжённое лицо должны читаться как недоверие к банковскому балансу.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    },
+    {
+      "joke_key": "boss_friday",
+      "source_ids": [
+        "potemkin_2"
+      ],
+      "status": "pending",
+      "expected_visual_story": "Персонаж должен выглядеть усталым или ошарашенным из-за задачи в последний момент.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    },
+    {
+      "joke_key": "monday_attacks",
+      "source_ids": [
+        "potemkin_5"
+      ],
+      "status": "pending",
+      "expected_visual_story": "Тревожная реакция героя должна соответствовать внезапному понедельнику.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    },
+    {
+      "joke_key": "alarm_ambush",
+      "source_ids": [
+        "potemkin_6"
+      ],
+      "status": "pending",
+      "expected_visual_story": "На кадре нужна реакция напряжения или испуга, словно от звонка будильника.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    },
+    {
+      "joke_key": "group_chat",
+      "source_ids": [
+        "potemkin_soldati"
+      ],
+      "status": "pending",
+      "expected_visual_story": "Толпа должна визуально создавать ощущение массовой ссоры в переписке.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    },
+    {
+      "joke_key": "salary_and_bills",
+      "source_ids": [
+        "aelita_batalov",
+        "aelita_face"
+      ],
+      "status": "pending",
+      "expected_visual_story": "Первый кадр — спокойная радость; второй — заметное удивление и финансовый шок.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    },
+    {
+      "joke_key": "discount_battle",
+      "source_ids": [
+        "potemkin_ship"
+      ],
+      "status": "pending",
+      "expected_visual_story": "На кадре должно быть ощущение масштабной борьбы и напряжения из-за скидки.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    },
+    {
+      "joke_key": "workday_march",
+      "source_ids": [
+        "potemkin_2",
+        "potemkin_soldati"
+      ],
+      "status": "pending",
+      "expected_visual_story": "Первый кадр — собранность; второй — хаос/толпа после тяжёлого рабочего дня.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    },
+    {
+      "joke_key": "sleepy_math",
+      "source_ids": [
+        "potemkin_5"
+      ],
+      "status": "pending",
+      "expected_visual_story": "Кадр должен передавать бессонную тревогу или состояние к трём часам ночи.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    },
+    {
+      "joke_key": "delivery_nerves",
+      "source_ids": [
+        "potemkin_6"
+      ],
+      "status": "pending",
+      "expected_visual_story": "Выражение тревожного ожидания должно соответствовать затянувшейся доставке.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    },
+    {
+      "joke_key": "social_typing",
+      "source_ids": [
+        "aelita_face"
+      ],
+      "status": "pending",
+      "expected_visual_story": "Глаза и мимика должны показывать томительное ожидание и реакцию на короткий ответ.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    },
+    {
+      "joke_key": "utility_bill",
+      "source_ids": [
+        "aelita_batalov"
+      ],
+      "status": "pending",
+      "expected_visual_story": "Выражение лица должно показывать задумчивость или усталость от платежей.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    },
+    {
+      "joke_key": "wifi_family",
+      "source_ids": [
+        "aelita_batalov",
+        "potemkin_2"
+      ],
+      "status": "pending",
+      "expected_visual_story": "Первый кадр — растерянность; второй — неожиданное осознание присутствия людей.",
+      "observed_per_frame": [],
+      "reviewer": "",
+      "review_note": "Сверить реальные лица, эмоцию и события на исходных кадрах с шуткой и финальной подписью.",
+      "reviewed_source_urls": []
+    }
+  ]
+}

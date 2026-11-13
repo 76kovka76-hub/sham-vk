@@ -42,6 +42,12 @@ def make_motion_previews(png, out_dir, *, render_mp4=True):
     result = {"gif": str(gif), "gif_frames": len(frames), "mp4": None,
               "mp4_status": "not_requested"}
     encoder = shutil.which("ffmpeg")
+    if render_mp4 and not encoder:
+        try:
+            import imageio_ffmpeg
+            encoder = imageio_ffmpeg.get_ffmpeg_exe()
+        except (ImportError, RuntimeError, OSError):
+            encoder = None
     if not render_mp4:
         return result
     if not encoder:

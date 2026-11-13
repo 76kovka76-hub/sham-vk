@@ -226,6 +226,9 @@ def main():
         json.dumps({**post, "hashtags": tags, "message": message,
                     "image_source": image_source}, ensure_ascii=False, indent=2),
         encoding="utf-8")
+    print("Источник шутки:", post.get("source", "curated_bank"))
+    print("Проверка изображения:", image_source.get("image_qa", "unknown"),
+          "| независимое зрение:", image_source.get("vision_review", "unknown"))
     print("Мем:", post["top"], "—", post["bottom"])
     print("Подпись:", message)
     print("Картинка:", image)

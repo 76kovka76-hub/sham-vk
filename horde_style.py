@@ -22,6 +22,8 @@ from meme_layout import render_meme
 API = "https://aihorde.net/api/v2"
 CLIENT_AGENT = "SHAM-VK:1.0:https://github.com/76kovka76-hub/sham-vk"
 NEGATIVE = (
+    "anime, manga, cartoon, comic book, illustrated, drawing, painting, "
+    "cel shading, 3d render, CGI, claymation, plastic skin, doll face, "
     "low quality, lowres, worst quality, blurry, watermark, logo, subtitles, "
     "text, letters, cropped face, disfigured, extra fingers, bad hands, "
     "deformed features, multiple faces fused, uncanny, violence, gore, nudity"
@@ -119,8 +121,15 @@ def build_prompt(post, slot, style):
         "over-the-shoulder view of the comic situation",
         "off-center documentary-style composition with visible physical action",
     ])
+    photo_only = os.getenv("SHAM_PHOTO_ONLY", "").lower() in ("true", "1", "yes")
+    photo_constraint = (
+        "Actual live-action photographic capture with a real physical camera, "
+        "authentic skin, materials, natural shadows, plausible documentary lighting. "
+        "NEVER anime, manga, comic, illustration, CG render, cartoon or drawn faces. "
+        if photo_only else ""
+    )
     return (
-        STYLE_PROMPTS[style] + " "
+        photo_constraint + STYLE_PROMPTS[style] + " "
         "SPECIFIC JOKE TO DEPICT: " + scene + ". "
         "When people are required, use an original fictional " + person + ". "
         "When the action instead centers on animals or objects, depict those "
@@ -239,6 +248,10 @@ def make_horde_image(post, slot, out: Path, font, centered_text, style_override=
     if style_override is not None and style_override not in STYLE_PROMPTS:
         raise ValueError("Unknown SHAM preview visual genre")
     style = style_override or story_style(post, slot)
+    if os.getenv("SHAM_PHOTO_ONLY", "").lower() in ("true", "1", "yes") and style_override is None:
+        from style_catalog import PHOTO_FIRST_ORDER
+        if style not in PHOTO_FIRST_ORDER:
+            raise ValueError("SHAM blocked an illustrated style in photo-only production")
     validate_joke_visual_brief(post, build_prompt(post, slot, style))
     preferred = os.getenv("SHAM_FREE_IMAGE_PROVIDER", "horde").strip().lower()
     if preferred == "ovh":
@@ -254,6 +267,8 @@ def make_horde_image(post, slot, out: Path, font, centered_text, style_override=
     else:
         raise ValueError("SHAM_FREE_IMAGE_PROVIDER must be ovh or horde")
     metadata = {**metadata, **validate_artwork(original, state)}
+    metadata["style_policy"] = ("photo_only" if os.getenv("SHAM_PHOTO_ONLY", "").lower()
+                                 in ("true", "1", "yes") else "mixed")
     vision_mode = os.getenv('SHAM_VISION_CHECK', 'off').strip().lower()
     metadata = {**metadata, **review_visual(original, post, mode=vision_mode)}
     image, layout = render_meme(original, post, slot, font, centered_text)

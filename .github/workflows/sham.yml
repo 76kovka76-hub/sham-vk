@@ -15,6 +15,7 @@ on:
       - 'trend_signals.py'
       - 'meaning_guard.py'
       - 'image_guard.py'
+      - 'meme_layout.py'
       - 'sham_free_image.py'
       - 'visual_gags.py'
       - 'short_jokes.py'

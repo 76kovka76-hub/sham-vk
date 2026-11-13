@@ -83,16 +83,31 @@ def prepare(state,slot):
     if story is None:
         raise RuntimeError("SOVETSKIY's curated unique joke bank is exhausted. "
                            "No reused posts or empty filler.")
-    art,meta=render_original(story,slot)
-    if (meta.get("story_id")!=story.id or meta.get("group_id")!=VK_GROUP_ID
-        or meta.get("sha256") is None or meta.get("real_movie_frame") is True):
-        raise RuntimeError("Generated image/joke metadata does not match SOVETSKIY")
+    qa_enabled=config().get("visual_qa_enabled") is True
+    attempts=2 if qa_enabled else 1
+    review=None
+    for attempt in range(attempts):
+        render_slot=slot if attempt==0 else slot+"-second-composition"
+        art,meta=render_original(story,render_slot)
+        if (meta.get("story_id")!=story.id or meta.get("group_id")!=VK_GROUP_ID
+            or meta.get("sha256") is None or meta.get("real_movie_frame") is True):
+            raise RuntimeError("Generated image/joke metadata does not match SOVETSKIY")
+        if not qa_enabled:
+            break
+        from vision_gate import inspect
+        review=inspect(art,story.top,story.bottom,story.visual)
+        if review["passed"]:
+            break
+        print("::warning::SOVETSKIY picture does not match the joke; rejected. "
+              +str(review.get("explanation",""))[:180],flush=True)
+    else:
+        raise RuntimeError("SOVETSKIY image-joke match failed visual review twice")
     return art, {
         "story_id":story.id,"theme":story.theme,
         "source_type":"original_soviet_photo",
         "frame_ids":[],"message":meta["message"],
         "sha256":meta["sha256"],"pixel_quality_checked":True,
-        "visual_intent":story.visual,
+        "visual_intent":story.visual,"visual_qa":review,
     }
 
 
@@ -136,6 +151,7 @@ def enqueue_one(state,slot,at,token,session=requests,prepare_fn=prepare):
         "theme":content["theme"],"sha256":content["sha256"],
         "source_type":content["source_type"],"frame_ids":content["frame_ids"],
         "group_id":VK_GROUP_ID,"status":"needs_attention",
+        "visual_qa":content.get("visual_qa"),
     }
     state["entries"].append(info)
     # Record potential remote write BEFORE making any remote write.

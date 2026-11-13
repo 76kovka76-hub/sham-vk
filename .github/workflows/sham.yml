@@ -105,6 +105,7 @@ jobs:
           SHAM_BACKEND: ${{ secrets.VEDISMM_TOKEN != '' && 'vedismm' || vars.SHAM_BACKEND || 'vk' }}
           SHAM_VISUAL_STYLE: 'horde'
           SHAM_FREE_IMAGE_PROVIDER: 'ovh'
+          SHAM_PHOTO_ONLY: 'true'
           SHAM_LIVE_TEXT: 'true'
           SHAM_LIVE_TEXT_PERCENT: '12'
           SHAM_EDITORIAL_MODE: 'quality_first'

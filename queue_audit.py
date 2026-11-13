@@ -9,6 +9,8 @@ import os
 from collections import Counter
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from urllib.parse import urlparse
+import re
 
 
 def _slot_time(slot):
@@ -63,10 +65,17 @@ def queue_audit(state, *, now=None, hours=12, lead_minutes=30):
     missing = [slot for slot in desired if slot not in reserved]
     soon = [slot for slot in missing
             if (_slot_time(slot) - now) <= timedelta(minutes=90)]
+    def _own_vk_wall(url):
+        if not isinstance(url, str):
+            return False
+        parsed = urlparse(url)
+        return (parsed.scheme == "https"
+                and parsed.hostname in ("vk.com", "www.vk.com", "vk.ru", "www.vk.ru")
+                and bool(re.fullmatch(r"/wall-243230846_[0-9]+", parsed.path)))
+
     published = [p for p in posts
                  if p.get("publication_status") == "published"
-                 and isinstance(p.get("vk_url"), str)
-                 and "/wall-243230846_" in p.get("vk_url")]
+                 and _own_vk_wall(p.get("vk_url"))]
     statuses_requiring_attention = [
         {"slot": p.get("slot"), "vedismm_post_id": p.get("vedismm_post_id"),
          "status": p.get("publication_status")}
@@ -75,8 +84,8 @@ def queue_audit(state, *, now=None, hours=12, lead_minutes=30):
         and (_slot_time(p.get("slot")) or datetime(1970, 1, 1, tzinfo=timezone.utc))
             >= now - timedelta(days=2)
     ][:20]
-    coverage = round(len(desired) and (len(desired) - len(missing)) /
-                     len(desired) or 0, 3)
+    coverage = round(((len(desired) - len(missing)) / len(desired))
+                     if desired else 0.0, 3)
     status = ("urgent" if soon or duplicates or statuses_requiring_attention
               else "degraded" if coverage < .75 else "healthy")
     return {

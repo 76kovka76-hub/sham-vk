@@ -1,0 +1,158 @@
+"""One-off SOVETSKIY creative test: Soviet grocery photo + matching price gag.
+
+Uses free anonymous OVHcloud SDXL; this is an ORIGINAL synthetic image
+styled as a vintage Soviet photo, not a purported frame from a copyrighted
+Soviet film. Captions are added by Pillow, never by the image model.
+
+Publish action is intentionally in a separate script: preview must be
+visually inspected and pinned to its exact SHA256 before going to VK.
+"""
+import base64
+import hashlib
+import io
+import json
+from pathlib import Path
+import random
+import time
+
+from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps, ImageStat
+import requests
+
+ROOT=Path(__file__).resolve().parent
+OUT=ROOT/"test_gastronom.png"
+META=ROOT/"test_gastronom.json"
+API="https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/images/generations"
+MODEL="stabilityai/stable-diffusion-xl-base-1.0"
+JOKE_KEY="gastronom_receipt_test_20261113"
+TOP="ЗАШЁЛ ЗА БАТОНОМ."
+BOTTOM="ПО ЧЕКУ — КУПИЛ ВЕСЬ ГАСТРОНОМ."
+VK_CAPTION=(
+    'Продавщица: «Пакет нужен?»\n'
+    'Мне бы юриста и ипотечного брокера.\n\n'
+    '#SOVETSKIY #юмор #жиза'
+)
+
+PROMPT=(
+    "ONE funny visual situation, photographic still from a fictional 1970s "
+    "Soviet Union grocery store, with rows of canned goods, bread shelves, "
+    "scales, old Soviet cash register, wooden counter. A middle-aged man "
+    "in modest Soviet clothes is holding ONE plain loaf of white bread and "
+    "looking at a RIDICULOUSLY LONG white paper checkout receipt spilling "
+    "from the cash register and curling all around his hands. His eyes are "
+    "comically wide and his jaw drops in financial shock. Beside him a "
+    "stern middle-aged Soviet female shop clerk in white uniform and "
+    "headscarf deadpan points at the outrageous receipt. Both are clearly "
+    "visible in a single medium-wide staged photograph, visual comedy, "
+    "strong realistic human faces, detailed Soviet shop setting, 1970s "
+    "Kodachrome style color film, subtle film grain, flash lighting, "
+    "beautiful photographic realism, authentic period costumes. "
+    "The receipt and one loaf of bread MUST be visible. Funny action, "
+    "not just an ordinary portrait. NO text, NO watermarks, NO titles, "
+    "no caption, no written signs, no Soviet leaders, no modern logos."
+)
+
+
+def _font(size):
+    paths=(
+        "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+    )
+    for path in paths:
+        if Path(path).exists():
+            return ImageFont.truetype(path,size)
+    return ImageFont.load_default()
+
+
+def _text(draw,text,x,y,max_w,max_h,max_size,color):
+    for size in range(max_size,22,-1):
+        f=_font(size)
+        words=text.split()
+        lines=[]; cur=""
+        for word in words:
+            piece=(cur+" "+word).strip()
+            if cur and draw.textbbox((0,0),piece,font=f)[2]>max_w:
+                lines.append(cur);cur=word
+            else:
+                cur=piece
+        if cur:lines.append(cur)
+        line_h=int(size*1.25)
+        if line_h*len(lines)<=max_h and all(draw.textbbox((0,0),s,font=f)[2]<=max_w for s in lines):
+            break
+    else:
+        raise RuntimeError("SOVETSKIY test meme text does not fit")
+    start=y+(max_h-line_h*len(lines))//2
+    for line in lines:
+        draw.text((x+max_w//2,start),line,anchor="mt",font=f,fill=color)
+        start+=line_h
+
+
+def generate_photo():
+    response=requests.post(
+        API,
+        json={"model":MODEL,"prompt":PROMPT,"size":"1024x1024","n":1},
+        headers={"Content-Type":"application/json","Accept":"application/json"},
+        timeout=170)
+    if response.status_code in (401,402,403,429):
+        raise RuntimeError("Free OVH SDXL refused request HTTP "+str(response.status_code))
+    response.raise_for_status()
+    data=response.json().get("data") or []
+    if not data or not isinstance(data[0].get("b64_json"),str):
+        raise RuntimeError("No synthetic image returned by free generator")
+    raw=base64.b64decode(data[0]["b64_json"],validate=True)
+    if not 30_000<len(raw)<18_000_000:
+        raise RuntimeError("Invalid image byte size")
+    with Image.open(io.BytesIO(raw)) as im:
+        if min(im.size)<512:
+            raise RuntimeError("Free image too small")
+        photo=im.convert("RGB")
+    if ImageStat.Stat(photo.convert("L")).stddev[0]<32:
+        raise RuntimeError("Generated photo too visually flat")
+    return photo
+
+
+def build(photo,output=OUT,meta_out=META):
+    if VK_CAPTION.count("#")!=3:
+        raise ValueError("Exactly three short hashtags")
+    w=h=1200
+    red=(126,31,28); cream=(240,222,187); ink=(30,28,25)
+    page=Image.new("RGB",(w,h),cream)
+    d=ImageDraw.Draw(page)
+    d.rectangle((0,0,w,135),fill=red)
+    d.text((w//2,67),"SOVETSKIY",font=_font(86),anchor="mm",fill=cream)
+    # Large image, no stock photos or Russian text generated by model.
+    main=ImageOps.fit(photo,(1120,800),method=Image.Resampling.LANCZOS,
+                      centering=(.5,.48))
+    main=ImageEnhance.Contrast(main).enhance(1.05)
+    page.paste(main,(40,150))
+    d.rectangle((36,146,1164,954),outline=ink,width=9)
+    # Very restrained vintage border; visual story dominates the card.
+    d.rectangle((35,972,1165,1035),fill=red)
+    _text(d,TOP,54,978,1092,51,41,cream)
+    _text(d,BOTTOM,48,1045,1104,115,52,ink)
+    d.text((1172,1191),"СОВЕТСКАЯ ЭСТЕТИКА · ИЛЛЮСТРАЦИЯ",
+           font=_font(16),anchor="rd",fill=(82,66,46))
+    rng=random.Random(8821)
+    d=ImageDraw.Draw(page)
+    for _ in range(6000):
+        x=rng.randrange(w);y=rng.randrange(h)
+        if x<1350 and y<135 or y>970:
+            d.point((x,y),fill=rng.choice(((200,169,133),(235,214,172),(161,111,85))))
+    if ImageStat.Stat(page.convert("L")).stddev[0]<32:
+        raise RuntimeError("Low contrast final meme")
+    page.save(output,format="PNG",optimize=True)
+    sha=hashlib.sha256(Path(output).read_bytes()).hexdigest()
+    meta={"joke_id":JOKE_KEY,"group_id":"243244760","picture_type":"synthetic_soviet_photograph",
+          "source":"OVHcloud anonymous FREE SDXL", "model":MODEL, "real_film_still":False,
+          "message":VK_CAPTION,"top":TOP,"bottom":BOTTOM,"image_sha256":sha,
+          "size":[w,h],"visually_approved":False,
+          "note":"Generated preview only. Review actual visible bread, receipt and shocked customer before posting."}
+    Path(meta_out).write_text(json.dumps(meta,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    print("SOVETSKIY_FREE_TEST_IMAGE:",str(output),flush=True)
+    print("SOVETSKIY_FREE_TEST_SHA256:",sha,flush=True)
+    print("SOVETSKIY_FREE_TEST_MESSAGE:",VK_CAPTION.replace("\n"," | "),flush=True)
+    return meta
+
+
+if __name__=="__main__":
+    image=generate_photo()
+    build(image)

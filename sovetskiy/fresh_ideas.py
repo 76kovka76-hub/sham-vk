@@ -170,12 +170,14 @@ def generate(state,slot,chat=_chat):
     if not isinstance(candidates,list):
         raise RuntimeError("Free generator returned no list of new jokes")
     candidates=candidates[:4]
+    print("SOVETSKIY_FREE_TEXT_CANDIDATES:",json.dumps(candidates,ensure_ascii=False)[:4500],flush=True)
     if len(candidates)!=4:
         raise RuntimeError("Free joke model didn't produce four choices")
     review=_json_content(chat([
         {"role":"system","content":REVIEWER},
         {"role":"user","content":json.dumps(candidates,ensure_ascii=False)}
     ],limit=400))
+    print("SOVETSKIY_CRITICAL_EDITOR:",json.dumps(review,ensure_ascii=False)[:1500],flush=True)
     if not isinstance(review,dict):
         raise RuntimeError("Free editor didn't evaluate humorous quality")
     idx=review.get("index")

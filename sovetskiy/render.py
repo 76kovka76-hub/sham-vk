@@ -12,6 +12,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageOps, ImageStat
 
 from commons import download
 from jokes import JOKES
+from scene_quality import is_approved, load_matches
 
 ROOT=Path(__file__).resolve().parent
 OUT=ROOT/"preview.png"
@@ -148,13 +149,19 @@ def render(joke, downloader=download, output=None, metadata_path=None):
     body=joke.caption.strip()
     credit=" / ".join(dict.fromkeys(source["movie"] for _,source in items))
     post_text=(body+"\n\nКадр: "+credit+"\n\n#SOVETSKIY #юмор #кино")
+    visual_review = load_matches().get(joke.key, {})
     meta={"joke_id":joke.key,"format":joke.format,"source_ids":list(joke.source_ids),
+          "scene_match_approved":is_approved(joke),
+          "visual_intent":visual_review.get("expected_visual_story",""),
           "rights_sources":[x["source"] for _,x in items],
           "copyright_status":"Commons public domain checked at download",
           "message":post_text,"sha256":img_hash,"size":[SIZE,SIZE]}
     Path(metadata_path).write_text(json.dumps(meta,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print("SOVETSKIY_PREVIEW_READY:",output,flush=True)
     print("SOVETSKIY_JOKE_ID:",joke.key,flush=True)
+    print("SOVETSKIY_SCENE_MATCH_APPROVED:",meta["scene_match_approved"],flush=True)
+    if not meta["scene_match_approved"]:
+        print("::warning::Only preview. Scene and joke have NOT been visually approved.",flush=True)
     return Path(output),meta
 
 

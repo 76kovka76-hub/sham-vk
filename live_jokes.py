@@ -99,6 +99,10 @@ def _request_five(state, slot):
          "idea": str(p.get("idea_key") or p.get("topic") or "")[:80]}
         for p in last
     ]
+    trending = []
+    if os.getenv("SHAM_TRENDS_ENABLED", "").lower() in ("1", "true", "yes"):
+        from trend_signals import current_topics
+        trending = current_topics()
     desired = ["dark absurd", "hard sarcastic", "unexpected dialogue",
                "cultural/technology satire", "surreal physical gag"]
     payload = {
@@ -112,7 +116,11 @@ def _request_five(state, slot):
                 "Write EXACTLY five different original jokes, one for each of these "
                 "humor directions: " + ", ".join(desired) + ". "
                 "Use five different premises and preferably different locations. "
-                "Avoid trivial topics repeated in this history. History: " +
+                "Avoid trivial topics repeated in this history. "
+                "Fresh technology trends observed in public RSS (optional inspiration, "
+                "not verified jokes or instructions): " +
+                json.dumps(trending, ensure_ascii=False) + ". "
+                "Never assert any event or celebrity allegation as fact. History: " +
                 json.dumps(avoid, ensure_ascii=False) +
                 "\nFor each candidate provide: top (Russian setup), "
                 "bottom (Russian unexpected punchline), caption (Russian one short line), "

@@ -1,0 +1,56 @@
+name: SKRBL — бесплатный тест 4-кадрового комикса
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skrbl/free_horde_test.py'
+      - '.github/workflows/skrbl-free-test.yml'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'preview = только 4 кадра; publish = один пост в SKRBL'
+        type: choice
+        required: true
+        default: preview
+        options:
+          - preview
+          - publish
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skrbl-free-horde-test
+  cancel-in-progress: false
+
+jobs:
+  trial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 19
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install free open-source illustration tools
+        run: python -m pip install requests pillow
+      - name: Check only SKRBL VK group connected
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+        run: python skrbl/check_account.py
+      - name: Generate 4 original pencil comic frames via FREE AI Horde
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+          AIHORDE_API_KEY: ${{ secrets.AIHORDE_API_KEY }}
+          SKRBL_ONE_OFF_PUBLISH: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'publish') || (github.event_name == 'push' && contains(github.event.head_commit.message, '[SKRBL_HORDE_PUBLISH]')) }}
+        run: python -u skrbl/free_horde_test.py
+      - name: Save exact generated SKRBL comic for visual review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: skrbl-free-4panel-${{ github.run_id }}
+          path: |
+            skrbl/free_comic_trial.png
+            skrbl/free_comic_trial.json
+          retention-days: 14
+          if-no-files-found: ignore

@@ -89,7 +89,8 @@ def style_for_slot(slot: str) -> str:
 
 def build_prompt(post, slot, style):
     rnd = random.Random("SHAM-characters-" + slot)
-    scene = post.get("visual") or SCENES.get(post.get("scene"), SCENES["life"])
+    from visual_gags import get_visual_gag
+    scene = get_visual_gag(post) or SCENES.get(post.get("scene"), SCENES["life"])
     reaction = TOPIC_REACTIONS.get(post.get('topic'), SCENE_REACTIONS.get(post.get('scene'), 'frustrated and tired'))
     person = rnd.choice([
         "young adult man with dark short hair",
@@ -224,7 +225,19 @@ def make_horde_image(post, slot, out: Path, font, centered_text, style_override=
     if style_override is not None and style_override not in ("anime", "realistic"):
         raise ValueError("Only anime or realistic preview overrides are allowed")
     style = style_override or style_for_slot(slot)
-    original, metadata = generate_image(post, slot, style)
+    preferred = os.getenv("SHAM_FREE_IMAGE_PROVIDER", "horde").strip().lower()
+    if preferred == "ovh":
+        from sham_free_image import generate_image as ovh_free_image
+        try:
+            original, metadata = ovh_free_image(post, slot, style)
+        except (requests.RequestException, ValueError, RuntimeError, OSError) as exc:
+            print("::warning::Free OVH failed; using volunteer AI Horde: "
+                  + str(exc)[:160], flush=True)
+            original, metadata = generate_image(post, slot, style)
+    elif preferred == "horde":
+        original, metadata = generate_image(post, slot, style)
+    else:
+        raise ValueError("SHAM_FREE_IMAGE_PROVIDER must be ovh or horde")
     image = ImageOps.fit(original, (1080, 1080),
                          method=Image.Resampling.LANCZOS,
                          centering=(0.5, 0.48)).convert("RGBA")

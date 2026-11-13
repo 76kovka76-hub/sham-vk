@@ -88,6 +88,9 @@ jobs:
           python-version: '3.12'
       - name: Install requirements
         run: pip install -r requirements.txt
+      - name: Add portable video encoder only for media-preview
+        if: github.event.inputs.mode == 'media-preview' || (github.event_name == 'push' && contains(github.event.head_commit.message, '[MEDIA_PREVIEW]'))
+        run: pip install 'imageio-ffmpeg>=0.6,<1'
       - name: Tests
         run: python -m unittest discover -s tests -v
       - name: Generate meme or publish to VK

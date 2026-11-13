@@ -4,6 +4,7 @@ from unittest.mock import Mock, patch
 from PIL import Image
 
 from horde_style import build_prompt, generate_image, style_for_slot
+from style_catalog import STYLE_PROMPTS, PHOTO_STYLES
 
 
 def reply(data):
@@ -15,14 +16,15 @@ def reply(data):
 
 
 class AIHordeTests(unittest.TestCase):
-    def test_96_posts_four_real_people_ninety_two_anime(self):
+    def test_96_posts_have_many_visual_genres_and_no_anime_monopoly(self):
         slots = [f"2026-11-13-{h:02d}-{q:02d}"
                  for h in range(24) for q in range(4)]
         styles = [style_for_slot(slot) for slot in slots]
-        self.assertEqual(styles.count("realistic"), 4)
-        self.assertEqual(styles.count("anime"), 92)
-        for hour in (0, 6, 12, 18):
-            self.assertEqual(style_for_slot(f"2026-11-13-{hour:02d}-00"), "realistic")
+        self.assertGreaterEqual(len(set(styles)), 28)
+        self.assertLessEqual(styles.count("anime"), 5)
+        self.assertGreaterEqual(sum(s in PHOTO_STYLES for s in styles), 55)
+        self.assertTrue(all(a != b for a, b in zip(styles, styles[1:])))
+        self.assertTrue(all(style in STYLE_PROMPTS for style in styles))
 
     def test_no_real_person_name_or_embedded_captions(self):
         post = {"scene": "work"}

@@ -1,0 +1,58 @@
+{
+  "checked": "2026-11-13",
+  "kind": "DVOIQ /accounts and /posts read-only diagnostic",
+  "accounts_http": 200,
+  "dvoiq_account_matches": [
+    {
+      "id": 5479,
+      "network": "vk",
+      "external_id": "243268965"
+    }
+  ],
+  "status": "account_verified",
+  "posts_http": 200,
+  "dvoiq_posts": [
+    {
+      "id": 5202,
+      "title": "DVOIQ — Последний дедлайн — Telegram — тест 2026-11-13",
+      "status": "published",
+      "targets": [
+        {
+          "id": 14320,
+          "account": {
+            "id": 5479,
+            "network": "vk",
+            "title": "DVOIQ",
+            "username": null,
+            "avatar": "https://sun1-87.userapi.com/impg/9FmuZgmL8ElIl3ap2VNqqvCJuR3XBTRcL5RstQ/IkJdt6c43WI.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=80af15cf714eb8b0c9b0fb180d3fb037&u=2YEVTlkKBuNPY0mjMeXr7QUGKVqyKPrs2k12FX4q3nE&cs=100x100"
+          },
+          "status": "published",
+          "external_url": "https://vk.com/wall-243268965_2",
+          "error": null,
+          "attempts": 1
+        }
+      ]
+    },
+    {
+      "id": 5198,
+      "title": "DVOIQ | Банк заметил зарплату | тест 2026-11-13",
+      "status": "published",
+      "targets": [
+        {
+          "id": 14316,
+          "account": {
+            "id": 5479,
+            "network": "vk",
+            "title": "DVOIQ",
+            "username": null,
+            "avatar": "https://sun1-87.userapi.com/impg/9FmuZgmL8ElIl3ap2VNqqvCJuR3XBTRcL5RstQ/IkJdt6c43WI.jpg?quality=96&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360&sign=80af15cf714eb8b0c9b0fb180d3fb037&u=2YEVTlkKBuNPY0mjMeXr7QUGKVqyKPrs2k12FX4q3nE&cs=100x100"
+          },
+          "status": "published",
+          "external_url": "https://vk.com/wall-243268965_1",
+          "error": null,
+          "attempts": 2
+        }
+      ]
+    }
+  ]
+}

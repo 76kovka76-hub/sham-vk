@@ -13,6 +13,7 @@ than silently duplicate a VK post. This is not a guarantee of 96 deliveries.
 import argparse
 import json
 import os
+import shutil
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -111,6 +112,21 @@ def enqueue_one(state,slot,at,token,session=requests,prepare_fn=prepare):
         raise RuntimeError("Generated full-size Soviet meme PNG missing")
     if len(content.get("message","").strip())<25 or content["message"].count("#")!=3:
         raise RuntimeError("SOVETSKIY text must be a concise complete joke with 3 hashtags")
+    # Keep the ACTUAL image for each scheduled post, not just the last meme
+    # overwriting auto15_preview.png. Helpful to spot model/scene mismatch.
+    archive=ROOT/"batch_previews"
+    archive.mkdir(exist_ok=True)
+    clean_id="".join(c for c in content["story_id"] if c.isalnum() or c in "_-")[:62]
+    archived=archive/(slot+"_"+clean_id+".png")
+    shutil.copy2(path,archived)
+    (archive/(slot+"_"+clean_id+".json")).write_text(
+        json.dumps({"slot":slot,"story_id":content["story_id"],
+                    "expected_scene":content.get("visual_intent",""),
+                    "message":content["message"],"sha256":content["sha256"],
+                    "source_type":content["source_type"],
+                    "semantic_visual_review":"needs_visual_review"},
+                   ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+
     # Check account before committing even a pending record.
     account=find_account(token)
     headers={"Authorization":"Bearer "+token}

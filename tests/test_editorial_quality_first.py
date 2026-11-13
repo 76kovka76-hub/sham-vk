@@ -33,6 +33,7 @@ class QualityFirstTests(unittest.TestCase):
             post = select_post(state, slot)
             self.assertTrue(approved(post))
             self.assertNotIn(post["topic"], legacy_topics)
+            self.assertNotEqual(post["topic"], "mini_press_conference")
             self.assertTrue(post["topic"].startswith("mini_"))
             state["posts"].append({**post, "id": joke_id(post)})
 

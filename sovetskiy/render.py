@@ -55,7 +55,7 @@ def multiline(draw,text,max_width,max_height,max_font,min_font=21):
 
 def caption(draw,text,region,max_font,fill):
     x,y,w,h=region
-    f,lines=multiline(draw,text,w-35,h-18,max_font)
+    f,lines=multiline(draw,text,w-35,h-6,max_font)
     line_h=int(f.size*1.23)
     yy=y+(h-line_h*len(lines))//2
     for line in lines:
@@ -134,10 +134,10 @@ def render(joke, downloader=download, output=None, metadata_path=None):
         caption(draw,joke.bottom,(54,947,1092,164),58,PAPER)
     # Sources are displayed in the actual published post text, not hidden.
     names=" / ".join(dict.fromkeys(source["movie"] for _,source in items))
-    source_label=("Кадр: "+names)[:88]
+    source_label=("Кадр: "+items[0][1]["movie"]+(" / коллаж" if len(items)>1 else ""))[:65]
     draw.line((30,1137,1170,1137),fill=RED,width=3)
     caption(draw,source_label,(45,1141,1110,42),25,INK)
-    draw.text((1165,1194),"© SOVETSKIY: мемная обработка",font=font(15),
+    draw.text((1165,1194),"SOVETSKIY · мемная обработка",font=font(15),
               fill=INK,anchor="rd")
     page=_grain(page,seed=int(hashlib.sha256(joke.key.encode()).hexdigest()[:8],16))
     if ImageStat.Stat(page.convert("L")).stddev[0]<33:

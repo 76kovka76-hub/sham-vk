@@ -59,6 +59,8 @@ def score_post(post, history=()):
 
 def choose_candidate(candidates, history, slot):
     preferred = lane_for_slot(slot)
+    from ab_strategy import cached_bias
+    biases = cached_bias()
     rated = []
     for item in candidates:
         score = score_post(item, history)
@@ -66,6 +68,7 @@ def choose_candidate(candidates, history, slot):
             continue
         if item.get("humor_lane") == preferred:
             score += 0.35
+        score += biases.get(item.get("humor_lane"), 0.0)
         rated.append((score, item))
     if not rated:
         return None

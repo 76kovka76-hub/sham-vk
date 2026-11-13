@@ -16,6 +16,7 @@ import requests
 from PIL import Image, ImageDraw, ImageOps
 from style_catalog import STYLE_PROMPTS, style_for_slot
 from image_guard import validate_artwork, validate_joke_visual_brief
+from vision_review import review_visual
 
 API = "https://aihorde.net/api/v2"
 CLIENT_AGENT = "SHAM-VK:1.0:https://github.com/76kovka76-hub/sham-vk"
@@ -243,6 +244,8 @@ def make_horde_image(post, slot, out: Path, font, centered_text, style_override=
     else:
         raise ValueError("SHAM_FREE_IMAGE_PROVIDER must be ovh or horde")
     metadata = {**metadata, **validate_artwork(original, state)}
+    vision_mode = os.getenv('SHAM_VISION_CHECK', 'off').strip().lower()
+    metadata = {**metadata, **review_visual(original, post, mode=vision_mode)}
     image = ImageOps.fit(original, (1080, 1080),
                          method=Image.Resampling.LANCZOS,
                          centering=(0.5, 0.48)).convert("RGBA")

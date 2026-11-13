@@ -1,0 +1,89 @@
+name: SKRBL — план 50 комиксов в сутки
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skrbl/queue_planner.py'
+      - 'skrbl/queue_publish.py'
+      - 'skrbl/approved.json'
+      - 'skrbl/queue_state.json'
+      - 'skrbl/tests/**'
+      - '.github/workflows/skrbl-queue.yml'
+  schedule:
+    # Ten-minute replenishment checks, only if specifically enabled.
+    - cron: '7,17,27,37,47,57 * * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'preview = inspect next slot; enqueue = one approved post'
+        type: choice
+        required: true
+        default: preview
+        options:
+          - preview
+          - enqueue
+
+permissions:
+  contents: write
+
+concurrency:
+  group: skrbl-queue-stable
+  cancel-in-progress: false
+
+jobs:
+  test-and-preview:
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'preview')
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install graphics requirements
+        run: python -m pip install requests pillow
+      - name: Test fifty post slots and quality gate
+        run: python -m unittest discover -s skrbl/tests -p 'test_*.py' -v
+      - name: Read-only queue preview
+        run: python skrbl/queue_publish.py --preview
+
+  replenish:
+    if: (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'enqueue')) && vars.SKRBL_ENABLE_AUTOPUBLISH == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install required libraries
+        run: python -m pip install requests pillow
+      - name: Validate SKRBL only
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+        run: python skrbl/check_account.py
+      - name: Schedule exactly one approved new SKRBL comic
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+          SKRBL_ENABLE_AUTOPUBLISH: 'true'
+        run: python skrbl/queue_publish.py --enqueue
+      - name: Persist SKRBL queue ledger (never SHAM history)
+        run: |
+          if git diff --quiet -- skrbl/queue_state.json; then
+            echo "No new approved SKRBL comic; no state change."
+            exit 0
+          fi
+          git config user.name "skrbl-queue-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add skrbl/queue_state.json
+          git commit -m "bot(SKRBL): remember approved scheduled comic"
+          if git push; then
+            exit 0
+          fi
+          git fetch origin main
+          if git rebase origin/main && git push; then
+            exit 0
+          fi
+          git rebase --abort || true
+          echo "::error::SKRBL VediSMM queue may contain unrecorded post. Inspect before re-run, do not duplicate."
+          exit 1

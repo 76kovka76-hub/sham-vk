@@ -81,8 +81,14 @@ def prepare(state,slot):
                   +str(exc)[:200],flush=True)
     story=choose_story(state,slot)
     if story is None:
-        raise RuntimeError("SOVETSKIY's curated unique joke bank is exhausted. "
-                           "No reused posts or empty filler.")
+        if config().get("fresh_ideas_enabled") is True:
+            # Anonymous-free LLM generates an ORIGINAL short visual gag.
+            # Separate free editor rejects banal, unrelated or repeated ideas.
+            from fresh_ideas import generate
+            story=generate(state,slot)
+        else:
+            raise RuntimeError("SOVETSKIY's curated unique joke bank is exhausted. "
+                               "No reused posts or empty filler.")
     qa_enabled=config().get("visual_qa_enabled") is True
     attempts=2 if qa_enabled else 1
     review=None
@@ -108,6 +114,7 @@ def prepare(state,slot):
         "frame_ids":[],"message":meta["message"],
         "sha256":meta["sha256"],"pixel_quality_checked":True,
         "visual_intent":story.visual,"visual_qa":review,
+        "top":story.top,"bottom":story.bottom,
     }
 
 
@@ -152,6 +159,7 @@ def enqueue_one(state,slot,at,token,session=requests,prepare_fn=prepare):
         "source_type":content["source_type"],"frame_ids":content["frame_ids"],
         "group_id":VK_GROUP_ID,"status":"needs_attention",
         "visual_qa":content.get("visual_qa"),
+        "top":content.get("top"),"bottom":content.get("bottom"),
     }
     state["entries"].append(info)
     # Record potential remote write BEFORE making any remote write.

@@ -7,9 +7,8 @@ from vision_review import review_visual
 def response(verdict):
     reply = Mock()
     reply.raise_for_status.return_value = None
-    reply.json.return_value = {"output": [{
-        "content": [{"type": "output_text", "text":
-                     __import__("json").dumps(verdict)}]
+    reply.json.return_value = {"choices": [{
+        "message": {"content": __import__("json").dumps(verdict)}
     }]}
     return reply
 
@@ -27,11 +26,12 @@ class VisualMatchingTests(unittest.TestCase):
             "reason": "Pigeon with property brochures clearly visible"}))
         result = review_visual(self.image, self.post, request=request)
         self.assertEqual(result["vision_review"], "matched")
+        self.assertEqual(result["vision_model"], "Qwen3.8-27B")
         body = request.call_args.kwargs["json"]
         self.assertIn("selling an apartment",
-                      body["input"][0]["content"][0]["text"])
+                      body["messages"][0]["content"][0]["text"])
         self.assertTrue(
-            body["input"][0]["content"][1]["image_url"].startswith(
+            body["messages"][0]["content"][1]["image_url"]["url"].startswith(
                 "data:image/jpeg;base64,"))
 
     def test_confident_mismatch_blocks_publication(self):

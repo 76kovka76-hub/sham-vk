@@ -224,8 +224,8 @@ def generate_image(post, slot, style, deadline_seconds=370):
 
 
 def make_horde_image(post, slot, out: Path, font, centered_text, style_override=None):
-    if style_override is not None and style_override not in ("anime", "realistic"):
-        raise ValueError("Only anime or realistic preview overrides are allowed")
+    if style_override is not None and style_override not in STYLE_PROMPTS:
+        raise ValueError("Unknown SHAM preview visual genre")
     style = style_override or style_for_slot(slot)
     preferred = os.getenv("SHAM_FREE_IMAGE_PROVIDER", "horde").strip().lower()
     if preferred == "ovh":

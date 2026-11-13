@@ -1,0 +1,91 @@
+name: SOVETSKIY — советское кино, короткие мемы
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'sovetskiy/**'
+      - '.github/workflows/sovetskiy.yml'
+  schedule:
+    # Best effort; separate queue of four UTC slots/day.
+    - cron: '11,41 * * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'test — проверки; preview — картинка; enqueue — отложить один пост после включения'
+        type: choice
+        required: true
+        default: preview
+        options:
+          - test
+          - preview
+          - enqueue
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sovetskiy-243244760-queue
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install only free image tools
+        run: python -m pip install pillow requests
+      - name: Validate frame rights rules, layout and anti-duplicates
+        run: python -m unittest discover -s sovetskiy/tests -p 'test_*.py' -v
+      - name: Check group linkage (read only)
+        if: ${{ github.event_name != 'schedule' }}
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+        run: python sovetskiy/check_account.py
+      - name: Render a real public-domain Soviet movie meme for preview
+        if: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'preview') || (github.event_name == 'push' && contains(github.event.head_commit.message, '[SOVETSKIY_PREVIEW]')) }}
+        run: python -u sovetskiy/queue.py --preview
+      - name: Add exactly one rights-checked post to VediSMM future queue
+        if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'enqueue') || (github.event_name == 'push' && contains(github.event.head_commit.message, '[START_SOVETSKIY]')) }}
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+        run: python -u sovetskiy/queue.py --enqueue
+      - name: Save preview for editorial review (not AI concept art)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sovetskiy-preview-${{ github.run_id }}
+          path: |
+            sovetskiy/preview.png
+            sovetskiy/preview.json
+          retention-days: 14
+          if-no-files-found: ignore
+      - name: Keep SOVETSKIY history, never SHAM or SKRBL records
+        if: always()
+        run: |
+          if git diff --quiet -- sovetskiy/queue_state.json; then
+            echo "No new SOVETSKIY post to save."
+            exit 0
+          fi
+          git config user.name "sovetskiy-queue-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sovetskiy/queue_state.json
+          git commit -m "bot(SOVETSKIY): save verified future VK post"
+          if git push; then exit 0; fi
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if ! git rebase origin/main; then
+              git rebase --abort || true
+              echo "::error::Queue changed remotely; inspect VediSMM before rescheduling."
+              exit 1
+            fi
+            if git push; then exit 0; fi
+            sleep $((2*attempt))
+          done
+          echo "::error::VediSMM post may exist without GitHub state. Manual inspection required."
+          exit 1

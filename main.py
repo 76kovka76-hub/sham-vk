@@ -42,7 +42,11 @@ def current_slot():
 def generate_post(state, slot):
     """Return an explicitly approved, coherent meme; never mix random jokes."""
     from quality_guard import select_post
-    if os.getenv("SHAM_LIVE_TEXT", "").strip().lower() in ("1", "true", "yes"):
+    enabled = os.getenv("SHAM_LIVE_TEXT", "").strip().lower() in ("1", "true", "yes")
+    sample_percent = int(os.getenv("SHAM_LIVE_TEXT_PERCENT", "100"))
+    sample_percent = max(0, min(100, sample_percent))
+    trial = int(hashlib.sha256(slot.encode("utf-8")).hexdigest()[:8], 16) % 100
+    if enabled and trial < sample_percent:
         try:
             from live_jokes import generate_live_post
             return generate_live_post(state, slot)
@@ -208,7 +212,8 @@ def main():
         return
     if args.enqueue:
         from queue_planner import next_missing_slot
-        slot, scheduled_time = next_missing_slot(state)
+        interval = int(os.getenv("SHAM_POST_INTERVAL_MINUTES", "15"))
+        slot, scheduled_time = next_missing_slot(state, step_minutes=interval)
         if slot is None:
             print("Очередь ВедиSMM заполнена на ближайшие 12 часов, пропуск генерации.")
             return

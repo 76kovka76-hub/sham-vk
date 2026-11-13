@@ -1513,8 +1513,10 @@
       },
       "vedismm_post_id": 5082,
       "scheduled_at": "2026-11-13T18:00:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "visual policy: nonphotographic anime or illustration"
     },
     {
       "topic": "mini_coffee_union",
@@ -1616,8 +1618,10 @@
       },
       "vedismm_post_id": 5089,
       "scheduled_at": "2026-11-13T18:45:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "visual policy: nonphotographic anime or illustration"
     },
     {
       "topic": "mini_robot_therapy",
@@ -1758,8 +1762,10 @@
       },
       "vedismm_post_id": 5114,
       "scheduled_at": "2026-11-13T19:45:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "visual policy: nonphotographic anime or illustration"
     },
     {
       "topic": "mini_notification_police",
@@ -2507,9 +2513,6 @@
     "2026-11-13-17-01",
     "2026-11-13-17-02",
     "2026-11-13-17-03",
-    "2026-11-13-18-00",
-    "2026-11-13-18-03",
-    "2026-11-13-19-03",
     "2026-11-13-20-02",
     "2026-11-13-21-00",
     "2026-11-13-21-01",

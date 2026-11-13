@@ -319,6 +319,84 @@
       "media_id": 3333,
       "post_id": 5190,
       "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261113-85",
+      "scheduled_at": "2026-11-13T21:15:00Z",
+      "story_id": "neighbor_drill",
+      "theme": "home",
+      "sha256": "4323550689101b4cd4544f07b950d05c370be956ffdc6d55712707ca6442a5cf",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "Three men in a room; one man in bed covering his ears, another man holding a large electric drill, and a third man standing nearby. The room has simple furnishings, including a bed and a wall-mounted device.",
+        "explanation": "The image shows a man in bed covering his ears, which aligns with the joke about being disturbed by noise. The man with the electric drill represents the neighbor doing repairs, consistent with the joke. The large Cyrillic text is legible and matches the humor of the situation.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "СОСЕД ВОСКРЕСЕНЬЕМ НАЧАЛ РЕМОНТ",
+      "bottom": "МОЙ БУДИЛЬНИК УШЁЛ В ОТПУСК.",
+      "media_id": 3343,
+      "post_id": 5199,
+      "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261113-86",
+      "scheduled_at": "2026-11-13T21:30:00Z",
+      "story_id": "telephone_cord",
+      "theme": "phone",
+      "sha256": "c8fd38059590d0459a42b7c340f163d82ca04e337a9f090802678d997d3c5142",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "A man in a suit is standing in a hallway, holding a rotary phone to his ear, with the phone cord wrapped around his waist and shoulders.",
+        "explanation": "The image shows a man entangled in a rotary telephone cord, which matches the joke about the cord becoming his belt. The man's expression and the twisted cord are consistent with the humor. The large Cyrillic text is legible and clearly visible.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "ПОЛЧАСА ГОВОРИЛ ПО ТЕЛЕФОНУ",
+      "bottom": "ТЕПЕРЬ ПРОВОД — МОЙ РЕМЕНЬ.",
+      "media_id": 3344,
+      "post_id": 5200,
+      "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261113-87",
+      "scheduled_at": "2026-11-13T21:45:00Z",
+      "story_id": "sausage_queue",
+      "theme": "shopping",
+      "sha256": "89f4318f34ea012747a593b27c8577cf86d94ecd1a2ff5bba74a1f2a6dff1e5b",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "The image shows a man holding a basket in a grocery store, looking surprised. Behind him, there is a woman and another man. The background displays shelves filled with meat products. The scene appears to be set in a Soviet-era grocery store.",
+        "explanation": "The central prop, the meat counter and the line of people, is visible and consistent with the joke. The man's surprised expression and the presence of other people in line match the humor of the joke. The large Cyrillic caption is legible and clearly visible at the top and bottom of the image.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "ЗАНЯЛ ОЧЕРЕДЬ ЗА КОЛБАСОЙ",
+      "bottom": "ПОСЛЕ МЕНЯ ВСТАЛА ЦЕЛАЯ ЭПОХА.",
+      "media_id": 3345,
+      "post_id": 5201,
+      "vedismm_status": "scheduled"
     }
   ]
 }

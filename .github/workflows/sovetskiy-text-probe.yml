@@ -1,0 +1,32 @@
+name: SOVETSKIY — проверка бесплатного генератора шуток
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'sovetskiy/free_text_probe.py'
+      - '.github/workflows/sovetskiy-text-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install requests
+      - name: Generate three ORIGINAL short visual jokes (anonymous free text LLM)
+        run: python -u sovetskiy/free_text_probe.py
+      - name: Save generated text for editorial inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sovetskiy-free-anecdotes-${{ github.run_id }}
+          path: sovetskiy/free_text_probe.json
+          retention-days: 5
+          if-no-files-found: ignore

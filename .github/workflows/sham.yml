@@ -7,6 +7,8 @@ on:
       - 'README.md'
       - 'vedismm_publisher.py'
       - 'horde_style.py'
+      - 'sham_free_image.py'
+      - 'visual_gags.py'
       - 'queue_planner.py'
       - 'queue_batch.py'
       - 'queue_health.py'
@@ -77,6 +79,7 @@ jobs:
           VK_GROUP_TOKEN: ${{ secrets.VK_GROUP_TOKEN }}
           SHAM_BACKEND: ${{ secrets.VEDISMM_TOKEN != '' && 'vedismm' || vars.SHAM_BACKEND || 'vk' }}
           SHAM_VISUAL_STYLE: 'horde'
+          SHAM_FREE_IMAGE_PROVIDER: 'ovh'
           SHAM_PREVIEW_STYLE: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[TEST_REALISTIC]') && 'realistic') || github.event.inputs.visual_style || 'auto' }}
           AIHORDE_API_KEY: ${{ secrets.AIHORDE_API_KEY }}
           VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}

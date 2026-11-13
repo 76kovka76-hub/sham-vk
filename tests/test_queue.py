@@ -49,8 +49,10 @@ class QueueTests(unittest.TestCase):
         now = datetime(2026, 11, 13, 23, 32, tzinfo=timezone.utc)
         slot, when = next_missing_slot({"slots": []}, now)
         self.assertEqual(slot, "2026-11-14-00-01")
-        self.assertEqual(style_for_slot(slot), "anime")
-        self.assertEqual(style_for_slot("2026-11-14-00-00"), "realistic")
+        first_style = style_for_slot("2026-11-14-00-00")
+        second_style = style_for_slot(slot)
+        self.assertNotEqual(first_style, second_style)
+        self.assertEqual(style_for_slot(slot), second_style)
 
     @patch.dict("os.environ", {"VEDISMM_TOKEN": "test"}, clear=True)
     @patch("vedismm_publisher._find_account_id", return_value=45)

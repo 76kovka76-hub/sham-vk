@@ -14,7 +14,7 @@ import requests
 from meaning_guard import lexical_overlap, recent_meaning_conflict
 
 API = "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/chat/completions"
-MODEL = "Meta-Llama-3_3-70B-Instruct"
+MODEL = "Qwen3.8-27B"
 SCENES = frozenset(("work", "wallet", "phone", "home", "social", "life"))
 DULL_ENDINGS = (
     "вот такая история", "жизнь боль", "так и живем", "это было смешно",
@@ -129,7 +129,7 @@ def _request_five(state, slot):
     response = requests.post(API, json=payload,
                              headers={"Accept": "application/json",
                                       "Content-Type": "application/json"},
-                             timeout=35)
+                             timeout=22)
     response.raise_for_status()
     data = response.json()
     choices = data.get("choices") or []

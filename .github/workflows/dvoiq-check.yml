@@ -1,0 +1,75 @@
+name: DVOIQ — read-only VediSMM status
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/dvoiq-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install "requests>=2.31,<3"
+      - name: Read-only API status (no posts, no uploads)
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          import requests
+          out={"checked":"2026-11-13","kind":"DVOIQ /accounts and /posts read-only diagnostic"}
+          tok=os.getenv("VEDISMM_TOKEN","").strip()
+          if not tok:
+              out["status"]="missing_github_secret"
+          else:
+              try:
+                  head={"Authorization":"Bearer "+tok}
+                  r=requests.get("https://vedismm.ru/api/v1/accounts",headers=head,timeout=25)
+                  out["accounts_http"]=r.status_code
+                  if r.ok:
+                      data=r.json().get("data",[])
+                      m=[a for a in data if a.get("network")=="vk" and str(a.get("external_id","")).lstrip("-")=="243268965"]
+                      out["dvoiq_account_matches"]=[{"id":a.get("id"),"network":a.get("network"),"external_id":a.get("external_id")} for a in m]
+                      out["status"]="account_verified" if len(m)==1 and int(m[0].get("id",0))==5479 else "account_mismatch"
+                      if out["status"]=="account_verified":
+                          q=requests.get("https://vedismm.ru/api/v1/posts",headers=head,timeout=35)
+                          out["posts_http"]=q.status_code
+                          if q.ok:
+                              obj=q.json()
+                              items=obj.get("data",[])
+                              if isinstance(items,dict):items=items.get("items",items.get("posts",[]))
+                              if isinstance(items,list):
+                                  matches=[p for p in items if "DVOIQ" in str(p.get("title","")) and 5479 in [int(x) for x in p.get("account_ids",[]) if str(x).isdigit()]]
+                                  out["dvoiq_posts"]=[{"id":p.get("id"),"title":p.get("title"),"status":p.get("status"),"targets":p.get("targets",[])} for p in matches[:10]]
+                              else:out["posts_shape"]="unexpected"
+                  else:out["status"]="account_http_error"
+              except Exception as e:
+                  out["status"]="read_only_error"
+                  out["error_type"]=type(e).__name__
+          Path("dvoiq").mkdir(exist_ok=True)
+          Path("dvoiq/remote_status.json").write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          print(json.dumps({k:v for k,v in out.items() if k not in ("dvoiq_posts",)},ensure_ascii=False),flush=True)
+          PY
+      - name: Save read-only result to GitHub
+        if: always()
+        run: |
+          test -f dvoiq/remote_status.json || echo '{"status":"workflow_error"}' > dvoiq/remote_status.json
+          git config user.name "dvoiq-ci"
+          git config user.email "dvoiq-ci@users.noreply.github.com"
+          git add dvoiq/remote_status.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "chore(dvoiq): record read-only VediSMM check"
+          git push

@@ -326,6 +326,202 @@
       "scheduled_at": "2026-11-13T06:00:00Z",
       "publication_status": "scheduled",
       "vk_url": ""
+    },
+    {
+      "top": "Собирался отдохнуть за субботу и воскресенье.",
+      "bottom": "Суббота моргнула, воскресенье извинилось.",
+      "scene": "life",
+      "topic": "weekend",
+      "visual": "person exhausted on sofa on Sunday evening",
+      "caption": "Почему выходные короче будней?",
+      "id": "1dcd9b5fece0c29b6c7921976e76103c65798b9f80f3f451b8a5935795224990",
+      "hashtags": [
+        "#бытие",
+        "#юморкаждыйдень",
+        "#смехрадиcмеха"
+      ],
+      "slot": "2026-11-13-07-01",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "99a279cf-efb3-4c03-b5b7-e8e84023dfad",
+        "model": "stable_diffusion",
+        "seed": "165412895",
+        "worker": "Simebone"
+      },
+      "vedismm_post_id": 5008,
+      "scheduled_at": "2026-11-13T07:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Посмотрел число непрочитанных писем.",
+      "bottom": "Отдохнул ровно до первой строки темы письма.",
+      "scene": "work",
+      "topic": "after_vacation",
+      "visual": "employee returning to office and looking shocked at unread emails",
+      "caption": "Почта — главный враг отдыха.",
+      "id": "1c2f7c0e52471acdf315dc4803983ab967e79d6152a620e555bbf6991820a44c",
+      "hashtags": [
+        "#зум",
+        "#мемы2026",
+        "#иронияжизни"
+      ],
+      "slot": "2026-11-13-07-02",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "126c61e0-6248-42e0-a049-918ba25cda43",
+        "model": "stable_diffusion",
+        "seed": "2074196044",
+        "worker": "Simebone"
+      },
+      "vedismm_post_id": 5009,
+      "scheduled_at": "2026-11-13T07:30:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Отошёл от телефона на двадцать минут.",
+      "bottom": "Половина сообщений — просто «ахах».",
+      "scene": "phone",
+      "topic": "notifications",
+      "visual": "tired person staring at hundreds of unread phone notifications",
+      "caption": "Чаты не знают слова «пауза».",
+      "id": "a80d50a9e86e60dac50466d4702af111a0a6cb2b3945180f5eda3919eac907f0",
+      "hashtags": [
+        "#смартфон",
+        "#юморок",
+        "#деньмема"
+      ],
+      "slot": "2026-11-13-07-03",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "e9f789d5-75ec-4195-9275-89df821ad11c",
+        "model": "stable_diffusion",
+        "seed": "1418459260",
+        "worker": "Simebone"
+      },
+      "vedismm_post_id": 5010,
+      "scheduled_at": "2026-11-13T07:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Заглянул в чат друзей после часа отсутствия.",
+      "bottom": "Оказалось, всё это ради одной фотографии кота.",
+      "scene": "social",
+      "topic": "groupchat",
+      "visual": "adult person overwhelmed by hundreds of chat messages on phone",
+      "caption": "Краткий пересказ никто не предоставил.",
+      "id": "1085aefcb0d6dfc00756b3f0c57dca8d0312d186459746cb15bb9efca17084b0",
+      "hashtags": [
+        "#социальныйюмор",
+        "#интернетюмор",
+        "#мемчикдня"
+      ],
+      "slot": "2026-11-13-08-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "5b56dff4-0ff9-4281-ae67-02f58deae4c7",
+        "model": "stable_diffusion",
+        "seed": "1811813220",
+        "worker": "Tasar-RTX3060"
+      },
+      "vedismm_post_id": 5012,
+      "scheduled_at": "2026-11-13T08:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Курьер на карте остановился в соседнем дворе.",
+      "bottom": "Я уже выучил все улицы между мной и бургером.",
+      "scene": "home",
+      "topic": "delivery",
+      "visual": "person impatiently tracking food delivery in kitchen holding smartphone",
+      "caption": "Курьер, мы в тебя верим.",
+      "id": "caa195c287be63f6ab07fcce94c5d3ab80fa7f5df54255977f7c6f0da8b72211",
+      "hashtags": [
+        "#пельмени",
+        "#веселыеистории",
+        "#мемныйконтент"
+      ],
+      "slot": "2026-11-13-08-01",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "f2f02fd3-da4e-44f5-9d01-4ceaa84a0c44",
+        "model": "stable_diffusion",
+        "seed": "1036727342",
+        "worker": "esson-arch-gemini-sd15"
+      },
+      "vedismm_post_id": 5013,
+      "scheduled_at": "2026-11-13T08:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Увидел красный значок батарейки.",
+      "bottom": "Навигатор решил, что дальше я сам.",
+      "scene": "phone",
+      "topic": "battery",
+      "visual": "person anxiously looking at phone battery in a city without charger",
+      "caption": "Где розетка, когда она нужна?",
+      "id": "9c6f3dbeb5ce3680a3e10feafaa72720a38d61131219262a3efafab3ea2bb72b",
+      "hashtags": [
+        "#бессонница",
+        "#настроениедня",
+        "#мемыпронас"
+      ],
+      "slot": "2026-11-13-08-02",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "0e2afc18-48b3-4992-9a93-72f52aefe244",
+        "model": "stable_diffusion",
+        "seed": "1217242250",
+        "worker": "Simebone"
+      },
+      "vedismm_post_id": 5014,
+      "scheduled_at": "2026-11-13T08:30:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "В супермаркете взял самое необходимое.",
+      "bottom": "Пришлось проверить, не купил ли я случайно магазин.",
+      "scene": "wallet",
+      "topic": "grocery_total",
+      "visual": "shocked customer at supermarket checkout looking at grocery receipt",
+      "caption": "Продуктовая корзина стала ювелирной.",
+      "id": "5e62ccc800dc6e5f33a1859523d107e95f30e2c67cb31d2f828037067eb0c303",
+      "hashtags": [
+        "#цены",
+        "#втренде",
+        "#шуткивк"
+      ],
+      "slot": "2026-11-13-08-03",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "7ca5b8fd-4a09-4966-980c-e33ad64a0a9f",
+        "model": "stable_diffusion",
+        "seed": "3481307568",
+        "worker": "Simebone"
+      },
+      "vedismm_post_id": 5015,
+      "scheduled_at": "2026-11-13T08:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
@@ -338,6 +534,13 @@
     "2026-11-13-02-01",
     "2026-11-13-03-00",
     "2026-11-13-04-00",
-    "2026-11-13-06-00"
+    "2026-11-13-06-00",
+    "2026-11-13-07-01",
+    "2026-11-13-07-02",
+    "2026-11-13-07-03",
+    "2026-11-13-08-00",
+    "2026-11-13-08-01",
+    "2026-11-13-08-02",
+    "2026-11-13-08-03"
   ]
 }

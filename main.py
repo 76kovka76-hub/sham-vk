@@ -173,6 +173,9 @@ def main():
     state = get_state()
     if args.clean_queue:
         from queue_cleanup import clean_legacy_queue
+        from review_queue_once import mark_rejected_future
+        newly_rejected = mark_rejected_future(state)
+        print("SHAM editorial review: rejected future weak drafts =", newly_rejected)
         result = clean_legacy_queue(state)
         STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
         STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

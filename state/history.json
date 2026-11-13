@@ -186,6 +186,34 @@
       "scheduled_at": "2026-11-13T00:00:00Z",
       "publication_status": "scheduled",
       "vk_url": ""
+    },
+    {
+      "top": "Утром нажал «ещё пять минут».",
+      "bottom": "Это не пробуждение, это переговоры.",
+      "scene": "life",
+      "topic": "alarm",
+      "visual": "sleepy adult in bedroom reaching for alarm clock in morning",
+      "caption": "Утро не спрашивает разрешения.",
+      "id": "811572fb53f2e25624c4cbf30f5f004150af7c4bcfa38cf83f3414ad850bd52e",
+      "hashtags": [
+        "#воскресенье",
+        "#румемы",
+        "#самоирония"
+      ],
+      "slot": "2026-11-13-01-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "33ed705a-b8b6-4584-8d87-d4f9c98f9832",
+        "model": "stable_diffusion",
+        "seed": "2923034730",
+        "worker": "esson-arch-gemini-sd15"
+      },
+      "vedismm_post_id": 4974,
+      "scheduled_at": "2026-11-13T01:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
@@ -193,6 +221,7 @@
     "2026-11-12-21-00",
     "2026-11-12-21-03",
     "2026-11-12-23-02",
-    "2026-11-13-00-00"
+    "2026-11-13-00-00",
+    "2026-11-13-01-00"
   ]
 }

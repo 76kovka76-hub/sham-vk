@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 
 import requests
 from PIL import Image, ImageDraw, ImageOps
-from style_catalog import STYLE_PROMPTS, style_for_slot
+from style_catalog import STYLE_PROMPTS, style_for_slot, story_style
 from image_guard import validate_artwork, validate_joke_visual_brief
 from vision_review import review_visual
 from meme_layout import render_meme
@@ -238,7 +238,7 @@ def generate_image(post, slot, style, deadline_seconds=370):
 def make_horde_image(post, slot, out: Path, font, centered_text, style_override=None, state=None):
     if style_override is not None and style_override not in STYLE_PROMPTS:
         raise ValueError("Unknown SHAM preview visual genre")
-    style = style_override or style_for_slot(slot)
+    style = style_override or story_style(post, slot)
     validate_joke_visual_brief(post, build_prompt(post, slot, style))
     preferred = os.getenv("SHAM_FREE_IMAGE_PROVIDER", "horde").strip().lower()
     if preferred == "ovh":

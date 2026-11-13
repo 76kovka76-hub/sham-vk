@@ -72,17 +72,27 @@ def lines_for(draw, content, face, max_width):
 
 
 def centered_text(draw, text, y0, y1, color, max_size):
-    for s in range(max_size, 25, -2):
-        face = font(s)
+    """Never publish unreadable overflowed captions on a generated picture."""
+    fitted = None
+    for size in range(max_size, 31, -2):
+        face = font(size)
         lines = lines_for(draw, text, face, 960)
-        advance = s * 1.25
-        if len(lines) * advance <= (y1 - y0) - 14 and len(lines) <= 4:
+        advance = size * 1.25
+        widths = [draw.textbbox((0, 0), line, font=face, stroke_width=4)[2]
+                  for line in lines]
+        if (1 <= len(lines) <= 4
+                and max(widths, default=0) <= 960
+                and len(lines) * advance <= (y1 - y0) - 14):
+            fitted = (face, lines, advance)
             break
+    if fitted is None:
+        raise ValueError("SHAM caption cannot fit readably at 32px or larger")
+    face, lines, advance = fitted
     y = y0 + ((y1 - y0) - len(lines) * advance) / 2
     for line in lines:
-        box = draw.textbbox((0, 0), line, font=face, stroke_width=3)
-        w = box[2] - box[0]
-        draw.text(((1080 - w) / 2, y), line, font=face, fill=color,
+        bbox = draw.textbbox((0, 0), line, font=face, stroke_width=3)
+        width = bbox[2] - bbox[0]
+        draw.text(((1080 - width) / 2, y), line, font=face, fill=color,
                   stroke_width=4, stroke_fill=(0, 0, 0))
         y += advance
 

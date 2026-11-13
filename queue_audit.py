@@ -25,10 +25,11 @@ def _slot_time(slot):
         return None
 
 
-def queue_audit(state, *, now=None, hours=12, lead_minutes=30):
+def queue_audit(state, *, now=None, hours=12, lead_minutes=30, step_minutes=15):
     if now is None:
         now = datetime.now(timezone.utc)
-    if now.tzinfo is None or not 1 <= hours <= 48 or not 15 <= lead_minutes <= 90:
+    if (now.tzinfo is None or not 1 <= hours <= 48 or not 15 <= lead_minutes <= 90
+            or step_minutes not in (15, 30, 60)):
         raise ValueError("Invalid SHAM audit range or time")
     now = now.astimezone(timezone.utc)
     begin = now + timedelta(minutes=lead_minutes)
@@ -36,11 +37,13 @@ def queue_audit(state, *, now=None, hours=12, lead_minutes=30):
                            microsecond=0)
     if cursor < begin:
         cursor += timedelta(minutes=15)
+    while cursor.minute % step_minutes != 0:
+        cursor += timedelta(minutes=15)
     end = now + timedelta(hours=hours)
     expected = []
     while cursor <= end:
         expected.append(cursor)
-        cursor += timedelta(minutes=15)
+        cursor += timedelta(minutes=step_minutes)
 
     posts = [p for p in state.get("posts", []) if isinstance(p, dict)]
     status_totals = dict(Counter(str(p.get("publication_status") or "unknown")
@@ -90,7 +93,8 @@ def queue_audit(state, *, now=None, hours=12, lead_minutes=30):
               else "degraded" if coverage < .75 else "healthy")
     return {
         "checked_at": now.isoformat(), "status": status,
-        "window_hours": hours, "expected_slots": len(desired),
+        "window_hours": hours, "step_minutes": step_minutes,
+        "expected_slots": len(desired),
         "reserved_slots": len(desired) - len(missing),
         "coverage": coverage, "missing_slots": missing,
         "urgent_missing_slots": soon, "duplicate_slots": sorted(set(duplicates)),
@@ -107,7 +111,7 @@ def queue_audit(state, *, now=None, hours=12, lead_minutes=30):
 def main():
     state_path = Path("state/history.json")
     state = json.loads(state_path.read_text(encoding="utf-8"))
-    report = queue_audit(state)
+    report = queue_audit(state, step_minutes=int(os.getenv("SHAM_POST_INTERVAL_MINUTES", "15")))
     out = Path("output/sham_queue_audit.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n",

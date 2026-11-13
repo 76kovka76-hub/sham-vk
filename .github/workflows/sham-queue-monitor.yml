@@ -1,0 +1,41 @@
+name: SHAM — бесплатный монитор очереди
+on:
+  schedule:
+    # Read-only coverage check every two hours; GitHub cron is best-effort.
+    - cron: '31 */2 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'queue_audit.py'
+      - 'tests/test_queue_audit.py'
+      - '.github/workflows/sham-queue-monitor.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sham-queue-monitor
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test read-only audit
+        run: python -m unittest discover -s tests -p 'test_queue_audit.py' -v
+      - name: Scan slots for the next 12 hours
+        run: python queue_audit.py
+      - name: Publish queue report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sham-queue-check-${{ github.run_id }}
+          path: output/sham_queue_audit.json
+          if-no-files-found: ignore
+          retention-days: 7

@@ -182,7 +182,13 @@ def _make_panel_request(index, item):
     raise RuntimeError(f"AI Horde free queue timeout for panel {index+1}")
 
 
-def make_comic():
+def make_comic(frame_provider=None):
+    """Build one 4-frame comic using an explicit image source.
+    
+    The caller decides between free providers; no implicit paid fallback.
+    """
+    if frame_provider is None:
+        frame_provider = _make_panel_request
     if len(set(x["top"] for x in PANELS)) != 4:
         raise RuntimeError("Repeated panel lines")
     if CAPTION.count("#") != 3:
@@ -191,7 +197,7 @@ def make_comic():
     metadata = [None]*4
     # Parallel volunteer-worker jobs, no fallback portrait or stock images.
     with ThreadPoolExecutor(max_workers=4) as pool:
-        futures = [pool.submit(_make_panel_request, i, p)
+        futures = [pool.submit(frame_provider, i, p)
                    for i,p in enumerate(PANELS)]
         for f in as_completed(futures):
             i, im, meta = f.result()
@@ -234,10 +240,10 @@ def make_comic():
     img.save(OUT,format="PNG",optimize=True)
     digest=sha256(OUT.read_bytes()).hexdigest()
     INFO.write_text(json.dumps({
-        "style":"free_horde_pencil_collage","panels":4,"sha256":digest,
+        "style":"free_pencil_collage","panels":4,"sha256":digest,
         "size":[W,H],"captions":[p["top"] for p in PANELS],
         "models":[m.get("model") for m in metadata],
-        "generated_by":"AI Horde volunteer network",
+        "generated_by": metadata[0].get("provider", "AI Horde volunteer network"),
         "source_note":"free model; no automatic semantic visual QA",
     },ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print("SKRBL_FREE_PREVIEW_READY:",OUT)

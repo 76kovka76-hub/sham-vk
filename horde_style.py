@@ -90,9 +90,16 @@ def build_prompt(post, slot, style):
     scene = own_scene or gag or SCENES.get(post.get("scene"), SCENES["life"])
     if gag and gag != scene:
         scene += ". Additional physical comedy: " + gag
-    reaction = TOPIC_REACTIONS.get(
-        post.get("topic"),
-        SCENE_REACTIONS.get(post.get("scene"), "surprised by the ridiculous situation"),
+    complete_story = (str(post.get("topic", "")).startswith("mini_")
+                      or post.get("source") == "ovh_chat_reviewed_v1")
+    reaction = (
+        "Only show naturally expressive characters involved in the specified gag; "
+        "avoid unrelated human portraits, stock reactions and extra props"
+        if complete_story
+        else TOPIC_REACTIONS.get(
+            post.get("topic"),
+            SCENE_REACTIONS.get(post.get("scene"), "surprised by the ridiculous situation"),
+        )
     )
     person = rng.choice([
         "adult man with dark short hair",
@@ -120,6 +127,8 @@ def build_prompt(post, slot, style):
         "without inserting an unrelated human face. "
         "CHARACTER REACTION: " + reaction + ". "
         "CAMERA: " + framing + ". "
+        "The generated image is a single still of the EXACT punchline in progress; "
+        "prioritize the joke-specific physical action over the genre mood. "
         "The image must physically show the exact joke setup and its key props; "
         "the image is not a generic portrait or generic background. "
         "Create one clear readable visual gag. Avoid extra unrelated objects. "

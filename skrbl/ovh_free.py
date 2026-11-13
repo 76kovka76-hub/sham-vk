@@ -24,19 +24,19 @@ SPACING_SECONDS = 36  # Below official anonymous 2/minute limit, per IP.
 lock = threading.Lock()
 next_request_at = 0.0
 
-STYLE = (
-    "Single scene from a connected four-frame funny hand-drawn rough pencil "
-    "comic series on slightly stained off-white paper. Original intentionally "
-    "crooked amateur black ink and graphite sketch; dense chaotic hand hatching, "
-    "ugly goofy expressive human faces, huge uneven wide eyes, ragged scribble "
-    "hair, crooked teeth, exaggerated action and gestures. Funny visual slapstick "
-    "with lots of tiny props in a densely detailed background. Sketchbook cartoon "
-    "with subtle blue-gray penciled clothing and occasional red pencil eyelids. "
-    "SAME exhausted, scruffy black-spiky-haired adult man in loose striped blue "
-    "pajamas throughout the sequence, but vary facial expression and pose with "
-    "the story. Off-kilter amateur ballpoint pen drawing, NOT anime, NOT "
-    "photorealistic, NOT vector art, NOT smooth digital painting, NO embedded "
-    "words or captions, no lettering, no speech bubbles, no logos, safe for work."
+# SDXL often truncates long prompts. Put the ACTION and ONE character first.
+# Short, concrete descriptions prevent the face-collage failure of probe 1.
+PROMPTS = [
+    "One exhausted scruffy adult man with messy dark hair and striped pajamas sits alone at a cluttered desk in a small home office, checking email on a laptop. Coffee mug, pizza and clock. Funny grimace.",
+    "One exhausted man in striped pajamas at his desk, staring with bulging shocked eyes as an impossible mountain of paper envelopes explodes from his laptop, coffee spills everywhere, funny physical comedy.",
+    "One exhausted man with messy hair and striped pajamas runs away from a giant swarm of angry flying paper envelopes with little teeth and tiny arms, papers everywhere in a cluttered home office, comical panic.",
+    "One exhausted man with messy hair and striped pajamas hiding under his desk as a giant monstrous letter creeps from his laptop; his bugged-out eyes look up in terror, overturned coffee, funny slapstick finale.",
+]
+SHORT_STYLE = (
+    " ONE main human character only. Rough wonky comic strip pencil illustration "
+    "on off-white paper, black graphite crosshatching, crooked outlines, "
+    "funny action, messy detailed room, blue pencil pajamas, hand drawn cartoon. "
+    "No captions, no words, no watermark. NOT anime, NOT crowd, NOT photo."
 )
 
 
@@ -79,10 +79,7 @@ def _one_request(prompt):
 
 
 def generate_frame(index, panel):
-    prompt = STYLE + " Scene action: " + panel["prompt"] + (
-        ". Detailed black graphite hatching and DIY pen lines, "
-        "physical comedy, show all background objects, no text."
-    )
+    prompt = PROMPTS[index] + SHORT_STYLE
     image = _one_request(prompt)
     print("SKRBL_OVH_FRAME_READY:", index + 1, image.size, flush=True)
     return index, image, {"provider":"OVHcloud anonymous SDXL", "model": MODEL}

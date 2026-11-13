@@ -12,6 +12,7 @@ import io
 import json
 from pathlib import Path
 import random
+import threading
 import time
 
 import requests
@@ -27,6 +28,22 @@ MODEL="stabilityai/stable-diffusion-xl-base-1.0"
 RUST=(109,30,26)
 CREAM=(239,224,191)
 INK=(31,29,26)
+
+# OVHcloud anonymous limit is 2 image requests/min per public IP.
+# Pace requests conservatively, including retries after HTTP 429.
+MIN_REQUEST_SPACING_SECONDS=37
+_request_lock=threading.Lock()
+_next_request_at=0.0
+
+
+def _respect_free_rate():
+    global _next_request_at
+    with _request_lock:
+        delay=_next_request_at-time.monotonic()
+        if delay>0:
+            time.sleep(delay)
+        _next_request_at=time.monotonic()+MIN_REQUEST_SPACING_SECONDS
+
 
 PERIOD=(
     "Authentic-looking FICTIONAL 1970s USSR everyday film photograph, "
@@ -102,15 +119,33 @@ def free_photo(story,slot,request=requests.post):
         "prompt":_creative_prompt(story,int(hashlib.sha256(slot.encode()).hexdigest()[:3],16)),
         "size":"1024x1024","n":1,
     }
-    response=request(
-        API,json=payload,
-        headers={"accept":"application/json","Content-Type":"application/json"},
-        timeout=160,
-    )
-    if response.status_code in (401,402,403,429):
-        raise RuntimeError("SOVETSKIY free OVH image service unavailable, HTTP "
-                           +str(response.status_code))
-    response.raise_for_status()
+    response=None
+    for attempt in range(3):
+        _respect_free_rate()
+        response=request(
+            API,json=payload,
+            headers={"accept":"application/json","Content-Type":"application/json"},
+            timeout=160,
+        )
+        if response.status_code==429:
+            retry_header=response.headers.get("Retry-After","")
+            try:
+                retry=int(retry_header)
+            except (TypeError,ValueError):
+                retry=45
+            if attempt>=2 or retry>120:
+                raise RuntimeError("Free OVH SDXL rate-limited after 3 attempts; stop for safety")
+            delay=max(45,retry)
+            print(f"::warning::Free OVH SDXL returned 429. Respecting cooldown {delay}s.",flush=True)
+            time.sleep(delay)
+            continue
+        if response.status_code in (401,402,403):
+            raise RuntimeError("SOVETSKIY free OVH image service unavailable, HTTP "
+                               +str(response.status_code))
+        response.raise_for_status()
+        break
+    else:
+        raise RuntimeError("Free OVH image generator unavailable after backoff")
     obj=response.json()
     images=obj.get("data") or []
     if not images or not isinstance(images[0],dict) or not isinstance(images[0].get("b64_json"),str):

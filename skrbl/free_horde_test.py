@@ -19,7 +19,6 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps, ImageChops, 
 import requests
 
 from publish_test import BASE, _data, _target_account, _valid_vk_url
-from horde_style import generate_image
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "free_comic_trial.png"
@@ -125,10 +124,62 @@ def _make_panel_request(index, item):
                 "Authentic handmade rough pencil scribble, NOT anime, NOT realistic "
                 "photography, NOT 3D, NOT polished vector, no text, no watermarks."
             )}
-    # Shared scene seed is not guaranteed to preserve identity across workers.
-    slot = f"{SEED}-{index}"
-    im, meta = generate_image(post, slot, "anime", deadline_seconds=475)
-    return index, im, meta
+    # AI Horde is a FREE volunteer-powered service. Use a direct tailored
+    # pencil-art prompt: the general SHAM anime preset must NOT be used here.
+    key = os.getenv("AIHORDE_API_KEY", "").strip() or "0000000000"
+    headers = {"apikey": key,
+        "Client-Agent":"SKRBL:1.0:https://github.com/76kovka76-hub/sham-vk"}
+    prompt = post["visual"] + " ### " + (
+        "color digital painting, anime, photorealistic face, glossy 3d, vector art, "
+        "blurry, empty background, polished marketing illustration, captions, words, "
+        "letters, font, logo, text, watermark, signature, nude, nsfw, extra arms"
+    )
+    params = {
+        "width": 512, "height": 512, "steps": 24, "n":1,
+        "cfg_scale": 7.5, "sampler_name": "k_euler_a",
+        "seed": str(int(sha256(f"{SEED}-{index}".encode()).hexdigest()[:8],16))
+    }
+    payload={"prompt":prompt,"params":params,"nsfw":False,
+             "censor_nsfw":True,"r2":True,"shared":False,
+             "replacement_filter":True}
+    api="https://aihorde.net/api/v2"
+    req=requests.post(api+"/generate/async",headers=headers,json=payload,timeout=55)
+    req.raise_for_status()
+    reply=req.json()
+    job=reply.get("id")
+    if not isinstance(job,str) or not job:
+        raise RuntimeError(f"AI Horde rejected panel {index+1}: {str(reply)[:200]}")
+    end=time.monotonic()+475
+    while time.monotonic()<end:
+        time.sleep(11)
+        check=requests.get(api+"/generate/check/"+job,timeout=40)
+        check.raise_for_status()
+        status=check.json()
+        if status.get("faulted") or status.get("is_possible") is False:
+            raise RuntimeError(f"AI Horde could not generate panel {index+1}")
+        if not status.get("done"):
+            continue
+        result=requests.get(api+"/generate/status/"+job,timeout=45)
+        result.raise_for_status()
+        choices=result.json().get("generations") or []
+        if not choices or choices[0].get("censored"):
+            raise RuntimeError(f"AI Horde returned no safe image for panel {index+1}")
+        g=choices[0]
+        url=g.get("img")
+        if not isinstance(url,str) or not url.startswith("https://"):
+            raise RuntimeError("No approved HTTPS image URL")
+        rr=requests.get(url,timeout=75)
+        rr.raise_for_status()
+        if len(rr.content)>16_000_000:
+            raise RuntimeError("Generated frame too large")
+        with Image.open(io.BytesIO(rr.content)) as img:
+            output=img.convert("RGB")
+        return index,output,{"model":g.get("model"),"job":job}
+    try:
+        requests.delete(api+"/generate/status/"+job,headers=headers,timeout=15)
+    except requests.RequestException:
+        pass
+    raise RuntimeError(f"AI Horde free queue timeout for panel {index+1}")
 
 
 def make_comic():

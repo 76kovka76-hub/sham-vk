@@ -13,7 +13,7 @@
 <path d="M684 515 l167 5 19 66 -196 -3Z" stroke-width="6"/>
 <path d="M695 521 l163 1" stroke-width="2"/>
 <!-- receipt -->
-<path d="M572 620 Q546 625 571 675 L590 708 570 754 601 791 583 835 605 861 584 890 566 934" stroke-width="5"/>
+<path d="M572 620 Q546 625 571 675 L590 708 570 754 601 791 585 807" stroke-width="5"/>
 <path d="M570 651 L608 654 M573 673 L610 678 M581 702 L615 707 M580 730 L619 733 M579 761 L624 767 M588 795 L625 801" stroke-width="2"/>
 <!-- badly drawn person -->
 <ellipse cx="272" cy="473" rx="112" ry="120" transform="rotate(-7 272 473)" stroke-width="6"/>

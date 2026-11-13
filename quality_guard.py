@@ -1,6 +1,7 @@
 """Editorial guard: only approved coherent SHAM meme pairs."""
 import difflib
 import hashlib
+import os
 import random
 import re
 
@@ -8,9 +9,10 @@ from quality_bank import TOPICS
 from short_jokes import SHORT_JOKES
 from hard_jokes import HARD_JOKES
 from fresh_jokes import FRESH_JOKES
+from editorial_jokes import EDITORIAL_JOKES
 from meaning_guard import recent_meaning_conflict
 
-SPECIAL_JOKES = SHORT_JOKES + HARD_JOKES + FRESH_JOKES
+SPECIAL_JOKES = SHORT_JOKES + HARD_JOKES + FRESH_JOKES + EDITORIAL_JOKES
 
 
 def norm(s):
@@ -61,6 +63,23 @@ def validate(p, history=()):
     return True
 
 
+# Only deliberately selected older gags may supplement the newer, edited
+# bank. Generic mixed setup/punchline combinations are never admitted in the
+# production quality-first lane.
+QUALITY_BACKUP_TOPICS = frozenset({
+    "mini_passenger_luggage", "mini_wedding_bureaucracy",
+    "mini_mirror_upgrade", "mini_delivery_drone", "mini_cat_tax",
+    "mini_museum_phone", "mini_parking_meteor", "mini_dog_interview",
+    "mini_elevator_therapy", "mini_sleep_cinema", "mini_alien_forms",
+    "mini_self_checkout", "mini_ghost_smartphone", "mini_online_teacher",
+    "mini_rent_coffin", "mini_groupchat_apocalypse", "mini_ai_resume",
+})
+
+
+def _quality_first():
+    return os.getenv("SHAM_EDITORIAL_MODE", "").strip().lower() == "quality_first"
+
+
 def select_post(state, slot):
     history = state.get("posts", [])
     used = {x.get("id") or joke_id(x) for x in history
@@ -71,14 +90,18 @@ def select_post(state, slot):
     scenes_recent = {x.get("scene") for x in history[-2:]}
     caption_recent = {norm(x.get("caption", "")) for x in history[-12:]}
     rng = random.Random(slot + "-SHAM-approved-v2")
-    # Always prefer complete joke-to-scene pairs; generic theme-bank
-    # combinations are a last resort, not one quarter of every day's posts.
-    # Prioritize recently authored absurd/hard stories over the old mild set.
-    new_jokes = list(FRESH_JOKES + HARD_JOKES)
-    older_jokes = list(SHORT_JOKES)
-    rng.shuffle(new_jokes)
-    rng.shuffle(older_jokes)
-    for mini in new_jokes + older_jokes:
+    quality_first = _quality_first()
+    # Complete, individually written punchlines and their exact visual briefs.
+    # In the live production mode the 44 newer editorial jokes are evaluated
+    # first. A finite, explicitly whitelisted backup is allowed; if none is
+    # fresh enough the scheduler skips rather than inventing filler.
+    premium = list(EDITORIAL_JOKES)
+    backup = ([p for p in FRESH_JOKES + HARD_JOKES
+               if p["topic"] in QUALITY_BACKUP_TOPICS]
+              if quality_first else list(FRESH_JOKES + HARD_JOKES + SHORT_JOKES))
+    rng.shuffle(premium)
+    rng.shuffle(backup)
+    for mini in premium + backup:
         if mini["topic"] in topic_recent or mini["scene"] in scenes_recent:
             continue
         if joke_id(mini) in used:
@@ -89,8 +112,15 @@ def select_post(state, slot):
             continue
         if recent_meaning_conflict(mini, history):
             continue
-        validate(mini, history)
+        try:
+            validate(mini, history)
+        except ValueError:
+            continue
         return dict(mini)
+    if quality_first:
+        raise RuntimeError(
+            "SHAM editorial pool exhausted. Deliberately skipping slot "
+            "instead of publishing stale thematic filler.")
     # Only if all full-story drafts are unavailable: thematic bank.
     topics = list(TOPICS)
     rng.shuffle(topics)

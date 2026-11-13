@@ -1102,8 +1102,8 @@
       },
       "vedismm_post_id": 5050,
       "scheduled_at": "2026-11-13T14:15:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "published",
+      "vk_url": "https://vk.com/wall-243230846_40"
     },
     {
       "topic": "mini_wifi_family",
@@ -1128,8 +1128,8 @@
       },
       "vedismm_post_id": 5051,
       "scheduled_at": "2026-11-13T14:30:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "published",
+      "vk_url": "https://vk.com/wall-243230846_41"
     },
     {
       "topic": "mini_boss_five",
@@ -1156,8 +1156,8 @@
       },
       "vedismm_post_id": 5052,
       "scheduled_at": "2026-11-13T14:45:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "published",
+      "vk_url": "https://vk.com/wall-243230846_42"
     },
     {
       "top": "Включил телефон перед сном на минуту.",
@@ -1182,8 +1182,9 @@
       },
       "vedismm_post_id": 5053,
       "scheduled_at": "2026-11-13T15:00:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "requires_attention",
+      "vk_url": "",
+      "remote_status": "failed"
     },
     {
       "top": "Сел напротив человека, который очень понравился.",
@@ -1208,8 +1209,8 @@
       },
       "vedismm_post_id": 5055,
       "scheduled_at": "2026-11-13T15:15:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "published",
+      "vk_url": "https://vk.com/wall-243230846_43"
     },
     {
       "top": "Проекту назначили новый дедлайн.",
@@ -1234,8 +1235,8 @@
       },
       "vedismm_post_id": 5056,
       "scheduled_at": "2026-11-13T15:30:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "published",
+      "vk_url": "https://vk.com/wall-243230846_44"
     },
     {
       "top": "Решил начать утро с зарядки.",
@@ -1262,8 +1263,8 @@
       },
       "vedismm_post_id": 5057,
       "scheduled_at": "2026-11-13T15:45:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "published",
+      "vk_url": "https://vk.com/wall-243230846_45"
     },
     {
       "topic": "mini_delivery_tour",

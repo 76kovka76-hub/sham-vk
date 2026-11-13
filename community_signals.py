@@ -59,9 +59,11 @@ def extract_themes(text):
 
 
 def gather(state, *, caller=None):
-    token = os.getenv("VK_GROUP_TOKEN", "").strip() or os.getenv("VK_USER_TOKEN", "").strip()
+    tokens = list(dict.fromkeys([
+        key for key in (os.getenv("VK_GROUP_TOKEN", "").strip(),
+                        os.getenv("VK_USER_TOKEN", "").strip()) if key]))
     ids = _post_ids(state)
-    if not token or not ids:
+    if not tokens or not ids:
         return {"status": "unavailable", "reason": "no_confirmed_wall_or_vk_token",
                 "topics": [], "scanned_posts": 0}
     caller = caller or requests.get
@@ -69,18 +71,28 @@ def gather(state, *, caller=None):
     scanned = 0
     try:
         for post_id in ids:
-            response = caller(
-                VK_API, params={
-                    "owner_id": -GROUP_ID, "post_id": post_id,
-                    "count": 70, "sort": "desc", "v": "5.199",
-                    "access_token": token,
-                }, timeout=15)
-            response.raise_for_status()
-            payload = response.json()
-            if payload.get("error"):
-                return {"status": "unavailable", "reason": "vk_api_denied",
+            comments = None
+            error_code = "unknown"
+            for token in tokens:
+                response = caller(
+                    VK_API, params={
+                        "owner_id": -GROUP_ID, "post_id": post_id,
+                        "count": 70, "sort": "desc", "v": "5.199",
+                        "access_token": token,
+                    }, timeout=15)
+                response.raise_for_status()
+                payload = response.json()
+                if payload.get("error"):
+                    err = payload["error"]
+                    if isinstance(err, dict):
+                        error_code = str(err.get("error_code", "unknown"))
+                    continue
+                comments = payload.get("response", {}).get("items") or []
+                break
+            if comments is None:
+                return {"status": "unavailable",
+                        "reason": "vk_api_denied_" + error_code,
                         "topics": [], "scanned_posts": scanned}
-            comments = payload.get("response", {}).get("items") or []
             if not isinstance(comments, list):
                 continue
             scanned += 1
@@ -130,7 +142,8 @@ def main():
     out = Path("output/sham_community_report.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print("SHAM_COMMUNITY:", data["status"], "scanned_posts=", data["scanned_posts"],
+    print("SHAM_COMMUNITY:", data["status"], "reason=", data.get("reason", ""),
+          "scanned_posts=", data["scanned_posts"],
           "topics=", [t["name"] for t in data["topics"]])
 
 

@@ -198,8 +198,9 @@ def main():
     qa_style = os.getenv("SHAM_PREVIEW_STYLE", "").strip().lower() if args.preview else ""
     if qa_style == "auto":
         qa_style = ""
-    if qa_style and qa_style not in ("anime", "realistic"):
-        raise ValueError("SHAM_PREVIEW_STYLE must be anime, realistic or auto")
+    from style_catalog import STYLE_PROMPTS
+    if qa_style and qa_style not in STYLE_PROMPTS:
+        raise ValueError("SHAM_PREVIEW_STYLE must name a supported visual genre or auto")
     image = make_image(post, slot, state, style_override=qa_style or None)
     source_file = OUT / "image_source.json"
     image_source = json.loads(source_file.read_text(encoding="utf-8"))

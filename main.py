@@ -49,7 +49,21 @@ def generate_post(state, slot):
         except (requests.RequestException, ValueError, RuntimeError, KeyError, TypeError) as exc:
             print("::warning::SHAM free live-text generator unavailable or failed QA; "
                   "falling back to curated original jokes: " + str(exc)[:160], flush=True)
-    return select_post(state, slot)
+    post = select_post(state, slot)
+    from editorial_experiments import score_post
+    from hard_jokes import HARD_JOKES
+    from fresh_jokes import FRESH_JOKES
+    topic = post.get("topic")
+    new_topics = {p["topic"] for p in FRESH_JOKES}
+    hard_topics = {p["topic"] for p in HARD_JOKES}
+    if topic in new_topics:
+        post["humor_lane"] = "curated_new_absurd"
+    elif topic in hard_topics:
+        post["humor_lane"] = "curated_hard"
+    else:
+        post["humor_lane"] = "curated_classic"
+    post["editorial_score"] = score_post(post, state.get("posts", []))
+    return post
 
 
 def font(size):

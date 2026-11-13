@@ -1,0 +1,42 @@
+name: DVOIQ — тестовая публикация Telegram (отдельный запуск)
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/dvoiq-test.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dvoiq-one-time-test-20261113
+  cancel-in-progress: false
+
+jobs:
+  dvoiq:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - name: Checkout isolated DVOIQ publisher
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Pillow and Requests
+        run: python -m pip install "Pillow>=10,<13" "requests>=2.31,<3"
+      - name: Create PNG and publish strictly to club243268965
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+        run: python -u dvoiq/one_post.py
+      - name: Save rendered image and publication confirmation
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dvoiq-one-time-test-${{ github.run_id }}
+          path: |
+            dvoiq_telegram.png
+            dvoiq_result.json
+          if-no-files-found: ignore
+          retention-days: 7

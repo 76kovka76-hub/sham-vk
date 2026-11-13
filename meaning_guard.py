@@ -94,6 +94,8 @@ def _tokens(text):
 
 
 def idea_group(post):
+    if post.get("source") == "ovh_chat_reviewed_v1" and post.get("idea_key"):
+        return str(post["idea_key"]).strip().lower().replace(" ", "_")
     topic = str(post.get("topic", ""))
     if topic.startswith("mini_"):
         topic = topic[5:]

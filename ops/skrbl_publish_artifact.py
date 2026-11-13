@@ -1,4 +1,4 @@
-"""Publish an EXPLICITLY reviewed free-Horde SKRBL preview artifact.
+"""Publish an EXPLICITLY reviewed free-generated SKRBL preview artifact.
 
 Never generate or modify artwork; use the exact image hash the editorial
 reviewer confirmed. Strict target group 243241856 and idempotent post key.
@@ -32,7 +32,7 @@ def main():
     if actual!=expected:
         raise RuntimeError("Approved comic checksum mismatch; no VK post")
     metadata=json.loads(META.read_text(encoding="utf-8"))
-    if metadata.get("sha256")!=actual or metadata.get("panels")!=4 or metadata.get("generated_by")!="AI Horde volunteer network":
+    if metadata.get("sha256")!=actual or metadata.get("panels")!=4 or metadata.get("generated_by") not in ("AI Horde volunteer network", "OVHcloud anonymous SDXL"):
         raise RuntimeError("Not an approved free 4-panel comic artifact")
     token=os.getenv("VEDISMM_TOKEN","").strip()
     if not token:

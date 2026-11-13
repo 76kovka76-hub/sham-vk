@@ -1264,6 +1264,190 @@
       "scheduled_at": "2026-11-13T15:45:00Z",
       "publication_status": "scheduled",
       "vk_url": ""
+    },
+    {
+      "topic": "mini_delivery_tour",
+      "scene": "home",
+      "top": "Курьер уже десять минут рядом.",
+      "bottom": "Кажется, он проводит экскурсию по району.",
+      "caption": "Знаю каждый поворот по карте.",
+      "visual": "Hungry adult studies gigantic phone courier map with binoculars; tiny delivery cyclist loops around same building while pizza sits far away",
+      "id": "7771dc13543b55b1fdf8b84e3415e13ac41d55b4b5eae9b964d40b7db9abcd77",
+      "hashtags": [
+        "#кухня",
+        "#абсурд",
+        "#мемыиприколы"
+      ],
+      "slot": "2026-11-13-16-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Hungry adult studies gigantic phone courier map with binoculars; tiny delivery cyclist loops around same building while pizza sits far away"
+      },
+      "vedismm_post_id": 5066,
+      "scheduled_at": "2026-11-13T16:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Решил наконец разобрать непрочитанные чаты.",
+      "bottom": "Оказывается, без меня успели обсудить всё.",
+      "scene": "phone",
+      "topic": "notifications",
+      "visual": "tired person staring at hundreds of unread phone notifications",
+      "caption": "Чаты не знают слова «пауза».",
+      "id": "e491fd5b914ec826c3644f04832ec3c16688bbf31fe598bdd1d49d2f20f22423",
+      "hashtags": [
+        "#вайфай",
+        "#шутим",
+        "#шутки"
+      ],
+      "slot": "2026-11-13-16-01",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "tired person staring at hundreds of unread phone notifications"
+      },
+      "vedismm_post_id": 5067,
+      "scheduled_at": "2026-11-13T16:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "В таблице случайно исчезла одна формула.",
+      "bottom": "Теперь я главный по таблицам до конца карьеры.",
+      "scene": "work",
+      "topic": "excel",
+      "visual": "employee squinting at a massive Excel spreadsheet in office",
+      "caption": "Таблицы объединяют людей. Против них.",
+      "id": "e98dec55c0411e2487f34015874ac886678c5382ed2dc6575d05a5e8984e8118",
+      "hashtags": [
+        "#переработки",
+        "#мемасик",
+        "#мемыдлявсех"
+      ],
+      "slot": "2026-11-13-16-02",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "a4fa997f-acba-4b35-9b54-ac3b7773c00f",
+        "model": "stable_diffusion",
+        "seed": "2482027103",
+        "worker": "Tasar-RTX3060"
+      },
+      "vedismm_post_id": 5068,
+      "scheduled_at": "2026-11-13T16:30:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_subscription_family",
+      "scene": "wallet",
+      "top": "Проверил свои платные подписки.",
+      "bottom": "Оказалось, содержу целый сериал сервисов.",
+      "caption": "Не зря же у меня нет денег.",
+      "visual": "Man at kitchen table shocked as a parade of tiny smartphones wearing subscription service badges drains coins from wallet",
+      "id": "e710b89969330327e07481e98c80f480e6d4aa12fe240dea1dcef505b09a9fdb",
+      "hashtags": [
+        "#шопинг",
+        "#шам",
+        "#смех"
+      ],
+      "slot": "2026-11-13-16-03",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Man at kitchen table shocked as a parade of tiny smartphones wearing subscription service badges drains coins from wallet"
+      },
+      "vedismm_post_id": 5069,
+      "scheduled_at": "2026-11-13T16:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Друг написал: «Ты сейчас свободен?».",
+      "bottom": "Мозг уже пригласил адвоката.",
+      "scene": "social",
+      "topic": "need_talk",
+      "visual": "adult person looking nervously at phone message in cafe",
+      "caption": "Нормально же общались.",
+      "id": "c342d407d61d5eb2a33ca34060571f3724a348bd9b16376baf846124969f948f",
+      "hashtags": [
+        "#сообщения",
+        "#настроение",
+        "#смешноидно"
+      ],
+      "slot": "2026-11-13-17-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "adult person looking nervously at phone message in cafe"
+      },
+      "vedismm_post_id": 5070,
+      "scheduled_at": "2026-11-13T17:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_gym_hurt",
+      "scene": "life",
+      "top": "Первый раз пошёл в спортзал.",
+      "bottom": "На выходе меня обогнала швабра.",
+      "caption": "Тело не поддержало инициативу.",
+      "visual": "Exhausted adult crawling out of gym, a cheerful mop overtakes him and tiny dumbbell flexes cartoon muscles, exaggerated physical comedy",
+      "id": "c850c38d1919e9ab524d25f8769f49cf269a55d8a0d1e7988ba8b3adc1733977",
+      "hashtags": [
+        "#повседневность",
+        "#юморок",
+        "#приколывк"
+      ],
+      "slot": "2026-11-13-17-01",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Exhausted adult crawling out of gym, a cheerful mop overtakes him and tiny dumbbell flexes cartoon muscles, exaggerated physical comedy"
+      },
+      "vedismm_post_id": 5071,
+      "scheduled_at": "2026-11-13T17:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Решил переехать в квартиру поближе к работе.",
+      "bottom": "Мой кошелёк попросил удалить приложение.",
+      "scene": "wallet",
+      "topic": "rent",
+      "visual": "shocked tenant looking at rental apartment listing on laptop",
+      "caption": "Жильё стремится в премиум-сегмент.",
+      "id": "0eb10ac1bd94f4747eecd449cbde514c05a90407d397aa7c3b7dedda298b016f",
+      "hashtags": [
+        "#денежки",
+        "#прикол",
+        "#жесткийюмор"
+      ],
+      "slot": "2026-11-13-17-02",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "shocked tenant looking at rental apartment listing on laptop"
+      },
+      "vedismm_post_id": 5073,
+      "scheduled_at": "2026-11-13T17:30:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
@@ -1311,6 +1495,13 @@
     "2026-11-13-15-00",
     "2026-11-13-15-01",
     "2026-11-13-15-02",
-    "2026-11-13-15-03"
+    "2026-11-13-15-03",
+    "2026-11-13-16-00",
+    "2026-11-13-16-01",
+    "2026-11-13-16-02",
+    "2026-11-13-16-03",
+    "2026-11-13-17-00",
+    "2026-11-13-17-01",
+    "2026-11-13-17-02"
   ]
 }

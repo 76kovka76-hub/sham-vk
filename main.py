@@ -86,7 +86,7 @@ def make_image(post, slot, state=None, style_override=None):
         raise RuntimeError("SHAM only supports AI Horde realism/anime; Openverse/cartoon disabled")
     from horde_style import make_horde_image
     return make_horde_image(post, slot, OUT, font, centered_text,
-                            style_override=style_override)
+                            style_override=style_override, state=state)
 
 
 def vk_call(method, token, **fields):
@@ -235,7 +235,7 @@ def main():
                        "vk_url": f"https://vk.com/wall-{GROUP_ID}_{post_id}"}
     state["slots"].append(slot)
     state["posts"].append({**post, "id": identity(post), "hashtags": tags,
-                           "slot": slot, "quality_version": 2,
+                           "slot": slot, "quality_version": 3,
                            "image_source": image_source, **publication})
     STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
     STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

@@ -49,6 +49,9 @@ def schedule_pilot():
         print("SKRBL_PILOT_NO_FREE_SLOT_IN_NEXT_14H",flush=True)
         return
     story=choose_story(state,slot)
+    from queue_planner import UNMASKED_SWEARS
+    if story.caption.count("#") != 3 or UNMASKED_SWEARS.search(story.caption):
+        raise RuntimeError("SKRBL editorial guard: uncensored profanity or invalid hashtags")
     print(f"SKRBL_PILOT_SELECTED:{story.id}:{len(story.scenes)} panels:{slot}:{at.isoformat()}",flush=True)
     # Any failure before successful scheduling stops publication, never falls back
     # to generic portraits or canned images from another community.

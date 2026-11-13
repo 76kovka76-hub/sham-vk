@@ -7,6 +7,7 @@ import re
 from quality_bank import TOPICS
 from short_jokes import SHORT_JOKES
 from hard_jokes import HARD_JOKES
+from meaning_guard import recent_meaning_conflict
 
 SPECIAL_JOKES = SHORT_JOKES + HARD_JOKES
 
@@ -48,6 +49,8 @@ def validate(p, history=()):
         raise ValueError("SHAM setup nearly repeats a recent post")
     if any(similar(p["bottom"], x.get("bottom", ""), 0.94) for x in history[-60:]):
         raise ValueError("SHAM punchline repeats a recent post")
+    if recent_meaning_conflict(p, history):
+        raise ValueError("SHAM repeats the meaning of a recent joke")
     return True
 
 
@@ -64,7 +67,7 @@ def select_post(state, slot):
     # Favor separately edited original jokes (including hard, profane, absurd),
     # instead of repeatedly mixing text from the longer themed banks.
     # Each short anecdote has its own action-specific photo/illustration.
-    if rng.randrange(2) == 0:
+    if rng.randrange(4) != 0:
         jokes = list(SPECIAL_JOKES)
         rng.shuffle(jokes)
         for mini in jokes:
@@ -75,6 +78,8 @@ def select_post(state, slot):
             if any(similar(mini["top"], p, 0.92) for p in top_recent):
                 continue
             if any(similar(mini["bottom"], p, 0.94) for p in ending_recent):
+                continue
+            if recent_meaning_conflict(mini, history):
                 continue
             validate(mini, history)
             return dict(mini)
@@ -95,7 +100,7 @@ def select_post(state, slot):
                     continue
                 post = {"top": top, "bottom": bottom, "scene": t["scene"],
                         "topic": t["topic"], "visual": t["visual"]}
-                if joke_id(post) in used:
+                if joke_id(post) in used or recent_meaning_conflict(post, history):
                     continue
                 captions = [c for c in t["captions"] if norm(c) not in caption_recent]
                 post["caption"] = rng.choice(captions or t["captions"])

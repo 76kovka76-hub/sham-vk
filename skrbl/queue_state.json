@@ -16,6 +16,20 @@
       "group_id": "243241856",
       "generator": "FREE_OVH_SDXL",
       "pilot": true
+    },
+    {
+      "slot": "20261113-24",
+      "scheduled_at": "2026-11-13T11:31:00Z",
+      "asset_id": "auto_three_panels_vacation",
+      "sha256": "0b82bb8ee3ceac52007c5a7fc4388a589b685bf803fd5ac2a03d847eee77067a",
+      "story_id": "three_panels_vacation",
+      "topic": "work",
+      "panels": 3,
+      "post_id": 5040,
+      "status": "scheduled",
+      "group_id": "243241856",
+      "generator": "FREE_OVH_SDXL",
+      "pilot": true
     }
   ]
 }

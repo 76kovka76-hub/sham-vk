@@ -1448,6 +1448,237 @@
       "scheduled_at": "2026-11-13T17:30:00Z",
       "publication_status": "scheduled",
       "vk_url": ""
+    },
+    {
+      "topic": "mini_wedding_bureaucracy",
+      "scene": "social",
+      "top": "На свадьбе спросили: «Согласны?»",
+      "bottom": "Кредитный договор из кармана заорал: «Нет, мы это не потянем!»",
+      "caption": "Третий лишний в отношениях.",
+      "visual": "Photorealistic wedding ceremony, bride and groom stare at a giant animated physical loan contract jumping out of groom's pocket at altar, shocked guests",
+      "id": "ef4ca66a84ca31c01e48a1655aec46f9b30e10e99f9d176362450bb83f1ea2bf",
+      "hashtags": [
+        "#социальныесети",
+        "#ирония",
+        "#пацанскиешутки"
+      ],
+      "slot": "2026-11-13-17-03",
+      "quality_version": 3,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "claymation",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Photorealistic wedding ceremony, bride and groom stare at a giant animated physical loan contract jumping out of groom's pocket at altar, shocked guests",
+        "visual_hash": "aee696e6674d1d8b",
+        "image_entropy": 7.36,
+        "image_luminance_std": 45.49,
+        "image_qa": "passed_basic_image_checks",
+        "vision_review": "unavailable",
+        "vision_reason": "HTTPError: 422 Client Error: Unprocessable Entity for url: https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/responses",
+        "caption_layout": "papercut"
+      },
+      "vedismm_post_id": 5081,
+      "scheduled_at": "2026-11-13T17:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_space_landlord",
+      "scene": "life",
+      "top": "Посмотрел аренду жилья на Марсе.",
+      "bottom": "Риелтор сказал: «До метро далековато, зато соседи не сверлят».",
+      "caption": "Квартирный вопрос вышел в космос.",
+      "visual": "Photorealistic astronaut real estate agent showing tiny Mars dome apartment with a SOLD placard turned face away, distant Earth in space and lonely red desert",
+      "id": "a324b1294d903897cdd21b8f0c09e9c6a97fc0ba30913f6598b5c6881e58b0bc",
+      "hashtags": [
+        "#день",
+        "#чтозажизнь",
+        "#шуткивк"
+      ],
+      "slot": "2026-11-13-18-00",
+      "quality_version": 3,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "paper_collage",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Photorealistic astronaut real estate agent showing tiny Mars dome apartment with a SOLD placard turned face away, distant Earth in space and lonely red desert",
+        "visual_hash": "fa2f674c342c45a5",
+        "image_entropy": 7.28,
+        "image_luminance_std": 43.91,
+        "image_qa": "passed_basic_image_checks",
+        "vision_review": "unavailable",
+        "vision_reason": "HTTPError: 422 Client Error: Unprocessable Entity for url: https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/responses",
+        "caption_layout": "gradient"
+      },
+      "vedismm_post_id": 5082,
+      "scheduled_at": "2026-11-13T18:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_coffee_union",
+      "scene": "work",
+      "top": "Кофемашина в офисе объявила забастовку.",
+      "bottom": "На переговоры пришёл чайник. Через пять минут оба потребовали отпуск.",
+      "caption": "Профсоюз бытовой техники.",
+      "visual": "Photorealistic office kitchen where espresso machine and electric kettle face each other across tiny negotiation table with two miniature strike placards",
+      "id": "7fa913e5c83ce899c6c40ad1a345ba67b3bf8615e6d797a77b84627906b66c02",
+      "hashtags": [
+        "#дедлайн",
+        "#юморбезграниц",
+        "#мемы2026"
+      ],
+      "slot": "2026-11-13-18-01",
+      "quality_version": 3,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "graphic_novel",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Photorealistic office kitchen where espresso machine and electric kettle face each other across tiny negotiation table with two miniature strike placards",
+        "visual_hash": "efcd25a7c6c4c5cd",
+        "image_entropy": 7.05,
+        "image_luminance_std": 42.83,
+        "image_qa": "passed_basic_image_checks",
+        "vision_review": "unavailable",
+        "vision_reason": "HTTPError: 422 Client Error: Unprocessable Entity for url: https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/responses",
+        "caption_layout": "editorial"
+      },
+      "vedismm_post_id": 5087,
+      "scheduled_at": "2026-11-13T18:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_salary_fugitive",
+      "scene": "wallet",
+      "top": "Зарплата пришла в 09:00.",
+      "bottom": "В 09:03 её уже разыскивали коммуналка, кредиты и какой-то охуевший автоплатёж.",
+      "caption": "Деньги не задерживаются.",
+      "visual": "A wad of banknotes sprinting away from a wallet with tiny legs, chased down a corridor by enormous utility bills and an angry automatic-payment machine",
+      "id": "9c39be5038cfd5ea3dfdbdc9ed5cf2e3faae9dca15a6c6bebdfc4c510bf4f8f1",
+      "hashtags": [
+        "#потратилвсе",
+        "#рекомендации",
+        "#мемыпронас"
+      ],
+      "slot": "2026-11-13-18-02",
+      "quality_version": 3,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "watercolor",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "A wad of banknotes sprinting away from a wallet with tiny legs, chased down a corridor by enormous utility bills and an angry automatic-payment machine",
+        "visual_hash": "cdddd362397996b0",
+        "image_entropy": 7.32,
+        "image_luminance_std": 39.83,
+        "image_qa": "passed_basic_image_checks",
+        "vision_review": "unavailable",
+        "vision_reason": "HTTPError: 422 Client Error: Unprocessable Entity for url: https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/responses",
+        "caption_layout": "darkroom"
+      },
+      "vedismm_post_id": 5088,
+      "scheduled_at": "2026-11-13T18:30:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_museum_phone",
+      "scene": "social",
+      "top": "Музей выставил мой старый телефон.",
+      "bottom": "Табличка: «Последний аппарат, который просто звонил и не доёбывался».",
+      "caption": "История технологий.",
+      "visual": "Cinematic museum hall with a worn old button mobile phone in a glass display case, fascinated tourists inspecting it among futuristic devices, no readable text",
+      "id": "6326b47eeda8835cb4459c839ff39f861e6ece79eda253e6e10244e8a02f1dee",
+      "hashtags": [
+        "#общениевсети",
+        "#шуткипрожизнь",
+        "#мемы"
+      ],
+      "slot": "2026-11-13-18-03",
+      "quality_version": 3,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "oil_painting",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Cinematic museum hall with a worn old button mobile phone in a glass display case, fascinated tourists inspecting it among futuristic devices, no readable text",
+        "visual_hash": "184cc54597d6d341",
+        "image_entropy": 7.02,
+        "image_luminance_std": 35.12,
+        "image_qa": "passed_basic_image_checks",
+        "vision_review": "unavailable",
+        "vision_reason": "HTTPError: 422 Client Error: Unprocessable Entity for url: https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/responses",
+        "caption_layout": "film"
+      },
+      "vedismm_post_id": 5089,
+      "scheduled_at": "2026-11-13T18:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_robot_therapy",
+      "scene": "life",
+      "top": "Робот-пылесос записался к психологу.",
+      "bottom": "Говорит: «Я устал собирать чужое дерьмо. Особенно эмоциональное».",
+      "caption": "Техника тоже выгорает.",
+      "visual": "Photorealistic robot vacuum cleaner lying on therapist couch while an elderly therapist takes notes in an office, tiny dust bunnies wait in hallway",
+      "id": "fc267b523c6d27d20d40f2fb5ae0384f44840a6d6f7a3e15348c016605d494ee",
+      "hashtags": [
+        "#планынадень",
+        "#современныйюмор",
+        "#румемы"
+      ],
+      "slot": "2026-11-13-19-00",
+      "quality_version": 3,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "pencil_sketch",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Photorealistic robot vacuum cleaner lying on therapist couch while an elderly therapist takes notes in an office, tiny dust bunnies wait in hallway",
+        "visual_hash": "8f86c71256ce0b1d",
+        "image_entropy": 7.3,
+        "image_luminance_std": 40.08,
+        "image_qa": "passed_basic_image_checks",
+        "vision_review": "unavailable",
+        "vision_reason": "HTTPError: 422 Client Error: Unprocessable Entity for url: https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/responses",
+        "caption_layout": "neon"
+      },
+      "vedismm_post_id": 5090,
+      "scheduled_at": "2026-11-13T19:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_robot_hr",
+      "scene": "work",
+      "top": "Собеседование проводил робот.",
+      "bottom": "Он спросил про стрессоустойчивость и сам разрыдался на слове «дедлайн».",
+      "caption": "Сильная команда профессионалов.",
+      "visual": "Photorealistic HR interview room where humanoid office robot in a blazer bursts into tears at desk, stunned adult applicant holds resume",
+      "id": "7cbd68a503f5c000d877e9b0a78d1ddea4cd863c5459a08c34dace07276a3a0b",
+      "hashtags": [
+        "#рабочиемемы",
+        "#жизамем",
+        "#мемно"
+      ],
+      "slot": "2026-11-13-19-01",
+      "quality_version": 3,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "pixel_art",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Photorealistic HR interview room where humanoid office robot in a blazer bursts into tears at desk, stunned adult applicant holds resume",
+        "visual_hash": "0b4851586b697333",
+        "image_entropy": 7.02,
+        "image_luminance_std": 40.66,
+        "image_qa": "passed_basic_image_checks",
+        "vision_review": "unavailable",
+        "vision_reason": "HTTPError: 422 Client Error: Unprocessable Entity for url: https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/responses",
+        "caption_layout": "papercut"
+      },
+      "vedismm_post_id": 5091,
+      "scheduled_at": "2026-11-13T19:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
@@ -1502,6 +1733,13 @@
     "2026-11-13-16-03",
     "2026-11-13-17-00",
     "2026-11-13-17-01",
-    "2026-11-13-17-02"
+    "2026-11-13-17-02",
+    "2026-11-13-17-03",
+    "2026-11-13-18-00",
+    "2026-11-13-18-01",
+    "2026-11-13-18-02",
+    "2026-11-13-18-03",
+    "2026-11-13-19-00",
+    "2026-11-13-19-01"
   ]
 }

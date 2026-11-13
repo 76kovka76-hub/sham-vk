@@ -2,5 +2,20 @@
   "schema": 1,
   "group_id": "243241856",
   "posts_per_day": 50,
-  "entries": []
+  "entries": [
+    {
+      "slot": "20261113-16",
+      "scheduled_at": "2026-11-13T07:40:00Z",
+      "asset_id": "auto_shop_tiny_basket",
+      "sha256": "833558e04ebe23ec8d116ddfdda382138247f1bf85bf68bbfc7874f0e8872cb8",
+      "story_id": "shop_tiny_basket",
+      "topic": "money",
+      "panels": 2,
+      "post_id": 5011,
+      "status": "scheduled",
+      "group_id": "243241856",
+      "generator": "FREE_OVH_SDXL",
+      "pilot": true
+    }
+  ]
 }

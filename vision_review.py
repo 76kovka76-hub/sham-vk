@@ -13,7 +13,7 @@ import os
 import requests
 
 URL = "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/responses"
-DEFAULT_MODEL = "Qwen2.5-VL-72B-Instruct"
+DEFAULT_MODEL = "Qwen3.5-9B"
 
 
 def _extract_text(response):
@@ -50,7 +50,7 @@ def review_visual(image, post, *, mode="best_effort", request=None):
 
     try:
         preview = image.convert("RGB")
-        preview.thumbnail((640, 640))
+        preview.thumbnail((512, 512))
         buf = io.BytesIO()
         preview.save(buf, "JPEG", quality=75, optimize=True)
         b64 = base64.b64encode(buf.getvalue()).decode("ascii")
@@ -87,7 +87,7 @@ def review_visual(image, post, *, mode="best_effort", request=None):
                     ],
                 }],
             },
-            timeout=35,
+            timeout=22,
         )
         reply.raise_for_status()
         result = _json_object(_extract_text(reply.json()))

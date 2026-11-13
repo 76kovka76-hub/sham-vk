@@ -4,6 +4,7 @@ The style is deterministic for a UTC 15-minute slot, so retries reproduce
 the same prompt. There is intentionally no 92-anime/4-photo quota.
 """
 from datetime import date
+import hashlib
 
 STYLE_PROMPTS = {
     "realistic": "Hyperrealistic candid editorial photograph, natural skin and light, documentary color grading, believable physical objects.",
@@ -62,3 +63,35 @@ def style_for_slot(slot: str) -> str:
         raise ValueError(f"Bad SHAM slot: {slot!r}") from exc
     absolute_quarter = day.toordinal() * 96 + hour * 4 + quarter
     return STYLE_ORDER[absolute_quarter % len(STYLE_ORDER)]
+
+
+# Prevent randomly assigned genres from hiding the essential physical gag.
+# A crowd at a press conference should not be an extreme macro close-up;
+# a tiny insect close-up can be one. Keep a wide range of photography,
+# collage and cinematic options instead of forcing a single fixed style.
+WIDE_SCENE_STYLES = (
+    "realistic", "phone_photo", "cinematic", "flash_photo", "photojournalism",
+    "street_photo", "film_noir", "vintage_photo", "polaroid", "vhs_still",
+    "mockumentary", "photomontage", "surreal_photo", "practical_effects",
+)
+
+
+def story_style(post, slot):
+    preferred = style_for_slot(slot)
+    if not str(post.get("topic", "")).startswith("mini_"):
+        return preferred
+    visual = str(post.get("visual", "")).lower()
+    mismatched = (
+        preferred == "macro_photo" and not any(
+            term in visual for term in ("tiny", "miniature", "small object", "macro", "coin", "pocket"))
+        or preferred == "miniature_photo" and not any(
+            term in visual for term in ("tiny", "miniature", "diorama", "scale model"))
+        or preferred == "sports_photo" and not any(
+            term in visual for term in ("sport", "race", "run", "jump", "athlet", "chase"))
+        or preferred == "fashion_photo" and not any(
+            term in visual for term in ("fashion", "model", "catwalk", "runway", "clothes"))
+    )
+    if not mismatched:
+        return preferred
+    checksum = int(hashlib.sha256((slot + "|" + post.get("topic", "")).encode()).hexdigest()[:8], 16)
+    return WIDE_SCENE_STYLES[checksum % len(WIDE_SCENE_STYLES)]

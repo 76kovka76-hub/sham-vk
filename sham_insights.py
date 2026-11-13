@@ -168,6 +168,7 @@ def summarize(history, remote, *, since=None):
            for p in entries
            if isinstance(p.get("vedismm_post_id"), int)}
     ranked = []
+    cohorts = defaultdict(lambda: {"count": 0, "score_sum": 0.0})
     by_format = defaultdict(lambda: {"count": 0, "shares": 0.,
                                       "likes": 0., "comments": 0.})
     for item in remote.get("posts", []):
@@ -190,6 +191,9 @@ def summarize(history, remote, *, since=None):
         style = (local.get("image_source") or {}).get("style", "unknown")
         genre = local.get("humor_lane", "legacy")
         key = f"{genre}|{style}"
+        if reach is not None and reach > 0 and genre != "legacy":
+            cohorts[genre]["count"] += 1
+            cohorts[genre]["score_sum"] += float(score)
         stat = by_format[key]
         stat["count"] += 1
         for name in ("likes", "shares", "comments"):
@@ -209,6 +213,7 @@ def summarize(history, remote, *, since=None):
     return {"status": remote.get("status", "unavailable"),
             "observed_posts": len(ranked), "top": ranked[:10],
             "experiments": experiments,
+            "cohorts": dict(cohorts),
             "quality_note": "No demo data; unavailable metrics excluded. "
                             "A/B results are descriptive until samples are large."}
 
@@ -221,6 +226,8 @@ def main():
     report["source"] = remote.get("source", "vedismm")
     report["fallback_reason"] = remote.get("vk_fallback_reason", "")
     report["unavailable_reason"] = remote.get("reason", "")
+    from ab_strategy import update_weights
+    report["adaptive_weights_updated"] = update_weights(report)
     out = Path("output/sham_insights.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

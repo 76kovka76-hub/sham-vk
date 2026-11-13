@@ -69,6 +69,8 @@ jobs:
           path: |
             sovetskiy/auto15_preview.png
             sovetskiy/auto15_preview.json
+            sovetskiy/batch_previews/*.png
+            sovetskiy/batch_previews/*.json
           if-no-files-found: ignore
           retention-days: 7
       - name: Persist ALL scheduled slots and any uncertain post states

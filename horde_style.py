@@ -17,6 +17,7 @@ from PIL import Image, ImageDraw, ImageOps
 from style_catalog import STYLE_PROMPTS, style_for_slot
 from image_guard import validate_artwork, validate_joke_visual_brief
 from vision_review import review_visual
+from meme_layout import render_meme
 
 API = "https://aihorde.net/api/v2"
 CLIENT_AGENT = "SHAM-VK:1.0:https://github.com/76kovka76-hub/sham-vk"
@@ -246,26 +247,11 @@ def make_horde_image(post, slot, out: Path, font, centered_text, style_override=
     metadata = {**metadata, **validate_artwork(original, state)}
     vision_mode = os.getenv('SHAM_VISION_CHECK', 'off').strip().lower()
     metadata = {**metadata, **review_visual(original, post, mode=vision_mode)}
-    image = ImageOps.fit(original, (1080, 1080),
-                         method=Image.Resampling.LANCZOS,
-                         centering=(0.5, 0.48)).convert("RGBA")
-    overlay = Image.new("RGBA", image.size, (0, 0, 0, 0))
-    d = ImageDraw.Draw(overlay)
-    for y in range(270):
-        strength = max(0, int(215 * (1 - y / 285)))
-        d.line((0, y, 1079, y), fill=(2, 2, 8, strength))
-    for y in range(805, 1080):
-        strength = min(245, int(210 * ((y - 805) / 275) + 35))
-        d.line((0, y, 1079, y), fill=(2, 2, 8, strength))
-    image = Image.alpha_composite(image, overlay)
-    d = ImageDraw.Draw(image)
-    centered_text(d, post["top"], 18, 255, (255, 255, 255, 255), 72)
-    centered_text(d, post["bottom"], 812, 1018, (255, 228, 45, 255), 72)
-    d.text((540, 1054), "SHAM", font=font(29), anchor="mm",
-           fill=(238, 238, 238, 255), stroke_width=2, stroke_fill=(0, 0, 0))
+    image, layout = render_meme(original, post, slot, font, centered_text)
+    metadata["caption_layout"] = layout
     out.mkdir(parents=True, exist_ok=True)
     path = out / "sham_meme.png"
-    image.convert("RGB").save(path, "PNG", optimize=True)
+    image.save(path, "PNG", optimize=True)
     (out / "image_source.json").write_text(
         json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
     return path

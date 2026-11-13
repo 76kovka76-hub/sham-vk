@@ -1,0 +1,50 @@
+name: SOVETSKIY — опубликование проверенного мема
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sovetskiy-publish-one.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: sovetskiy-one-off-reviewed-bread-v1
+  cancel-in-progress: false
+
+jobs:
+  publish-reviewed-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install free Python photo composition tools
+        run: python -m pip install requests pillow
+      - name: Retrieve exact generated image inspected before publication
+        uses: actions/download-artifact@v4
+        with:
+          name: sovetskiy-gastronom-preview-43408214337
+          repository: 76kovka76-hub/sham-vk
+          run-id: 43408214337
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: sovetskiy/reviewed_gastronom
+      - name: Publish a single matched original Soviet-style photograph to VK 243244760
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+          SOVETSKIY_ONE_OFF_APPROVED: 'true'
+        run: python -u sovetskiy/publish_one_test.py
+      - name: Retain exact final VK picture and result for verification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sovetskiy-published-test-${{ github.run_id }}
+          path: |
+            sovetskiy/sovetskiy_gastronom_published.png
+            sovetskiy/sovetskiy_test_publish_result.json
+          retention-days: 14
+          if-no-files-found: ignore

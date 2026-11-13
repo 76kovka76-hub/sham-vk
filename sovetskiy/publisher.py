@@ -87,7 +87,7 @@ def _if_match(reply,draft):
 
 def schedule_one():
     settings=json.loads((ROOT/"settings.json").read_text(encoding="utf-8"))
-    if settings.get("group_id")!=VK_GROUP_ID or settings.get("autopublish") is not True:
+    if settings.get("group_id")!=VK_GROUP_ID or settings.get("legacy_pilot_enabled") is not True:
         print("SOVETSKIY_AUTOPUBLISH_DISABLED: preview/tests only; no VediSMM post")
         return
     state=load_state()

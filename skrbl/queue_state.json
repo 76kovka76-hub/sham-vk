@@ -44,6 +44,20 @@
       "group_id": "243241856",
       "generator": "FREE_OVH_SDXL",
       "pilot": true
+    },
+    {
+      "slot": "20261113-40",
+      "scheduled_at": "2026-11-13T19:12:00Z",
+      "asset_id": "auto_duvet_trap",
+      "sha256": "5af62231b5f64f727264a8404053faffe7a95f556dfa18d48957f1e32fdcf9ba",
+      "story_id": "duvet_trap",
+      "topic": "sleep",
+      "panels": 1,
+      "post_id": 5058,
+      "status": "scheduled",
+      "group_id": "243241856",
+      "generator": "FREE_OVH_SDXL",
+      "pilot": true
     }
   ]
 }

@@ -16,6 +16,13 @@ REJECTED_QUEUED_IDS = frozenset({
 })
 
 
+# Ban overtly illustrated genres from queued SHAM posts. These are unlike
+# documentary photographs regardless of what the image model calls them.
+ILLUSTRATED_STYLES = frozenset({
+    "anime", "comic_strip", "graphic_novel", "watercolor", "oil_painting",
+    "pencil_sketch", "pixel_art", "claymation", "3d_render", "paper_collage",
+})
+
 def mark_rejected_future(state, *, now=None, min_lead_minutes=90):
     if now is None:
         now = datetime.now(timezone.utc)
@@ -23,8 +30,11 @@ def mark_rejected_future(state, *, now=None, min_lead_minutes=90):
         raise ValueError("Editorial review requires aware time and safe lead")
     count = 0
     for item in state.get("posts", []):
+        visual_style = (item.get("image_source") or {}).get("style")
+        weak_caption = item.get("vedismm_post_id") in REJECTED_QUEUED_IDS
+        unwanted_illustration = visual_style in ILLUSTRATED_STYLES
         if (item.get("publication_status") != "scheduled"
-                or item.get("vedismm_post_id") not in REJECTED_QUEUED_IDS):
+                or not (weak_caption or unwanted_illustration)):
             continue
         value = item.get("scheduled_at")
         if not isinstance(value, str):
@@ -36,6 +46,8 @@ def mark_rejected_future(state, *, now=None, min_lead_minutes=90):
         if when.tzinfo is None or when <= now + timedelta(minutes=min_lead_minutes):
             continue
         item["review_rejected"] = True
-        item["review_rejected_reason"] = "editorial: weak or repeated premise"
+        item["review_rejected_reason"] = (
+            "visual policy: nonphotographic anime or illustration"
+            if unwanted_illustration else "editorial: weak or repeated premise")
         count += 1
     return count

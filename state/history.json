@@ -1546,8 +1546,10 @@
       },
       "vedismm_post_id": 5087,
       "scheduled_at": "2026-11-13T18:15:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_salary_fugitive",
@@ -1579,8 +1581,10 @@
       },
       "vedismm_post_id": 5088,
       "scheduled_at": "2026-11-13T18:30:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_museum_phone",
@@ -1645,8 +1649,10 @@
       },
       "vedismm_post_id": 5090,
       "scheduled_at": "2026-11-13T19:00:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_robot_hr",
@@ -1678,8 +1684,10 @@
       },
       "vedismm_post_id": 5091,
       "scheduled_at": "2026-11-13T19:15:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_toilet_ai",
@@ -1713,8 +1721,10 @@
       },
       "vedismm_post_id": 5113,
       "scheduled_at": "2026-11-13T19:30:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_groupchat_apocalypse",
@@ -1783,8 +1793,10 @@
       },
       "vedismm_post_id": 5115,
       "scheduled_at": "2026-11-13T20:00:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_delivery_space",
@@ -1818,8 +1830,10 @@
       },
       "vedismm_post_id": 5116,
       "scheduled_at": "2026-11-13T20:15:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_passenger_luggage",
@@ -1888,8 +1902,10 @@
       },
       "vedismm_post_id": 5118,
       "scheduled_at": "2026-11-13T20:45:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_phone_exorcism",
@@ -1993,8 +2009,10 @@
       },
       "vedismm_post_id": 5124,
       "scheduled_at": "2026-11-13T21:30:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_algorithm_funeral",
@@ -2098,8 +2116,10 @@
       },
       "vedismm_post_id": 5127,
       "scheduled_at": "2026-11-13T22:15:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_dog_interview",
@@ -2133,8 +2153,10 @@
       },
       "vedismm_post_id": 5128,
       "scheduled_at": "2026-11-13T22:30:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_fridge_union",
@@ -2168,8 +2190,10 @@
       },
       "vedismm_post_id": 5129,
       "scheduled_at": "2026-11-13T22:45:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_alarm_boss",
@@ -2203,8 +2227,10 @@
       },
       "vedismm_post_id": 5135,
       "scheduled_at": "2026-11-13T23:00:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_printer_hell",
@@ -2238,8 +2264,10 @@
       },
       "vedismm_post_id": 5139,
       "scheduled_at": "2026-11-13T23:15:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_pigeon_landlord",
@@ -2308,8 +2336,10 @@
       },
       "vedismm_post_id": 5141,
       "scheduled_at": "2026-11-13T23:45:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_internet_mummy",
@@ -2343,8 +2373,10 @@
       },
       "vedismm_post_id": 5142,
       "scheduled_at": "2026-11-14T00:00:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_ai_boss",
@@ -2378,8 +2410,10 @@
       },
       "vedismm_post_id": 5143,
       "scheduled_at": "2026-11-14T00:15:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     },
     {
       "topic": "mini_elevator_therapy",
@@ -2413,8 +2447,10 @@
       },
       "vedismm_post_id": 5144,
       "scheduled_at": "2026-11-14T00:30:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "unscheduled_low_quality",
+      "vk_url": "",
+      "review_rejected": true,
+      "review_rejected_reason": "editorial: weak or repeated premise"
     }
   ],
   "slots": [
@@ -2472,31 +2508,13 @@
     "2026-11-13-17-02",
     "2026-11-13-17-03",
     "2026-11-13-18-00",
-    "2026-11-13-18-01",
-    "2026-11-13-18-02",
     "2026-11-13-18-03",
-    "2026-11-13-19-00",
-    "2026-11-13-19-01",
-    "2026-11-13-19-02",
     "2026-11-13-19-03",
-    "2026-11-13-20-00",
-    "2026-11-13-20-01",
     "2026-11-13-20-02",
-    "2026-11-13-20-03",
     "2026-11-13-21-00",
     "2026-11-13-21-01",
-    "2026-11-13-21-02",
     "2026-11-13-21-03",
     "2026-11-13-22-00",
-    "2026-11-13-22-01",
-    "2026-11-13-22-02",
-    "2026-11-13-22-03",
-    "2026-11-13-23-00",
-    "2026-11-13-23-01",
-    "2026-11-13-23-02",
-    "2026-11-13-23-03",
-    "2026-11-14-00-00",
-    "2026-11-14-00-01",
-    "2026-11-14-00-02"
+    "2026-11-13-23-02"
   ]
 }

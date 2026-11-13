@@ -72,6 +72,20 @@
       "group_id": "243241856",
       "generator": "FREE_OVH_SDXL",
       "pilot": true
+    },
+    {
+      "slot": "20261114-08",
+      "scheduled_at": "2026-11-14T03:50:00Z",
+      "asset_id": "auto_food_delivery",
+      "sha256": "65fbdb85b2b9c0e5537c08db00b479a66e226f09ce40ad0bd36b6813c0179666",
+      "story_id": "food_delivery",
+      "topic": "home",
+      "panels": 1,
+      "post_id": 5121,
+      "status": "scheduled",
+      "group_id": "243241856",
+      "generator": "FREE_OVH_SDXL",
+      "pilot": true
     }
   ]
 }

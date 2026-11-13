@@ -11,6 +11,7 @@ on:
       - 'hard_jokes.py'
       - 'fresh_jokes.py'
       - 'editorial_jokes.py'
+      - 'review_queue_once.py'
       - 'live_jokes.py'
       - 'vision_review.py'
       - 'trend_signals.py'

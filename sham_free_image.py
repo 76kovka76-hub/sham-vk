@@ -23,8 +23,16 @@ def generate_image(post,slot,style):
         raise ValueError("Unknown SHAM visual genre: " + str(style))
     # SDXL sees the exact physical joke scene at the beginning of the prompt.
     prompt = build_prompt(post, slot, style)
+    photo_only = os.getenv("SHAM_PHOTO_ONLY", "").lower() in ("true", "1", "yes")
+    intro = (
+        "RAW PHOTOGRAPH, captured by a DSLR camera with actual photographic optics. "
+        "Living believable actors and tangible real objects. "
+        "No anime or cartoons, no illustration, no painting, no 3D or videogame. "
+        "Absurd yet visually believable staged photojournalism scene: "
+        if photo_only else "Original humorous visual for a Russian meme. "
+    )
     prompt = (
-        "Original humorous visual for a Russian meme. "
+        intro
         + prompt
         + " Make the scene funny and visually self-explanatory. "
         + "No embedded text, no labels, no watermarks."

@@ -1,7 +1,7 @@
 """Entirely free anonymous SDXL image generator for SHAM.
 
 Uses the OVHcloud free public endpoint without any API key or billing.
-Preserves SHAM's existing 4 realistic / 92 anime UTC slots and its coherent
+Supports SHAM's broad visual genre rotation and its coherent
 joke/punchline bank. The web image is ALWAYS generated for the original meme;
 no unlicensed stock photos, random scraped pictures or text-only fallback.
 """
@@ -13,29 +13,22 @@ import time
 import requests
 from PIL import Image
 from horde_style import build_prompt
+from style_catalog import STYLE_PROMPTS
 
 API="https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/images/generations"
 MODEL="stabilityai/stable-diffusion-xl-base-1.0"
 
 def generate_image(post,slot,style):
-    if style not in ("anime","realistic"):
-        raise ValueError("Only the approved SHAM visual styles are supported")
-    prompt=build_prompt(post,slot,style)
-    # Explicitly describe a visible physical situation, not only a portrait.
-    prefix=(
-        "Funny staged cinematic photo of a REALISTIC FICTIONAL adult in an "
-        "absurd everyday slapstick situation; highly expressive human face, "
-        "believable human skin and lighting. Photographic, not anime. "
-        if style=="realistic" else
-        "Funny lively anime comedy frame with exaggerated expressions, "
-        "comedic physical action, rich environment, expressive animated face. "
-        "Illustrated, not photorealistic. "
-    )
-    # Ask for the exact action and prop FIRST; SDXL can truncate late instructions.
-    funny_visual=(post.get("visual") or "").strip()
-    prompt=(prefix+"Scene: "+funny_visual+". "+prompt+
-            " Funny visible situation, unusual prop or action, one main face, "
-            "no embedded captions, no letters, no watermarks, no logos, SFW.")[:3200]
+    if style not in STYLE_PROMPTS:
+        raise ValueError("Unknown SHAM visual genre: " + str(style))
+    # SDXL sees the exact physical joke scene at the beginning of the prompt.
+    prompt = build_prompt(post, slot, style)
+    prompt = (
+        "Original humorous visual for a Russian meme. "
+        + prompt
+        + " Make the scene funny and visually self-explanatory. "
+        + "No embedded text, no labels, no watermarks."
+    )[:3200]
     request=requests.post(
         API,
         json={"model":MODEL,"prompt":prompt,"size":"1024x1024","n":1},

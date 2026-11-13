@@ -9,6 +9,7 @@ on:
       - 'horde_style.py'
       - 'sham_free_image.py'
       - 'visual_gags.py'
+      - 'short_jokes.py'
       - 'queue_planner.py'
       - 'queue_batch.py'
       - 'queue_health.py'

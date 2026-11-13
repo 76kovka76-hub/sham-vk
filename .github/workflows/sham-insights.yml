@@ -1,0 +1,99 @@
+name: SHAM — аналитика, комментарии и топ недели
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'sham_insights.py'
+      - 'community_signals.py'
+      - 'editorial_experiments.py'
+      - 'sham_weekly_top.py'
+      - 'sham_motion.py'
+      - 'tests/test_insights_experiments.py'
+      - 'tests/test_motion_weekly.py'
+      - '.github/workflows/sham-insights.yml'
+  schedule:
+    # Daily read-only performance/interest report.
+    - cron: '23 4 * * *'
+    # Sunday evening weekly top; publish only if 3 genuinely measured posts.
+    - cron: '17 18 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sham-editorial-insights
+  cancel-in-progress: false
+
+jobs:
+  insights:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Test SHAM editorial intelligence
+        run: python -m unittest discover -s tests -v
+      - name: Collect actual post engagement and anonymized audience topics
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+          VEDISMM_ACCOUNT_ID: ${{ vars.VEDISMM_ACCOUNT_ID }}
+          VK_USER_TOKEN: ${{ secrets.VK_USER_TOKEN }}
+          VK_GROUP_TOKEN: ${{ secrets.VK_GROUP_TOKEN }}
+        run: |
+          python sham_insights.py
+          python community_signals.py
+      - name: Optional verified weekly top
+        if: github.event_name == 'schedule' && github.event.schedule == '17 18 * * 0'
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+          VEDISMM_ACCOUNT_ID: ${{ vars.VEDISMM_ACCOUNT_ID }}
+          SHAM_WEEKLY_PUBLISH: 'true'
+        run: python sham_weekly_top.py
+      - name: Save editorial reports and weekly poster
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sham-insights-${{ github.run_id }}
+          path: |
+            output/sham_insights.json
+            output/sham_community_report.json
+            output/sham_weekly_top.png
+            output/sham_weekly_top.json
+          if-no-files-found: ignore
+          retention-days: 14
+      - name: Update anonymous topic cache for next meme generation
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: |
+          if [ ! -f state/community_signals.json ]; then
+            echo "No valid community statistics; existing file stays unchanged"
+            exit 0
+          fi
+          if git diff --quiet -- state/community_signals.json &&
+             ! git ls-files --others --exclude-standard -- state/community_signals.json | grep -q .; then
+            echo "No new aggregate topics"
+            exit 0
+          fi
+          git config user.name "sham-bot"
+          git config user.email "sham-bot@users.noreply.github.com"
+          git add state/community_signals.json
+          git commit -m "bot: refresh anonymous SHAM audience themes [skip ci]"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            if ! git rebase origin/main; then
+              git rebase --abort || true
+              echo "::warning::Topic update conflicted; not changing publication queue"
+              exit 0
+            fi
+            if git push; then
+              exit 0
+            fi
+            sleep $((2 * attempt))
+          done
+          echo "::warning::Could not save optional topics. SHAM publishing unaffected."

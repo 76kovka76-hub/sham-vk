@@ -475,6 +475,32 @@
       "media_id": 3380,
       "post_id": 5236,
       "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261114-02",
+      "scheduled_at": "2026-11-14T00:30:00Z",
+      "story_id": "picnic_rain",
+      "theme": "life",
+      "sha256": "8e437cc5186c6b67b3ce5b14a8022b7282b74f4017ae06647be0cf15ebec325b",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "A group of people sitting at a picnic table with a checkered tablecloth, looking up at a large, ominous rain cloud directly above them.",
+        "explanation": "The image shows a group of people on a picnic with a checkered tablecloth, looking up at a large rain cloud, which matches the joke about a cloud having reserved the spot. The central prop, the rain cloud, is clearly visible, and the people's actions of looking up align with the joke. The large Cyrillic captions are legible and add to the humor.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "СОБРАЛИСЬ НА ПИКНИК",
+      "bottom": "ТУЧА УЖЕ ЗАБРОНИРОВАЛА МЕСТО.",
+      "media_id": 3382,
+      "post_id": 5238,
+      "vedismm_status": "scheduled"
     }
   ]
 }

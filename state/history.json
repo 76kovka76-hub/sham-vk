@@ -270,6 +270,34 @@
       "scheduled_at": "2026-11-13T03:00:00Z",
       "publication_status": "scheduled",
       "vk_url": ""
+    },
+    {
+      "top": "Увидел: «Позвони, когда сможешь».",
+      "bottom": "За секунду вспомнил все свои ошибки с 2011 года.",
+      "scene": "social",
+      "topic": "need_talk",
+      "visual": "adult person looking nervously at phone message in cafe",
+      "caption": "Два слова — и тревожный сериал.",
+      "id": "a93969639ca8ee096329b11e0895687c8fb69d33bf25f15167bbe451d84f02a4",
+      "hashtags": [
+        "#отношения",
+        "#шуточки",
+        "#смешныеистории"
+      ],
+      "slot": "2026-11-13-04-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "4c6b9a33-bbd4-4cb2-a5d8-08dfd864407e",
+        "model": "stable_diffusion",
+        "seed": "222373031",
+        "worker": "esson-arch-gemini-sd15"
+      },
+      "vedismm_post_id": 4989,
+      "scheduled_at": "2026-11-13T04:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
@@ -280,6 +308,7 @@
     "2026-11-13-00-00",
     "2026-11-13-01-00",
     "2026-11-13-02-01",
-    "2026-11-13-03-00"
+    "2026-11-13-03-00",
+    "2026-11-13-04-00"
   ]
 }

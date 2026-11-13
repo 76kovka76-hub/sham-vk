@@ -42,6 +42,13 @@ def current_slot():
 def generate_post(state, slot):
     """Return an explicitly approved, coherent meme; never mix random jokes."""
     from quality_guard import select_post
+    if os.getenv("SHAM_LIVE_TEXT", "").strip().lower() in ("1", "true", "yes"):
+        try:
+            from live_jokes import generate_live_post
+            return generate_live_post(state, slot)
+        except (requests.RequestException, ValueError, RuntimeError, KeyError, TypeError) as exc:
+            print("::warning::SHAM free live-text generator unavailable or failed QA; "
+                  "falling back to curated original jokes: " + str(exc)[:160], flush=True)
     return select_post(state, slot)
 
 

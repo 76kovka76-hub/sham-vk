@@ -1,0 +1,47 @@
+name: SKRBL — проверка бесплатного OVHcloud SDXL
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skrbl/ovh_free.py'
+      - '.github/workflows/skrbl-ovh.yml'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'probe = 1 scene; preview = 4 frames'
+        type: choice
+        default: probe
+        required: true
+        options: [probe, preview]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skrbl-ovh-probe
+  cancel-in-progress: false
+
+jobs:
+  verify-free-model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install open-source dependencies only
+        run: python -m pip install requests pillow
+      - name: Verify anonymous FREE SDXL model (never publishes)
+        run: python -u skrbl/ovh_free.py --${{ github.event.inputs.mode == 'preview' && 'preview' || 'probe' }}
+      - name: Retain free result for manual SKRBL quality review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: skrbl-free-ovh-${{ github.run_id }}
+          path: |
+            skrbl/ovh_probe.png
+            skrbl/free_comic_trial.png
+            skrbl/free_comic_trial.json
+          if-no-files-found: ignore
+          retention-days: 7

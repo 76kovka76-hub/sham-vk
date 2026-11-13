@@ -82,14 +82,14 @@ def _convert_to_pencil(im, panel_size=(696, 527)):
     return ImageOps.colorize(pencil, black="#302c2a", white="#fcfaf2").convert("RGB")
 
 
-def _text_center(draw, text, y, box, max_font=47):
+def _text_center(draw, text, y, box, max_font=47, origin_x=0):
     for size in range(max_font, 20, -1):
         font = _font(size)
         if draw.textbbox((0,0), text, font=font, stroke_width=0)[2] <= box:
             break
     else:
         raise RuntimeError("SKRBL panel has overly long text")
-    draw.text((box//2, y), text, anchor="mt", font=font, fill=STROKE,
+    draw.text((origin_x+box//2, y), text, anchor="mt", font=font, fill=STROKE,
               stroke_width=0)
     return size
 
@@ -218,7 +218,7 @@ def make_comic():
         d.line([(px+3,py+5),(px+PW-4,py+8)],fill=(85,75,75),width=2)
         d.line([(px+5,py+PH-9),(px+PW-6,py+PH-5)],fill=(99,91,89),width=2)
         text=config["top"]
-        _text_center(d,text,py+20,PW,max_font=40)
+        _text_center(d,text,py+20,PW,max_font=40,origin_x=px)
         # Character scenes occupy most of each panel.
         inner=ImageOps.fit(panel,(PW-12,PH-145),method=Image.Resampling.LANCZOS)
         img.paste(inner,(px+6,py+133))

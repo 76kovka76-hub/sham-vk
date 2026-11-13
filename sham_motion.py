@@ -39,24 +39,40 @@ def make_motion_previews(png, out_dir, *, render_mp4=True):
     duration = [300, 250, 220, 220, 220, 220, 500, 500, 500, 700]
     frames[0].save(gif, format="GIF", save_all=True, append_images=frames[1:],
                    duration=duration, loop=0, optimize=True, disposal=2)
-    result = {"gif": str(gif), "gif_frames": len(frames), "mp4": None}
+    result = {"gif": str(gif), "gif_frames": len(frames), "mp4": None,
+              "mp4_status": "not_requested"}
     encoder = shutil.which("ffmpeg")
-    if not render_mp4 or not encoder:
+    if not render_mp4:
+        return result
+    if not encoder:
+        result["mp4_status"] = "ffmpeg_missing"
         return result
     with tempfile.TemporaryDirectory(prefix="sham_video_") as tmp:
         folder = Path(tmp)
         for i, frame in enumerate(frames):
             frame.save(folder / f"frame_{i:03d}.png")
         target = out_dir / "sham_reveal.mp4"
-        cmd = [encoder, "-hide_banner", "-loglevel", "error", "-y",
-               "-framerate", "3", "-i", str(folder / "frame_%03d.png"),
-               "-c:v", "libx264", "-pix_fmt", "yuv420p",
-               "-movflags", "+faststart", str(target)]
-        try:
-            subprocess.run(cmd, check=True, timeout=65,
-                           capture_output=True)
-        except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
-            return result
+        prefix = [encoder, "-hide_banner", "-loglevel", "error", "-y",
+                  "-threads", "2", "-framerate", "3",
+                  "-i", str(folder / "frame_%03d.png")]
+        suffix = ["-pix_fmt", "yuv420p", "-movflags", "+faststart", str(target)]
+        # Ubuntu runners normally provide libx264; MPEG-4 is fallback.
+        for codec in (["-c:v", "libx264", "-preset", "veryfast"],
+                      ["-c:v", "mpeg4", "-q:v", "4"]):
+            try:
+                action = subprocess.run(prefix + codec + suffix, check=True,
+                                        timeout=65, capture_output=True)
+                if target.exists() and target.stat().st_size >= 1024:
+                    result["mp4"] = str(target)
+                    result["mp4_status"] = "ready"
+                    break
+            except subprocess.TimeoutExpired:
+                result["mp4_status"] = "encoding_timeout"
+            except (OSError, subprocess.CalledProcessError) as exc:
+                result["mp4_status"] = "encoding_failed"
+        if result["mp4"] is None and target.exists():
+            target.unlink()
+    return result
         if target.exists() and target.stat().st_size > 10000:
             result["mp4"] = str(target)
     return result

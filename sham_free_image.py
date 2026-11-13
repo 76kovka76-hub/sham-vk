@@ -53,4 +53,4 @@ def generate_image(post,slot,style):
             raise RuntimeError("OVH free image too small")
         artwork=img.convert("RGB")
     return artwork,{"service":"ovh_free_sdxl","style":style,"model":MODEL,
-                    "prompt_scene":funny_visual}
+                    "prompt_scene":(post.get("visual") or "").strip()}

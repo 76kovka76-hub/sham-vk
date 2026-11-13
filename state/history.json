@@ -214,6 +214,34 @@
       "scheduled_at": "2026-11-13T01:00:00Z",
       "publication_status": "published",
       "vk_url": "https://vk.com/wall-243230846_7"
+    },
+    {
+      "top": "Созвон обещали на пять минут.",
+      "bottom": "Моя камера выключена. Желание жить тоже.",
+      "scene": "work",
+      "topic": "five_minute_meeting",
+      "visual": "an exhausted office employee on a long video call with a wall clock",
+      "caption": "Кто из вас ещё на этом созвоне?",
+      "id": "fc37e466683dfbaacb112e97a5398eb3b913f47ea47be3fbd19bd83aa6ccc4d7",
+      "hashtags": [
+        "#работа",
+        "#юмор",
+        "#приколы"
+      ],
+      "slot": "2026-11-13-02-01",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "3ce828f4-d3b0-4307-9725-c4fc9369f6a0",
+        "model": "stable_diffusion",
+        "seed": "3535868894",
+        "worker": "esson-arch-gemini-sd15"
+      },
+      "vedismm_post_id": 4977,
+      "scheduled_at": "2026-11-13T02:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
@@ -222,6 +250,7 @@
     "2026-11-12-21-03",
     "2026-11-12-23-02",
     "2026-11-13-00-00",
-    "2026-11-13-01-00"
+    "2026-11-13-01-00",
+    "2026-11-13-02-01"
   ]
 }

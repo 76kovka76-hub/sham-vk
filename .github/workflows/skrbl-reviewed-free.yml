@@ -1,0 +1,41 @@
+name: SKRBL — первая бесплатная проверенная публикация
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/skrbl-reviewed-free.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: skrbl-reviewed-free-sha-a83bd295
+  cancel-in-progress: false
+
+jobs:
+  publish-exact-approved-comic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install publication dependencies
+        run: python -m pip install requests pillow
+      - name: Download exactly previously reviewed free four-panel comic
+        uses: actions/download-artifact@v4
+        with:
+          name: skrbl-free-ovh-43375917122
+          repository: 76kovka76-hub/sham-vk
+          run-id: 43375917122
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: reviewed_artifact
+      - name: Publish only the SHA-approved image to SKRBL, never SHAM
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+          SKRBL_SEND_APPROVED: 'true'
+          SKRBL_APPROVED_SHA256: a83bd2958e0740e8b6c6fe62be0dade251736593b671ed3d342c52c355849b4a
+        run: python ops/skrbl_publish_artifact.py

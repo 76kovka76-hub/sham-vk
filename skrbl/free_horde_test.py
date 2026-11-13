@@ -71,7 +71,7 @@ def _convert_to_pencil(im, panel_size=(696, 527)):
     im = ImageOps.fit(im.convert("RGB"), panel_size, method=Image.Resampling.LANCZOS)
     grey = ImageOps.autocontrast(im.convert("L"), cutoff=1)
     blurred = ImageOps.invert(grey).filter(ImageFilter.GaussianBlur(11))
-    dodge = ImageChops.divide(grey, ImageOps.invert(blurred), scale=236)
+    dodge = ImageChops.screen(grey, ImageOps.invert(blurred))
     edges = ImageOps.autocontrast(grey.filter(ImageFilter.FIND_EDGES), cutoff=3)
     edges = ImageOps.invert(edges)
     edges = edges.point(lambda x: min(255, int(x*0.92 + 11)))

@@ -1,4 +1,4 @@
-name: SKRBL — безопасная проверка нового сообщества
+name: SKRBL — первая тестовая публикация
 on:
   push:
     branches: [main]
@@ -6,22 +6,53 @@ on:
       - 'skrbl/**'
       - '.github/workflows/skrbl-test.yml'
   workflow_dispatch:
+    inputs:
+      mode:
+        description: 'preview — без публикации; publish — однократный тест в SKRBL'
+        type: choice
+        required: true
+        default: preview
+        options:
+          - preview
+          - publish
 
 permissions:
   contents: read
 
+concurrency:
+  group: skrbl-first-test
+  cancel-in-progress: false
+
 jobs:
-  verify-skrbl-target:
+  skrbl-first-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install requests
-        run: python -m pip install requests
-      - name: Strict SKRBL group check
+      - name: Install image and publisher libraries
+        run: python -m pip install requests cairosvg pillow
+      - name: Verify SKRBL group only (never SHAM)
         env:
           VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
         run: python skrbl/check_account.py
+      - name: Render pencil sketch
+        run: python skrbl/publish_test.py
+      - name: Publish exactly one test post to SKRBL
+        if: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'publish') || (github.event_name == 'push' && contains(github.event.head_commit.message, '[SKRBL_TEST_PUBLISH]')) }}
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+          SKRBL_TEST_MODE: publish
+        run: python skrbl/publish_test.py
+      - name: Save SKRBL image and publication result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: skrbl-first-test-${{ github.run_id }}
+          path: |
+            skrbl/skrbl_test.png
+            skrbl/test_result.json
+          retention-days: 14
+          if-no-files-found: ignore

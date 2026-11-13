@@ -100,6 +100,20 @@
       "group_id": "243241856",
       "generator": "FREE_OVH_SDXL",
       "pilot": true
+    },
+    {
+      "slot": "20261114-24",
+      "scheduled_at": "2026-11-14T11:31:00Z",
+      "asset_id": "auto_three_panels_contract",
+      "sha256": "bc2181ba290a33db614c2513f3dd6793c85ef3e7c4ee4dc97ad3bf8830f6b81e",
+      "story_id": "three_panels_contract",
+      "topic": "work",
+      "panels": 3,
+      "post_id": 5237,
+      "status": "scheduled",
+      "group_id": "243241856",
+      "generator": "FREE_OVH_SDXL",
+      "pilot": true
     }
   ]
 }

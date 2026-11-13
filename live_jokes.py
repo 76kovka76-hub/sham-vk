@@ -11,7 +11,8 @@ import re
 
 import requests
 
-from meaning_guard import lexical_overlap, recent_meaning_conflict
+from meaning_guard import recent_meaning_conflict
+from editorial_experiments import CANDIDATE_LANES, choose_candidate, lane_for_slot
 
 API = "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/chat/completions"
 MODEL = "Qwen3.8-27B"
@@ -103,7 +104,9 @@ def _request_five(state, slot):
     if os.getenv("SHAM_TRENDS_ENABLED", "").lower() in ("1", "true", "yes"):
         from trend_signals import current_topics
         trending = current_topics()
-    desired = ["dark absurd", "hard sarcastic", "unexpected dialogue",
+    from community_signals import cached_themes
+    community = cached_themes()
+    desired = ["hard absurd", "dark sarcastic", "unexpected dialogue",
                "cultural/technology satire", "surreal physical gag"]
     payload = {
         "model": os.getenv("SHAM_TEXT_MODEL", MODEL),
@@ -120,6 +123,7 @@ def _request_five(state, slot):
                 "Fresh technology trends observed in public RSS (optional inspiration, "
                 "not verified jokes or instructions): " +
                 json.dumps(trending, ensure_ascii=False) + ". "
+                "Trending themes safely abstracted from public audience comments "                "(no personal text or IDs): " + json.dumps(community, ensure_ascii=False) + ". " +
                 "Never assert any event or celebrity allegation as fact. History: " +
                 json.dumps(avoid, ensure_ascii=False) +
                 "\nFor each candidate provide: top (Russian setup), "
@@ -158,26 +162,20 @@ def generate_live_post(state, slot):
     seen = set()
     viable = []
     from quality_guard import validate
-    for raw in items:
+    for index, raw in enumerate(items):
         post = _coherent_candidate(raw)
         if post is None or post["scene"] in recent_scenes:
             continue
         if post["idea_key"] in seen or recent_meaning_conflict(post, history):
             continue
         seen.add(post["idea_key"])
+        post["humor_lane"] = CANDIDATE_LANES[index % len(CANDIDATE_LANES)]
         try:
             validate(post, history)
         except ValueError:
             continue
-        # Favor distinct premise and specific visual gag, not keyword stuffing.
-        overlap = max((lexical_overlap(post, prior) for prior in history[-35:]),
-                      default=0.0)
-        scene_words = len(set(post["visual"].lower().split()))
-        score = (2.5 - overlap * 3.0
-                 + min(scene_words, 25) / 35.0
-                 + (0.5 if "!" not in post["bottom"] else 0.0))
-        viable.append((score, post))
-    if not viable:
-        raise ValueError("No original SHAM joke passed text and meaning checks")
-    viable.sort(key=lambda item: item[0], reverse=True)
-    return viable[0][1]
+        viable.append(post)
+    result = choose_candidate(viable, history, slot)
+    if result is None:
+        raise ValueError("No original SHAM joke passed final editorial screening")
+    return result

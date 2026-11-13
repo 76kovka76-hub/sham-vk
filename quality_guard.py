@@ -7,9 +7,10 @@ import re
 from quality_bank import TOPICS
 from short_jokes import SHORT_JOKES
 from hard_jokes import HARD_JOKES
+from fresh_jokes import FRESH_JOKES
 from meaning_guard import recent_meaning_conflict
 
-SPECIAL_JOKES = SHORT_JOKES + HARD_JOKES
+SPECIAL_JOKES = SHORT_JOKES + HARD_JOKES + FRESH_JOKES
 
 
 def norm(s):

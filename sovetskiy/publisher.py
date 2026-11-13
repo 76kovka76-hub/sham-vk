@@ -15,6 +15,7 @@ import requests
 from check_account import find_account, BASE, VK_GROUP_ID
 from jokes import JOKES
 from render import render
+from scene_quality import is_approved, review_info
 
 ROOT=Path(__file__).resolve().parent
 STATE=ROOT/"queue_state.json"
@@ -47,12 +48,13 @@ def next_slot(state,now=None):
     return None,None
 
 
-def choose_joke(state):
+def choose_joke(state, *, require_scene_approval=False):
     used_jokes={x.get("joke_id") for x in state["entries"]}
     used_frames={f for x in state["entries"] for f in x.get("frame_ids",[])}
     previous_themes=[x.get("theme") for x in state["entries"][-3:]]
     options=[j for j in JOKES if j.key not in used_jokes
-             and not any(f in used_frames for f in j.source_ids)]
+             and not any(f in used_frames for f in j.source_ids)
+             and (not require_scene_approval or is_approved(j))]
     # Rotate singles and collages; first post uses just one source image.
     prefer_collage=(len(state["entries"]) % 3 == 1)
     options.sort(key=lambda j:(j.theme in previous_themes,
@@ -93,10 +95,11 @@ def schedule_one():
     if slot is None:
         print("SOVETSKIY_QUEUE_SLOT_FULL_OR_OUTSIDE_HORIZON")
         return
-    joke=choose_joke(state)
+    joke=choose_joke(state,require_scene_approval=True)
     if joke is None:
-        print("::warning::SOVETSKIY rights-cleared original film frames exhausted. No recycled or unknown-rights images.")
+        print("::warning::SOVETSKIY has no unused movie frame with a reviewed, joke-relevant visual scene. Skipping.")
         return
+    approved_review=review_info(joke)
     print("SOVETSKIY_SELECTED:",joke.key,joke.format,slot,flush=True)
     try:
         art,meta=render(joke)
@@ -111,6 +114,8 @@ def schedule_one():
         raise
     if meta["joke_id"]!=joke.key or meta["source_ids"]!=list(joke.source_ids):
         raise RuntimeError("SOVETSKIY image/content mismatch")
+    # Validate again right before remote upload, not only when choosing.
+    review_info(joke)
     token=os.getenv("VEDISMM_TOKEN","").strip()
     account=find_account(token)
     headers={"Authorization":"Bearer "+token}
@@ -141,6 +146,7 @@ def schedule_one():
     if int(result.get("id") or 0)!=post_id or result.get("status")!="scheduled":
         raise RuntimeError("VediSMM did not confirm scheduling")
     record={"slot":slot,"scheduled_at":scheduled_at,"joke_id":joke.key,
+            "visual_reviewed":True,"reviewer":approved_review["reviewer"],
             "theme":joke.theme,"frame_ids":list(joke.source_ids),"sha256":meta["sha256"],
             "post_id":post_id,"group_id":VK_GROUP_ID,"status":"scheduled"}
     state["entries"].append(record)

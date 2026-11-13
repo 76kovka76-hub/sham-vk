@@ -13,6 +13,7 @@
     "free_generated_fictional_soviet_photo"
   ],
   "quality_policy": "Caption tied to scene; no unreviewed film frames, no repeated authored meme, stop on quota or generator failure.",
-  "notes": "96 daily quarter-hour slots enabled, now with free multimodal visual relevance checks. No payment, no copyright-unsafe fallback, no duplicate postings. Delivery depends on quotas.",
-  "visual_qa_enabled": true
+  "notes": "96/day enabled. After the initial 96 original jokes, anonymous-free Mistral generates 4 candidates, strict editor rejects banal/repeated/semantically mismatched ones; free vision checks the actual image. If quotas or quality fail, skip instead of posting nonsense.",
+  "visual_qa_enabled": true,
+  "fresh_ideas_enabled": true
 }

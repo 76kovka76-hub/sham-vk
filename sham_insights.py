@@ -81,8 +81,10 @@ def fetch_vk_stats(state, *, now=None, getter=None):
     """Real VK counters from our own already published wall entries only."""
     import re
     now = _utc(now or datetime.now(timezone.utc))
-    token = os.getenv("VK_USER_TOKEN", "").strip() or os.getenv("VK_GROUP_TOKEN", "").strip()
-    if not token:
+    tokens = list(dict.fromkeys([
+        key for key in (os.getenv("VK_USER_TOKEN", "").strip(),
+                        os.getenv("VK_GROUP_TOKEN", "").strip()) if key]))
+    if not tokens:
         return {"status": "unavailable", "reason": "no_vk_token", "posts": []}
     entries = []
     for local in state.get("posts", [])[-300:]:
@@ -109,15 +111,28 @@ def fetch_vk_stats(state, *, now=None, getter=None):
     try:
         for start in range(0, len(entries), 20):
             batch = entries[start:start + 20]
-            response = getter("https://api.vk.com/method/wall.getById",
-                              params={"posts": ",".join(
-                                  f"-243230846_{n}" for n, _ in batch),
-                                  "v": "5.199", "access_token": token},
-                              timeout=18)
-            response.raise_for_status()
-            payload = response.json()
-            if "error" in payload:
-                return {"status": "unavailable", "reason": "vk_wall_api_error",
+            payload = None
+            last_error_code = None
+            for token in tokens:
+                response = getter("https://api.vk.com/method/wall.getById",
+                                  params={"posts": ",".join(
+                                      f"-243230846_{n}" for n, _ in batch),
+                                      "v": "5.199", "access_token": token},
+                                  timeout=18)
+                response.raise_for_status()
+                candidate = response.json()
+                if not isinstance(candidate, dict):
+                    continue
+                if "error" in candidate:
+                    error = candidate["error"]
+                    last_error_code = (error.get("error_code")
+                                       if isinstance(error, dict) else "unknown")
+                    continue
+                payload = candidate
+                break
+            if payload is None:
+                return {"status": "unavailable",
+                        "reason": "vk_wall_api_error_" + str(last_error_code),
                         "posts": []}
             remote = payload.get("response", [])
             if isinstance(remote, dict):

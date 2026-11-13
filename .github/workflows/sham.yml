@@ -16,6 +16,9 @@ on:
       - 'meaning_guard.py'
       - 'image_guard.py'
       - 'meme_layout.py'
+      - 'editorial_experiments.py'
+      - 'community_signals.py'
+      - 'sham_motion.py'
       - 'sham_free_image.py'
       - 'visual_gags.py'
       - 'short_jokes.py'
@@ -44,6 +47,7 @@ on:
         type: choice
         options:
           - preview
+          - media-preview
           - enqueue
           - health
           - clean-queue
@@ -106,6 +110,8 @@ jobs:
         run: |
           if [ "$MODE" = "preview" ]; then
             python main.py --preview
+          elif [ "$MODE" = "media-preview" ]; then
+            SHAM_MOTION_PREVIEW=true python main.py --preview
           elif [ "$MODE" = "enqueue" ]; then
             # GitHub cron is best-effort; refill several quarter-hour slots
             # during a single wake-up instead of only one per ~hour.
@@ -126,6 +132,8 @@ jobs:
             output/sham_meme.png
             output/preview.json
             output/image_source.json
+            output/sham_reveal.gif
+            output/sham_reveal.mp4
           if-no-files-found: ignore
           retention-days: 7
       - name: Remember published posts (avoid repeats)

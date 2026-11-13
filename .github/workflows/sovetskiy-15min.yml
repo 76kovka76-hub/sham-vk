@@ -1,0 +1,97 @@
+name: SOVETSKIY — 96 постов каждые 15 минут
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'sovetskiy/settings.json'
+      - 'sovetskiy/auto_stories.py'
+      - 'sovetskiy/auto_image.py'
+      - 'sovetskiy/auto15_queue.py'
+      - 'sovetskiy/quarter_hour.py'
+      - '.github/workflows/sovetskiy-15min.yml'
+  schedule:
+    # GitHub cron is best-effort; VediSMM owns EXACT future :00/:15/:30/:45.
+    - cron: '4,19,34,49 * * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'preview: inspect configuration; enqueue: refill 15min queue'
+        type: choice
+        required: true
+        default: preview
+        options:
+          - preview
+          - enqueue
+
+permissions:
+  contents: write
+
+concurrency:
+  # Shared with legacy SOVETSKIY workflow; SHAM/SKRBL remain independent.
+  group: sovetskiy-243244760-queue
+  cancel-in-progress: false
+
+jobs:
+  queue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install only free open-source Python libraries
+        run: python -m pip install requests pillow
+      - name: Verify 96 daily slots, original jokes and no-repeat protection
+        run: python -m unittest discover -s sovetskiy/tests -p 'test_*.py' -v
+      - name: Read-only check of the exact SOVETSKIY VK target
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'enqueue' || (github.event_name == 'push' && contains(github.event.head_commit.message, '[START_SOVETSKIY_15M]')) }}
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+        run: python sovetskiy/check_account.py
+      - name: Refill 15-minute VK slots or inspect without posting
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+          MODE: ${{ (github.event_name == 'schedule' && 'enqueue') || (github.event_name == 'workflow_dispatch' && github.event.inputs.mode) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[START_SOVETSKIY_15M]') && 'enqueue') || 'preview' }}
+        run: |
+          if [ "$MODE" = "enqueue" ]; then
+            python -u sovetskiy/auto15_queue.py --enqueue --max-posts 9
+          else
+            python -u sovetskiy/auto15_queue.py --preview
+          fi
+      - name: Save actual generated Soviet-style photograph for quality review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sovetskiy-15min-preview-${{ github.run_id }}
+          path: |
+            sovetskiy/auto15_preview.png
+            sovetskiy/auto15_preview.json
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Persist ALL scheduled slots and any uncertain post states
+        if: always()
+        run: |
+          if git diff --quiet -- sovetskiy/queue_state.json; then
+            echo "SOVETSKIY queue: no new slots"
+            exit 0
+          fi
+          git config user.name "sovetskiy-15min-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sovetskiy/queue_state.json
+          git commit -m "bot(SOVETSKIY): persist every 15-minute queued VK post"
+          if git push; then exit 0; fi
+          for retry in 1 2 3 4; do
+            git fetch origin main
+            if ! git rebase origin/main; then
+              git rebase --abort || true
+              echo "::error::History reconciliation failed. Inspect VediSMM before any retry, to prevent repeated memes."
+              exit 1
+            fi
+            if git push; then exit 0; fi
+            sleep $((retry*3))
+          done
+          echo "::error::Unable to persist SOVETSKIY VediSMM ledger. Inspect before restarting."
+          exit 1

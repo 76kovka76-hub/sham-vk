@@ -58,6 +58,20 @@
       "group_id": "243241856",
       "generator": "FREE_OVH_SDXL",
       "pilot": true
+    },
+    {
+      "slot": "20261114-00",
+      "scheduled_at": "2026-11-14T00:00:00Z",
+      "asset_id": "auto_dating_weather",
+      "sha256": "a61f00d23bdad61e10fadef0c9a8daa2ff11cf8af13c28aa3cf8c9b72d544f51",
+      "story_id": "dating_weather",
+      "topic": "social",
+      "panels": 1,
+      "post_id": 5075,
+      "status": "scheduled",
+      "group_id": "243241856",
+      "generator": "FREE_OVH_SDXL",
+      "pilot": true
     }
   ]
 }

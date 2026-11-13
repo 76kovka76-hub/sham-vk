@@ -184,8 +184,8 @@
       },
       "vedismm_post_id": 4971,
       "scheduled_at": "2026-11-13T00:00:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "published",
+      "vk_url": "https://vk.com/wall-243230846_6"
     },
     {
       "top": "Утром нажал «ещё пять минут».",
@@ -212,8 +212,8 @@
       },
       "vedismm_post_id": 4974,
       "scheduled_at": "2026-11-13T01:00:00Z",
-      "publication_status": "scheduled",
-      "vk_url": ""
+      "publication_status": "published",
+      "vk_url": "https://vk.com/wall-243230846_7"
     }
   ],
   "slots": [

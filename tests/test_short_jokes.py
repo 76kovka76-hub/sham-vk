@@ -38,7 +38,10 @@ class ShortJokesTests(unittest.TestCase):
             seen.add(joke_id(post))
             history["posts"].append({**post,"id":joke_id(post)})
         self.assertGreater(mini_count,0)
-        self.assertLess(mini_count,90)
+        # Higher-quality complete jokes are deliberately preferred over
+        # incoherent cross-products from the old thematic bank.
+        self.assertGreaterEqual(mini_count,90)
+        self.assertLessEqual(mini_count,140)
 
 
 if __name__=="__main__":

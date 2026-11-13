@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "group_id": "243244760",
-  "autopublish": false,
+  "autopublish": true,
   "posts_per_day": 96,
   "interval_minutes": 15,
   "buffer_hours": 14,
@@ -13,5 +13,5 @@
     "free_generated_fictional_soviet_photo"
   ],
   "quality_policy": "Caption tied to scene; no unreviewed film frames, no repeated authored meme, stop on quota or generator failure.",
-  "notes": "Ready to switch to true only after 96-slot workflow tests pass."
+  "notes": "96/day enabled 2026-11-13. Free generators and VK/VediSMM limits can cause missed slots; no duplicate or unlicensed image fallback."
 }

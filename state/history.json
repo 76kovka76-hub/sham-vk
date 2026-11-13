@@ -298,6 +298,34 @@
       "scheduled_at": "2026-11-13T04:00:00Z",
       "publication_status": "published",
       "vk_url": "https://vk.com/wall-243230846_10"
+    },
+    {
+      "top": "Открыл статистику использования телефона.",
+      "bottom": "Он аккуратно посчитал, как я избегал дел.",
+      "scene": "phone",
+      "topic": "screen_time",
+      "visual": "person reading screen time statistics in disbelief",
+      "caption": "Цифровые привычки разоблачили меня.",
+      "id": "d383821b1dea9272c89db5a373bc2d58a0d5e9084e3c60604d03a9f76e471ddd",
+      "hashtags": [
+        "#диджитал",
+        "#топмем",
+        "#мемысегодня"
+      ],
+      "slot": "2026-11-13-06-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "realistic",
+        "request_id": "b17def83-d327-4442-99a0-d574b094f95b",
+        "model": "stable_diffusion",
+        "seed": "1647763858",
+        "worker": "esson-arch-gemini-sd15"
+      },
+      "vedismm_post_id": 5004,
+      "scheduled_at": "2026-11-13T06:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
@@ -309,6 +337,7 @@
     "2026-11-13-01-00",
     "2026-11-13-02-01",
     "2026-11-13-03-00",
-    "2026-11-13-04-00"
+    "2026-11-13-04-00",
+    "2026-11-13-06-00"
   ]
 }

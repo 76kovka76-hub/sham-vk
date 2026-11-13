@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+<defs><pattern id="paper" width="63" height="57" patternUnits="userSpaceOnUse"><path d="M0 55H63" fill="none" stroke="#beb4a2" stroke-width=".7" opacity=".15"/></pattern>
+<pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(18)"><path d="M2 0V12" stroke="#8d91b6" opacity=".7" stroke-width="2"/></pattern>
+</defs>
+<rect width="1080" height="1080" fill="#fbf8f1"/>
+<rect width="1080" height="1080" fill="url(#paper)"/>
+<g stroke="#312c28" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M31 203 Q536 193 1042 209 M36 209 Q540 203 1032 210" stroke-width="3" opacity=".5"/>
+<path d="M72 816 Q538 803 1009 819" stroke-width="3" opacity=".6"/>
+<!-- shop counter with receipt -->
+<path d="M488 584 Q733 581 985 597 L994 808 Q720 801 497 804Z" stroke-width="6"/>
+<path d="M492 589 Q729 606 987 602 M508 626 L981 631 M516 657 L982 666" stroke-width="2.5" opacity=".55"/>
+<path d="M684 515 l167 5 19 66 -196 -3Z" stroke-width="6"/>
+<path d="M695 521 l163 1" stroke-width="2"/>
+<!-- receipt -->
+<path d="M572 620 Q546 625 571 675 L590 708 570 754 601 791 583 835 605 861 584 890 566 934" stroke-width="5"/>
+<path d="M570 651 L608 654 M573 673 L610 678 M581 702 L615 707 M580 730 L619 733 M579 761 L624 767 M588 795 L625 801" stroke-width="2"/>
+<!-- badly drawn person -->
+<ellipse cx="272" cy="473" rx="112" ry="120" transform="rotate(-7 272 473)" stroke-width="6"/>
+<path d="M175 456 q-18 -111 36 -109 q26 -69 75 -24 q52 -29 91 29 q24 7 16 63" stroke-width="6"/>
+<path d="M175 391 l44 -20 17 19 28 -23 21 18 20 -24 24 22 40 -3" stroke-width="4"/>
+<path d="M194 577 Q156 632 179 776 M362 577 Q412 646 388 798 M180 610 Q239 571 360 613 M176 772 Q270 807 391 768" stroke-width="6"/>
+<path d="M188 637 q-92 17 -112 96 M384 637 q88 25 114 86" stroke-width="5"/>
+<path d="M224 774 l-19 89 M325 769 l12 92" stroke-width="5"/>
+<!-- confused bulging eyes -->
+<ellipse cx="231" cy="467" rx="31" ry="39" transform="rotate(-10 231 467)" stroke-width="5"/>
+<ellipse cx="315" cy="459" rx="32" ry="39" transform="rotate(14 315 459)" stroke-width="5"/>
+<ellipse cx="239" cy="477" rx="10" ry="13" fill="#332f2c" stroke="none"/>
+<ellipse cx="322" cy="472" rx="11" ry="13" fill="#332f2c" stroke="none"/>
+<path d="M252 536 Q276 520 297 533 Q325 577 292 598 Q256 593 252 536Z" stroke-width="5"/>
+<path d="M215 405 l37 5 M290 405 l42 -10" stroke-width="5"/>
+<!-- shock hair -->
+<path d="M170 401 l-69 -31 M172 389 l-46 -58 M193 368 l-19 -75 M220 342 l-6 -50 M342 358 l52 -50 M375 380 l76 -42" stroke-width="5"/>
+<!-- shaking -->
+<path d="M89 469 q-31 30 -15 70 M439 445 q30 33 12 67 M122 553 l-29 28 M434 556 l33 28" stroke-width="3.5"/>
+<!-- cashier face -->
+<ellipse cx="798" cy="376" rx="73" ry="80" transform="rotate(7 798 376)" stroke-width="5"/>
+<path d="M746 334 q19 -24 39 -2 M816 328 q20 -22 43 0" stroke-width="4"/>
+<path d="M766 364 l8 10 M819 361 l8 10 M772 413 q20 17 52 0" stroke-width="4"/>
+<path d="M757 450 q-37 48 -29 89 M836 449 q36 37 37 80" stroke-width="5"/>
+<path d="M718 476 q-31 9 -54 35 M873 478 q35 -7 55 20" stroke-width="5"/>
+<!-- bread -->
+<path d="M132 716 q-55 -27 -63 -3 q-33 42 39 82 q47 4 80 -13" stroke-width="4"/>
+<path d="M92 731 l14 22 M114 713 l19 23 M146 727 l14 20" stroke-width="2.5"/>
+</g>
+<path d="M190 606 Q238 589 363 605 L382 774 Q271 790 182 764Z" fill="url(#hatch)" opacity=".25"/>
+<g font-family="DejaVu Sans, Arial, sans-serif" fill="#2b2725" font-weight="900" text-anchor="middle">
+<text x="540" y="90" font-size="61" transform="rotate(-1 540 90)">ЗАШЁЛ ЗА ХЛЕБОМ</text>
+<text x="540" y="900" font-size="54" transform="rotate(-1.7 540 900)">ЧЕК: «НУ ЧТО, БЛ***Ь,</text>
+<text x="540" y="972" font-size="59" transform="rotate(1 540 972)">БОГАТЫЙ?»</text>
+</g>
+<text x="689" y="565" font-family="DejaVu Sans, Arial, sans-serif" font-weight="900" font-size="43" fill="#292626">8 970 ₽</text>
+<text x="912" y="1030" font-family="DejaVu Sans, Arial, sans-serif" font-weight="900" font-size="38" fill="#292626" transform="rotate(-3 912 1030)">SKRBL</text>
+<path d="M914 1039q52 6 120 -5" stroke="#292626" fill="none" stroke-width="2"/>
+</svg>

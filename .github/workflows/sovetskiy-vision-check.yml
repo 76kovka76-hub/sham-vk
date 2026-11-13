@@ -1,0 +1,42 @@
+name: SOVETSKIY — проверка картинки на соответствие шутке
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'sovetskiy/vision_probe.py'
+      - '.github/workflows/sovetskiy-vision-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  visual-quality-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install open-source HTTP client
+        run: python -m pip install requests
+      - name: Fetch actual already-generated 15-minute batch meme
+        uses: actions/download-artifact@v4
+        with:
+          name: sovetskiy-15min-preview-43410761256
+          repository: 76kovka76-hub/sham-vk
+          run-id: 43410761256
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: sovetskiy/vision_review
+      - name: Test no-cost image-and-joke relevance model (read only)
+        run: python -u sovetskiy/vision_probe.py
+      - name: Save result of image-specific semantic review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sovetskiy-vision-review-${{ github.run_id }}
+          path: sovetskiy/vision_review_result.json
+          retention-days: 4
+          if-no-files-found: ignore

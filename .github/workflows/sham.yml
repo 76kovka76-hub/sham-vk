@@ -98,7 +98,6 @@ jobs:
           SHAM_LIVE_TEXT: 'true'
           SHAM_TRENDS_ENABLED: 'true'
           SHAM_VISION_CHECK: 'best_effort'
-          SHAM_REFRESH_OLD_ANIME: 'true'
           SHAM_PREVIEW_STYLE: ${{ (github.event_name == 'push' && contains(github.event.head_commit.message, '[TEST_REALISTIC]') && 'realistic') || github.event.inputs.visual_style || 'auto' }}
           AIHORDE_API_KEY: ${{ secrets.AIHORDE_API_KEY }}
           VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}

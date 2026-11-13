@@ -4,14 +4,14 @@ Only touches OUR posts recorded in state/history.json and still scheduled in
 VediSMM. Never deletes already published posts. Requires strong ETag.
 """
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import requests
 
 from vedismm_publisher import BASE
 
 
-def clean_legacy_queue(state):
+def clean_legacy_queue(state, *, replace_outdated_anime=False, max_changes=None, min_lead_minutes=120):
     token = os.getenv("VEDISMM_TOKEN", "").strip()
     if not token:
         raise RuntimeError("VEDISMM_TOKEN required to cancel legacy queue")
@@ -20,8 +20,25 @@ def clean_legacy_queue(state):
     for item in state.get("posts", []):
         if item.get("publication_status") != "scheduled":
             continue
-        if item.get("quality_version", 0) >= 2 and not item.get("review_rejected", False):
+        if replace_outdated_anime:
+            # Only old anime *scheduled* at least two hours in the future.
+            # Never disturb upcoming posts, newer art, or already published items.
+            image_style = (item.get("image_source") or {}).get("style")
+            if image_style != "anime" or item.get("quality_version", 0) >= 3:
+                continue
+            future = item.get("scheduled_at")
+            try:
+                scheduled_time = datetime.fromisoformat(future.replace("Z", "+00:00"))
+            except (AttributeError, ValueError):
+                continue
+            if (scheduled_time.tzinfo is None
+                    or scheduled_time <= datetime.now(timezone.utc)
+                    + timedelta(minutes=min_lead_minutes)):
+                continue
+        elif item.get("quality_version", 0) >= 2 and not item.get("review_rejected", False):
             continue
+        if max_changes is not None and len(removed) >= max_changes:
+            break
         pid = item.get("vedismm_post_id")
         if not isinstance(pid, int) or pid <= 0:
             errors.append("Missing VediSMM post ID for old queue item")

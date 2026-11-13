@@ -49,12 +49,12 @@ jobs:
         run: python sovetskiy/check_account.py
       - name: Render a real public-domain Soviet movie meme for preview
         if: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'preview') || (github.event_name == 'push' && contains(github.event.head_commit.message, '[SOVETSKIY_PREVIEW]')) }}
-        run: python -u sovetskiy/queue.py --preview
+        run: python -u sovetskiy/publisher.py --preview
       - name: Add exactly one rights-checked post to VediSMM future queue
         if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.event.inputs.mode == 'enqueue') || (github.event_name == 'push' && contains(github.event.head_commit.message, '[START_SOVETSKIY]')) }}
         env:
           VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
-        run: python -u sovetskiy/queue.py --enqueue
+        run: python -u sovetskiy/publisher.py --enqueue
       - name: Save preview for editorial review (not AI concept art)
         if: always()
         uses: actions/upload-artifact@v4

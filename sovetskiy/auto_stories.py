@@ -55,7 +55,7 @@ window_frost|ЗАКРЫЛ ОКНО НА ЗИМУ|ВЕСНОЙ ОТКРОЮ С Л
 alarm_wrestle|БУДИЛЬНИК ЗАЗВОНИЛ В ШЕСТЬ|Я ВЫЗВАЛ ЕГО НА ДУЭЛЬ.|1970s Soviet bedroom: disheveled sleepy man in pajamas challenges huge ringing metal alarm clock like boxing opponent|sleep
 snooze_year|НАЖАЛ ЕЩЁ ПЯТЬ МИНУТ|ПРОСНУЛСЯ В ДРУГОМ СЕЗОНЕ.|Soviet bedroom: bewildered man wakes under old duvet while window shows snow outside and torn calendar sheets everywhere|sleep
 midnight_tea|ВЫПИЛ ЧАЙ ПЕРЕД СНОМ|В ТРИ НОЧИ СЧИТАЮ ТРЕЩИНЫ В ПОТОЛКЕ.|Soviet apartment night: sleepless wide eyed man staring at cracks in ceiling, empty tea cup at bedside, clock 3am|sleep
-pillow_lawyer|ПЫТАЛСЯ ВСТАТЬ ПОРАHЬШЕ|ПОДУШКА ПОДАЛА АПЕЛЛЯЦИЮ.|Old Soviet bedroom: sleepy man being physically held down by giant fluffy pillow that seems to protest, morning sunlight|sleep
+pillow_lawyer|ПЫТАЛСЯ ВСТАТЬ ПОРАНЬШЕ|ПОДУШКА ПОДАЛА АПЕЛЛЯЦИЮ.|Old Soviet bedroom: sleepy man being physically held down by giant fluffy pillow that seems to protest, morning sunlight|sleep
 night_radio|ЛЁГ СПАТЬ С РАДИО|ПРОСНУЛСЯ ЭКСПЕРТОМ ПО УРОЖАЮ.|Soviet man in pajamas in bed with big old radio receiver blaring; he holds a wheat stalk and looks confused at sunrise|sleep
 clock_race|СМОТРЮ: ЕЩЁ МНОГО ВРЕМЕНИ|ПОЧЕМУ ЧАСЫ УЖЕ НА РАБОТЕ?|Soviet bedroom: shocked sleeper reaching for wall clock that has tiny legs and is running away out the door|sleep
 dream_rent|ВО СНЕ БЫЛ МИЛЛИОНЕРОМ|ПРОСНУЛСЯ — ПРИШЁЛ КВИТОК ЗА СВЕТ.|Soviet man awakening in pajamas from golden dream to giant utility bill on nightstand, worried face|sleep

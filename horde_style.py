@@ -123,9 +123,9 @@ def build_prompt(post, slot, style):
     ])
     photo_only = os.getenv("SHAM_PHOTO_ONLY", "").lower() in ("true", "1", "yes")
     photo_constraint = (
-        "Actual live-action photographic capture with a real physical camera, "
-        "authentic skin, materials, natural shadows, plausible documentary lighting. "
-        "NEVER anime, manga, comic, illustration, CG render, cartoon or drawn faces. "
+        "Real-life reportage photograph captured by a physical full-frame camera. "
+        "Professional natural optical lens, authentic human skin pores and tactile physical objects, "
+        "believable real-world lighting, natural photographic depth of field. "
         if photo_only else ""
     )
     return (

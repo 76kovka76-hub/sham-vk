@@ -15,6 +15,7 @@ from urllib.parse import urlparse
 import requests
 from PIL import Image, ImageDraw, ImageOps
 from style_catalog import STYLE_PROMPTS, style_for_slot
+from image_guard import validate_artwork, validate_joke_visual_brief
 
 API = "https://aihorde.net/api/v2"
 CLIENT_AGENT = "SHAM-VK:1.0:https://github.com/76kovka76-hub/sham-vk"
@@ -223,10 +224,11 @@ def generate_image(post, slot, style, deadline_seconds=370):
                 pass
 
 
-def make_horde_image(post, slot, out: Path, font, centered_text, style_override=None):
+def make_horde_image(post, slot, out: Path, font, centered_text, style_override=None, state=None):
     if style_override is not None and style_override not in STYLE_PROMPTS:
         raise ValueError("Unknown SHAM preview visual genre")
     style = style_override or style_for_slot(slot)
+    validate_joke_visual_brief(post, build_prompt(post, slot, style))
     preferred = os.getenv("SHAM_FREE_IMAGE_PROVIDER", "horde").strip().lower()
     if preferred == "ovh":
         from sham_free_image import generate_image as ovh_free_image
@@ -240,6 +242,7 @@ def make_horde_image(post, slot, out: Path, font, centered_text, style_override=
         original, metadata = generate_image(post, slot, style)
     else:
         raise ValueError("SHAM_FREE_IMAGE_PROVIDER must be ovh or horde")
+    metadata = {**metadata, **validate_artwork(original, state)}
     image = ImageOps.fit(original, (1080, 1080),
                          method=Image.Resampling.LANCZOS,
                          centering=(0.5, 0.48)).convert("RGBA")

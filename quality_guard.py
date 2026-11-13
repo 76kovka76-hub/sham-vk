@@ -66,6 +66,11 @@ def validate(p, history=()):
 # Only deliberately selected older gags may supplement the newer, edited
 # bank. Generic mixed setup/punchline combinations are never admitted in the
 # production quality-first lane.
+# Real preview review: the press-conference image generated only a generic
+# microphone, missing the light bulb central to the punchline. Quarantine it
+# even though it passed basic entropy checks.
+IMAGE_REJECTED_TOPICS = frozenset({"mini_press_conference"})
+
 QUALITY_BACKUP_TOPICS = frozenset({
     "mini_passenger_luggage", "mini_wedding_bureaucracy",
     "mini_mirror_upgrade", "mini_delivery_drone", "mini_cat_tax",
@@ -102,6 +107,8 @@ def select_post(state, slot):
     rng.shuffle(premium)
     rng.shuffle(backup)
     for mini in premium + backup:
+        if quality_first and mini["topic"] in IMAGE_REJECTED_TOPICS:
+            continue
         if mini["topic"] in topic_recent or mini["scene"] in scenes_recent:
             continue
         if joke_id(mini) in used:

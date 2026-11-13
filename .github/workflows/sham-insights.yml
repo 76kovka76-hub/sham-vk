@@ -10,6 +10,7 @@ on:
       - 'sham_motion.py'
       - 'tests/test_insights_experiments.py'
       - 'tests/test_motion_weekly.py'
+      - 'tests/test_vk_engagement.py'
       - '.github/workflows/sham-insights.yml'
   schedule:
     # Daily read-only performance/interest report.
@@ -54,6 +55,8 @@ jobs:
         env:
           VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
           VEDISMM_ACCOUNT_ID: ${{ vars.VEDISMM_ACCOUNT_ID }}
+          VK_USER_TOKEN: ${{ secrets.VK_USER_TOKEN }}
+          VK_GROUP_TOKEN: ${{ secrets.VK_GROUP_TOKEN }}
           SHAM_WEEKLY_PUBLISH: 'true'
         run: python sham_weekly_top.py
       - name: Save editorial reports and weekly poster

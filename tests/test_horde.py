@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 from PIL import Image
 
 from horde_style import build_prompt, generate_image, style_for_slot
-from style_catalog import STYLE_PROMPTS, PHOTO_STYLES
+from style_catalog import STYLE_PROMPTS, PHOTO_STYLES, story_style
 
 
 def reply(data):
@@ -25,6 +25,26 @@ class AIHordeTests(unittest.TestCase):
         self.assertGreaterEqual(sum(s in PHOTO_STYLES for s in styles), 55)
         self.assertTrue(all(a != b for a, b in zip(styles, styles[1:])))
         self.assertTrue(all(style in STYLE_PROMPTS for style in styles))
+
+    def test_incompatible_macro_or_sports_style_is_avoided_for_conference(self):
+        story = {"topic": "mini_press_conference",
+                 "visual": "Photorealistic conference with officials and ten angry tenants"}
+        for style in ("macro_photo", "miniature_photo", "sports_photo", "fashion_photo"):
+            slot = next(s for s in (
+                f"2026-11-13-{h:02d}-{q:02d}"
+                for h in range(24) for q in range(4)
+            ) if style_for_slot(s) == style)
+            self.assertNotEqual(story_style(story, slot), style)
+
+    def test_macro_allowed_when_punchline_is_tiny_physical_gag(self):
+        slot = next(s for s in (
+            f"2026-11-13-{h:02d}-{q:02d}"
+            for h in range(24) for q in range(4)
+        ) if style_for_slot(s) == "macro_photo")
+        self.assertEqual(story_style({
+            "topic": "mini_tiny_teacup",
+            "visual": "Tiny paper dragon inside miniature ceramic coffee cup"
+        }, slot), "macro_photo")
 
     def test_no_real_person_name_or_embedded_captions(self):
         post = {"scene": "work"}

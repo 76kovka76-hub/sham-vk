@@ -892,6 +892,192 @@
       "scheduled_at": "2026-11-13T12:15:00Z",
       "publication_status": "scheduled",
       "vk_url": ""
+    },
+    {
+      "top": "Открыл объявления об аренде квартир.",
+      "bottom": "За эти деньги должен входить личный дворецкий.",
+      "scene": "wallet",
+      "topic": "rent",
+      "visual": "shocked tenant looking at rental apartment listing on laptop",
+      "caption": "Аренда — отдельный вид кардио.",
+      "id": "ccabf3cd2996180f4bbf3457d6ed7cf0621e3b7931c1a3026eee100c7787eaaf",
+      "hashtags": [
+        "#кошелек",
+        "#ирония",
+        "#мемыиирония"
+      ],
+      "slot": "2026-11-13-12-02",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "shocked tenant looking at rental apartment listing on laptop"
+      },
+      "vedismm_post_id": 5042,
+      "scheduled_at": "2026-11-13T12:30:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Заглянул в барабан после стирки.",
+      "bottom": "Барабан ничего не объяснил следствию.",
+      "scene": "home",
+      "topic": "socks",
+      "visual": "person looking for a missing sock near a washing machine",
+      "caption": "Загадка бытовой физики.",
+      "id": "01d8a48899fefe5de08b8005c8de2290dd31fa4b769bfec7728e1b3194afe617",
+      "hashtags": [
+        "#ужин",
+        "#кринж",
+        "#мем"
+      ],
+      "slot": "2026-11-13-12-03",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "person looking for a missing sock near a washing machine"
+      },
+      "vedismm_post_id": 5043,
+      "scheduled_at": "2026-11-13T12:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_phone_battery",
+      "scene": "phone",
+      "top": "У телефона осталось 1% заряда.",
+      "bottom": "Навигатор решил оставить меня в лесу.",
+      "caption": "Будем искать дорогу по звёздам.",
+      "visual": "Adult in city park holds dead phone while tiny GPS arrow sprouts legs and runs away, anxious expression, confusing winding paths",
+      "id": "7d5534a49876b1f56dda9bc9f567a77e0cb3504393936a30723ad6d684bffcf7",
+      "hashtags": [
+        "#ночнойинтернет",
+        "#жесткийюмор",
+        "#хаха"
+      ],
+      "slot": "2026-11-13-13-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Adult in city park holds dead phone while tiny GPS arrow sprouts legs and runs away, anxious expression, confusing winding paths"
+      },
+      "vedismm_post_id": 5044,
+      "scheduled_at": "2026-11-13T13:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Раньше радовался игрушкам. Теперь — новой сковороде.",
+      "bottom": "Ничего себе приключения, а я просил спокойствия.",
+      "scene": "life",
+      "topic": "adult_bills",
+      "visual": "adult person at kitchen table with piles of bills and laptop",
+      "caption": "Взрослая жизнь без обучающего режима.",
+      "id": "81621d4b6d9ae0314911a6da60974863dc4c20b3e5815dd1c571c062e89e06c1",
+      "hashtags": [
+        "#суббота",
+        "#мемчики",
+        "#юморбезграниц"
+      ],
+      "slot": "2026-11-13-13-01",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "dbec1a98-c7fa-4211-b519-bad5883592d3",
+        "model": "stable_diffusion",
+        "seed": "1553908948",
+        "worker": "esson-arch-gemini-sd15"
+      },
+      "vedismm_post_id": 5045,
+      "scheduled_at": "2026-11-13T13:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Отменил сервис, которым не пользовался.",
+      "bottom": "Подписка уже три года смотрит, как я ею не пользуюсь.",
+      "scene": "wallet",
+      "topic": "subscriptions",
+      "visual": "frustrated person checking a list of subscription charges on phone",
+      "caption": "Подписки тихие, списания громкие.",
+      "id": "3d625e555cf5cf2dfcdd50b76a24a3d27cc713b1023f6fdf6aab6db966626ed1",
+      "hashtags": [
+        "#банк",
+        "#ситуация",
+        "#ржака"
+      ],
+      "slot": "2026-11-13-13-02",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "frustrated person checking a list of subscription charges on phone"
+      },
+      "vedismm_post_id": 5046,
+      "scheduled_at": "2026-11-13T13:30:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_fridge_watchman",
+      "scene": "home",
+      "top": "Открыл холодильник шестой раз.",
+      "bottom": "Кетчуп спросил, не нужен ли пропуск.",
+      "caption": "Сменился охранник холодильника.",
+      "visual": "Hungry man staring into nearly empty fridge where a little ketchup bottle wears security guard cap and guards a single ice cube",
+      "id": "ee8f6cd40cdc7fb46c3246e0e52ce3c2c464221d8a805f2b45bed74288c13f0b",
+      "hashtags": [
+        "#выходные",
+        "#жизамем",
+        "#мемы"
+      ],
+      "slot": "2026-11-13-13-03",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Hungry man staring into nearly empty fridge where a little ketchup bottle wears security guard cap and guards a single ice cube"
+      },
+      "vedismm_post_id": 5047,
+      "scheduled_at": "2026-11-13T13:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_typing_marathon",
+      "scene": "social",
+      "top": "В переписке полчаса пишут ответ.",
+      "bottom": "Пришло одно торжественное «ок».",
+      "caption": "Очень содержательные переговоры.",
+      "visual": "Anxious adult glued to smartphone as giant three typing dots hold a dramatic award ceremony and wall clocks fall from ceiling",
+      "id": "4d9aa82ec8093af004a90da2b76f8145e28bdb801a95672788c1304c4b4c99d5",
+      "hashtags": [
+        "#переписки",
+        "#мемныйвайб",
+        "#отдых"
+      ],
+      "slot": "2026-11-13-14-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "0bd56661-23dc-4bdf-8129-0d8a624c2908",
+        "model": "stable_diffusion",
+        "seed": "3220940588",
+        "worker": "Tasar-RTX3060"
+      },
+      "vedismm_post_id": 5048,
+      "scheduled_at": "2026-11-13T14:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
@@ -925,6 +1111,13 @@
     "2026-11-13-11-02",
     "2026-11-13-11-03",
     "2026-11-13-12-00",
-    "2026-11-13-12-01"
+    "2026-11-13-12-01",
+    "2026-11-13-12-02",
+    "2026-11-13-12-03",
+    "2026-11-13-13-00",
+    "2026-11-13-13-01",
+    "2026-11-13-13-02",
+    "2026-11-13-13-03",
+    "2026-11-13-14-00"
   ]
 }

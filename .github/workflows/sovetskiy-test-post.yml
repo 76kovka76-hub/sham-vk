@@ -1,0 +1,43 @@
+name: SOVETSKIY — тест одной советской фотошутки
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'sovetskiy/test_gastronom.py'
+      - '.github/workflows/sovetskiy-test-post.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sovetskiy-gastronom-original-test
+  cancel-in-progress: false
+
+jobs:
+  preview-one-meme:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install free meme tools
+        run: python -m pip install requests pillow
+      - name: Check SOVETSKIY account only; no publication in this phase
+        env:
+          VEDISMM_TOKEN: ${{ secrets.VEDISMM_TOKEN }}
+        run: python sovetskiy/check_account.py
+      - name: Generate an original Soviet grocery photograph and joke
+        run: python -u sovetskiy/test_gastronom.py
+      - name: Retain exact actual meme for visual approval, not concept art
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sovetskiy-gastronom-preview-${{ github.run_id }}
+          path: |
+            sovetskiy/test_gastronom.png
+            sovetskiy/test_gastronom.json
+          retention-days: 7
+          if-no-files-found: ignore

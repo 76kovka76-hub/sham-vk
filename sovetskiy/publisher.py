@@ -98,7 +98,17 @@ def schedule_one():
         print("::warning::SOVETSKIY rights-cleared original film frames exhausted. No recycled or unknown-rights images.")
         return
     print("SOVETSKIY_SELECTED:",joke.key,joke.format,slot,flush=True)
-    art,meta=render(joke)
+    try:
+        art,meta=render(joke)
+    except requests.HTTPError as exc:
+        status=getattr(getattr(exc,"response",None),"status_code",None)
+        if status in (429,503):
+            # A public archive may throttle shared GitHub runner IPs.
+            # Skip this refill rather than silently posting a different image.
+            print("::warning::SOVETSKIY source archive rate-limited ("
+                  +str(status)+"); post safely skipped; no VediSMM changes.",flush=True)
+            return
+        raise
     if meta["joke_id"]!=joke.key or meta["source_ids"]!=list(joke.source_ids):
         raise RuntimeError("SOVETSKIY image/content mismatch")
     token=os.getenv("VEDISMM_TOKEN","").strip()

@@ -45,7 +45,8 @@ def fill_batch(*, max_posts=7, max_seconds=1900, min_remaining=430,
             reason="time_budget"
             break
         current=get_state()
-        slot, at=next_missing_slot(current,now())
+        interval=int(os.getenv("SHAM_POST_INTERVAL_MINUTES", "15"))
+        slot, at=next_missing_slot(current,now(),step_minutes=interval)
         if not slot:
             # Do not unschedule published or pending VediSMM posts merely
             # to change visual style. This would leave a hole if free image

@@ -20,7 +20,7 @@ class TrendSignalsTests(unittest.TestCase):
             now=datetime(2026, 11, 13, 13, tzinfo=timezone.utc),
             getter=lambda *args, **kwargs: reply)
         self.assertIn("роботы", result)
-        self.assertIn("автомобили", result)
+        self.assertIn("космос", result)
         self.assertNotIn("жертвы аварии", result)
 
     def test_failure_never_breaks_scheduled_posts(self):

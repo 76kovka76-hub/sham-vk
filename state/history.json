@@ -708,6 +708,190 @@
       "scheduled_at": "2026-11-13T10:30:00Z",
       "publication_status": "scheduled",
       "vk_url": ""
+    },
+    {
+      "topic": "mini_wardrobe_clean",
+      "scene": "home",
+      "top": "Решил разобрать шкаф за полчаса.",
+      "bottom": "Откопал провода от телефона 2007 года.",
+      "caption": "Археологи мной гордятся.",
+      "visual": "Adult dressed like archaeologist finds an enormous mountain of tangled old phone wires spilling from small wardrobe in cluttered bedroom",
+      "id": "48640e298f64311ea560fcafd0b11c8e4a6a929e29d173e292b73c0a414d9151",
+      "hashtags": [
+        "#жизньвквартире",
+        "#абсурд",
+        "#настроение"
+      ],
+      "slot": "2026-11-13-10-03",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Adult dressed like archaeologist finds an enormous mountain of tangled old phone wires spilling from small wardrobe in cluttered bedroom"
+      },
+      "vedismm_post_id": 5033,
+      "scheduled_at": "2026-11-13T10:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_mail_swarm",
+      "scene": "work",
+      "top": "Проверил рабочую почту на минуту.",
+      "bottom": "Теперь письма преследуют меня в лифте.",
+      "caption": "Всего лишь хотел посмотреть погоду.",
+      "visual": "Office employee fleeing a swarm of angry living paper envelopes with teeth and tiny arms down elevator hallway",
+      "id": "7b2205ec0b634321fb1b927014619ff82ac0fb7b2311992ea4b0bc4300514407",
+      "hashtags": [
+        "#офис",
+        "#шуткадня",
+        "#сарказмдня"
+      ],
+      "slot": "2026-11-13-11-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Office employee fleeing a swarm of angry living paper envelopes with teeth and tiny arms down elevator hallway"
+      },
+      "vedismm_post_id": 5034,
+      "scheduled_at": "2026-11-13T11:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Составил список дел на день.",
+      "bottom": "К вечеру список стал длиннее, а день короче.",
+      "scene": "life",
+      "topic": "to_do",
+      "visual": "person with a long handwritten to do list at desk looking overwhelmed",
+      "caption": "У кого тоже ежедневник занят самим собой?",
+      "id": "59fbb282766bb4989dcedf8a87b7bae5c96e6530a1aeff8d8d1a411070ae7419",
+      "hashtags": [
+        "#будни",
+        "#мемывк",
+        "#мемыдня"
+      ],
+      "slot": "2026-11-13-11-01",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "person with a long handwritten to do list at desk looking overwhelmed"
+      },
+      "vedismm_post_id": 5035,
+      "scheduled_at": "2026-11-13T11:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Посмотрел остаток через день после зарплаты.",
+      "bottom": "У нас с деньгами отношения на расстоянии.",
+      "scene": "wallet",
+      "topic": "salary",
+      "visual": "adult person staring at mobile bank balance with a shocked face",
+      "caption": "Зарплата — гость, которого не удержать.",
+      "id": "e57e348f43fa8d625fba680a4b21a1fdaa18745d2efde0a91a4bbe89275d5c69",
+      "hashtags": [
+        "#деньги",
+        "#пацанскиешутки",
+        "#смешно"
+      ],
+      "slot": "2026-11-13-11-02",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ai_horde",
+        "style": "anime",
+        "request_id": "36cd12fa-d1f0-4359-9f58-5b4f58531da0",
+        "model": "stable_diffusion",
+        "seed": "1633791333",
+        "worker": "Simebone"
+      },
+      "vedismm_post_id": 5036,
+      "scheduled_at": "2026-11-13T11:30:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Почти закрыл ноутбук в пятницу.",
+      "bottom": "Выходные посмотрели на меня и ушли.",
+      "scene": "work",
+      "topic": "boss_friday",
+      "visual": "office worker shocked by a message on the laptop late Friday",
+      "caption": "Пятница умеет делать неожиданные повороты.",
+      "id": "ff457b4754d5ee1a4ce385fe7349e63b2425d97e9f40a6c3c6f4bd048fe2c1a7",
+      "hashtags": [
+        "#стендаппроработу",
+        "#современныйюмор",
+        "#смешныекартинки"
+      ],
+      "slot": "2026-11-13-11-03",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "office worker shocked by a message on the laptop late Friday"
+      },
+      "vedismm_post_id": 5037,
+      "scheduled_at": "2026-11-13T11:45:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "top": "Открыл голосовое сообщение перед работой.",
+      "bottom": "Включил ускорение — теперь это паника на скорости.",
+      "scene": "social",
+      "topic": "voice_messages",
+      "visual": "person annoyed while listening to a long phone voice message",
+      "caption": "Голосовое сообщение — маленький подкаст.",
+      "id": "32b660658ef8b83adf0eac6bd6359234194bdbeb638986498b01449b4f3052c8",
+      "hashtags": [
+        "#переписка",
+        "#смешныемемы",
+        "#угарчик"
+      ],
+      "slot": "2026-11-13-12-00",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "realistic",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "person annoyed while listening to a long phone voice message"
+      },
+      "vedismm_post_id": 5038,
+      "scheduled_at": "2026-11-13T12:00:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
+    },
+    {
+      "topic": "mini_weekend_time",
+      "scene": "life",
+      "top": "Утром в субботу решил отдохнуть.",
+      "bottom": "Моргнул — уже воскресенье вечер.",
+      "caption": "Хочется попросить перемотку назад.",
+      "visual": "Person sitting on couch while gigantic calendar monster swallows Saturday and Sunday pages, bewildered man holds remote control",
+      "id": "d8050dbed5c7939bda69941ed978492e34dd11bb4d0ab1a19777b9fdadbd1c47",
+      "hashtags": [
+        "#планы",
+        "#шутки",
+        "#жесткаяирония"
+      ],
+      "slot": "2026-11-13-12-01",
+      "quality_version": 2,
+      "image_source": {
+        "service": "ovh_free_sdxl",
+        "style": "anime",
+        "model": "stabilityai/stable-diffusion-xl-base-1.0",
+        "prompt_scene": "Person sitting on couch while gigantic calendar monster swallows Saturday and Sunday pages, bewildered man holds remote control"
+      },
+      "vedismm_post_id": 5039,
+      "scheduled_at": "2026-11-13T12:15:00Z",
+      "publication_status": "scheduled",
+      "vk_url": ""
     }
   ],
   "slots": [
@@ -734,6 +918,13 @@
     "2026-11-13-09-03",
     "2026-11-13-10-00",
     "2026-11-13-10-01",
-    "2026-11-13-10-02"
+    "2026-11-13-10-02",
+    "2026-11-13-10-03",
+    "2026-11-13-11-00",
+    "2026-11-13-11-01",
+    "2026-11-13-11-02",
+    "2026-11-13-11-03",
+    "2026-11-13-12-00",
+    "2026-11-13-12-01"
   ]
 }

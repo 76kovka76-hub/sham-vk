@@ -7,6 +7,7 @@ import io
 import json
 import os
 import re
+import time
 from pathlib import Path
 from urllib.parse import urlparse
 import requests
@@ -58,6 +59,7 @@ def download(source_id, session=requests):
     q=session.get(API,
         params={"action":"query","titles":"File:"+record["file"],
                 "prop":"imageinfo","iiprop":"url|size|extmetadata",
+                "iiurlwidth":"900",
                 "format":"json","formatversion":"2"},
         headers=headers,timeout=40)
     q.raise_for_status()
@@ -67,13 +69,30 @@ def download(source_id, session=requests):
     info=(pages[0].get("imageinfo") or [])
     if not info or not _is_pd(info[0].get("extmetadata") or {}):
         raise RuntimeError("Commons does not confirm permitted public-domain status")
-    url=info[0].get("url")
+    url=info[0].get("thumburl") or info[0].get("url")
     parsed=urlparse(url or "")
     if parsed.scheme!="https" or parsed.hostname not in ALLOWED_DOMAINS:
         raise RuntimeError("Untrusted source host")
     if int(info[0].get("size") or 0)>12_000_000:
         raise RuntimeError("SOVETSKIY movie still exceeds size limit")
-    fetched=session.get(url,headers={"User-Agent":USER_AGENT},timeout=60)
+    fetched=None
+    for attempt in range(3):
+        fetched=session.get(url,headers={"User-Agent":USER_AGENT},timeout=60)
+        if fetched.status_code not in (429,503):
+            break
+        # Respect Wikimedia's Retry-After rate-limit contract. Never
+        # proxy around restrictions or hammer the media endpoint.
+        retry=fetched.headers.get("Retry-After","")
+        try:
+            delay=int(retry)
+        except (ValueError,TypeError):
+            delay=7*(attempt+1)
+        if delay>95:
+            raise RuntimeError("Wikimedia download rate-limited; revisit later (Retry-After >95s)")
+        if attempt==2:
+            break
+        print(f"::warning::Wikimedia returned {fetched.status_code}; waiting {max(5,delay)}s before retry",flush=True)
+        time.sleep(max(5,delay))
     fetched.raise_for_status()
     final=urlparse(fetched.url)
     if final.scheme!="https" or final.hostname not in ALLOWED_DOMAINS:

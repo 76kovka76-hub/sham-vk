@@ -128,6 +128,20 @@
       "group_id": "243241856",
       "generator": "FREE_OVH_SDXL",
       "pilot": true
+    },
+    {
+      "slot": "20261114-40",
+      "scheduled_at": "2026-11-14T19:12:00Z",
+      "asset_id": "auto_discount_trap",
+      "sha256": "5390188cea67e9c737738cd7c60ae85e00ff0b56587948b2ed815c6f212fe0bd",
+      "story_id": "discount_trap",
+      "topic": "money",
+      "panels": 1,
+      "post_id": 5277,
+      "status": "scheduled",
+      "group_id": "243241856",
+      "generator": "FREE_OVH_SDXL",
+      "pilot": true
     }
   ]
 }

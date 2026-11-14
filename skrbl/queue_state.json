@@ -156,6 +156,20 @@
       "group_id": "243241856",
       "generator": "FREE_OVH_SDXL",
       "pilot": true
+    },
+    {
+      "slot": "20261115-08",
+      "scheduled_at": "2026-11-15T03:50:00Z",
+      "asset_id": "auto_excel_mage",
+      "sha256": "79ddc64e4c3a88e52fd74f63a235c175ebb42df7f636dec9642e243f1b6aac77",
+      "story_id": "excel_mage",
+      "topic": "work",
+      "panels": 1,
+      "post_id": 5355,
+      "status": "scheduled",
+      "group_id": "243241856",
+      "generator": "FREE_OVH_SDXL",
+      "pilot": true
     }
   ]
 }

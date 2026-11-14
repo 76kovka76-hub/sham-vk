@@ -1073,6 +1073,58 @@
       "media_id": 3421,
       "post_id": 5281,
       "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261114-41",
+      "scheduled_at": "2026-11-14T10:15:00Z",
+      "story_id": "new_job",
+      "theme": "work",
+      "sha256": "e4f7a912bc7e46832bcdcb10f590325730f4a1f15c35b3d2c71b49c51cb8461d",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "Five men in a workshop with machinery, one young man in the center holding a tool, surrounded by older men looking at him.",
+        "explanation": "The image shows a young man in a workshop surrounded by older coworkers, holding a tool, which aligns with the joke about explaining how to fix things. The machinery and tools are visible, and the large Cyrillic text is legible.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "ПЕРВЫЙ ДЕНЬ НА НОВОЙ РАБОТЕ",
+      "bottom": "УЖЕ ОБЪЯСНЯЮ, КАК ТУТ ВСЁ ЧИНИТЬ.",
+      "media_id": 3451,
+      "post_id": 5311,
+      "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261114-42",
+      "scheduled_at": "2026-11-14T10:30:00Z",
+      "story_id": "holiday_photo",
+      "theme": "life",
+      "sha256": "fc10401b7b087c6d963413c3fd884394f1d4f86a721099d7546fb3314cb8a113",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "A man and a child standing in a park with trees in the background. The man holds a vintage camera, and both have neutral expressions. The man appears to be posing stiffly.",
+        "explanation": "The image shows a man holding a vintage camera, which is the central prop, and he appears to be posing stiffly, matching the joke about standing frozen for a long time. The large Cyrillic captions are legible and relevant to the joke.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "ПОПРОСИЛ СДЕЛАТЬ ОДНО ФОТО",
+      "bottom": "ПОЛЧАСА СТОЯЛ КАК ПАМЯТНИК.",
+      "media_id": 3452,
+      "post_id": 5312,
+      "vedismm_status": "scheduled"
     }
   ]
 }

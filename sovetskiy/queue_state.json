@@ -1359,6 +1359,84 @@
       "media_id": 3473,
       "post_id": 5348,
       "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261114-60",
+      "scheduled_at": "2026-11-14T15:00:00Z",
+      "story_id": "salary_wallet",
+      "theme": "money",
+      "sha256": "8334024bf17df131f933fc2e92e41fe189b09f8f18850caeee9c5051bf2c3ff0",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "A man in a modest shirt appears shocked while holding a wallet, with a large stack of papers or documents beside him.",
+        "explanation": "The image shows a man with a shocked expression holding a wallet, which aligns with the joke about receiving a salary. The large stack of papers next to him represents the utility bills, consistent with the joke's theme. The Cyrillic text is clearly legible and matches the expected joke.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "ПОЛУЧИЛ ЗАРПЛАТУ",
+      "bottom": "КОММУНАЛКА УЖЕ ЖДЁТ У ДВЕРИ.",
+      "media_id": 3477,
+      "post_id": 5352,
+      "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261114-61",
+      "scheduled_at": "2026-11-14T15:15:00Z",
+      "story_id": "mother_help",
+      "theme": "social",
+      "sha256": "2f6674931dc037dee01602ecea9115425017e0e550b788004c16bc3ac0e4f039",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "Two young men are standing in a room filled with various suitcases and bags. One man is holding a large sack, and both appear to be surprised or concerned. The room has a vintage look with patterned wallpaper and old-fashioned furniture.",
+        "explanation": "The image shows two men in a room with multiple suitcases and bags, which aligns with the joke about a mother bringing a large amount of food. The expressions and actions of the men suggest surprise, fitting the context of the joke. The large Cyrillic text is clearly legible and matches the expected humor.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "ПОПРОСИЛ МАМУ НЕ ВОЛНОВАТЬСЯ",
+      "bottom": "ОНА ПРИВЕЗЛА ЧЕМОДАН ЕДЫ.",
+      "media_id": 3478,
+      "post_id": 5353,
+      "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261114-62",
+      "scheduled_at": "2026-11-14T15:30:00Z",
+      "story_id": "postcard_wait",
+      "theme": "phone",
+      "sha256": "1c5de59524d3b143da72aa7db4f9e066021fe1864eb28c14765e4e37b332cf59",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "Two bearded men in winter clothing are standing near a window with snow outside. One man is holding a postcard or similar item, and both are smiling.",
+        "explanation": "The image shows two men, one holding a postcard, which matches the joke about sending and receiving a postcard. The expressions and context align with the humor of the joke. The Cyrillic text is clearly legible and supports the narrative.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "ОТПРАВИЛ ОТКРЫТКУ В ПОНЕДЕЛЬНИК",
+      "bottom": "ОТВЕТ ПРИШЁЛ КОГДА ПРОШЛА ЗИМА.",
+      "media_id": 3479,
+      "post_id": 5354,
+      "vedismm_status": "scheduled"
     }
   ]
 }

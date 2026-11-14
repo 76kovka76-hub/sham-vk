@@ -142,6 +142,20 @@
       "group_id": "243241856",
       "generator": "FREE_OVH_SDXL",
       "pilot": true
+    },
+    {
+      "slot": "20261115-00",
+      "scheduled_at": "2026-11-15T00:00:00Z",
+      "asset_id": "auto_dishes_kingdom",
+      "sha256": "4dcca00a54e445bf1388b479debb2271fa889b030f1eb2b3d40c3a3ddae79f33",
+      "story_id": "dishes_kingdom",
+      "topic": "home",
+      "panels": 1,
+      "post_id": 5335,
+      "status": "scheduled",
+      "group_id": "243241856",
+      "generator": "FREE_OVH_SDXL",
+      "pilot": true
     }
   ]
 }

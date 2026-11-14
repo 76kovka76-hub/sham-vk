@@ -1437,6 +1437,84 @@
       "media_id": 3479,
       "post_id": 5354,
       "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261114-63",
+      "scheduled_at": "2026-11-14T15:45:00Z",
+      "story_id": "boss_file",
+      "theme": "work",
+      "sha256": "a6c3670d890a97751a1aa6b918f583cb0b8bf360132486251703eff4623d2b78",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "A man in a suit and glasses is standing in an office environment with stacks of papers and suitcases filled with documents.",
+        "explanation": "The image shows a man dragging suitcases filled with papers, which aligns with the joke about bringing five suitcases of documents. The central prop (suitcases of documents) is visible, and the action matches the joke. The large Cyrillic captions are legible and consistent with the humor.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "НАЧАЛЬНИК СКАЗАЛ: ПЯТЬ МИНУТ",
+      "bottom": "ПРИНЁС ПЯТЬ ЧЕМОДАНОВ БУМАГ.",
+      "media_id": 3481,
+      "post_id": 5356,
+      "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261114-64",
+      "scheduled_at": "2026-11-14T16:00:00Z",
+      "story_id": "discount_oath",
+      "theme": "shopping",
+      "sha256": "83e956f11a4a22508cf7081a6af0831f0d55e77cb9d3554311aea652cb75a743",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "A man with a shocked expression is crawling on the floor between large rolled carpets in what appears to be a carpet store.",
+        "explanation": "The image shows a man with a shocked expression crawling between large rolled carpets, which matches the joke about someone overwhelmed by carpets. The rolled carpets are clearly visible, and the man's action of being under them aligns with the joke. The large Cyrillic text is legible and correctly translates to the joke's punchline.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "ПРИШЁЛ ТОЛЬКО ПОСМОТРЕТЬ",
+      "bottom": "УШЁЛ С ТРЕМЯ КОВРАМИ.",
+      "media_id": 3482,
+      "post_id": 5357,
+      "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261114-65",
+      "scheduled_at": "2026-11-14T16:15:00Z",
+      "story_id": "clock_advance",
+      "theme": "life",
+      "sha256": "a6483e56457fad52cf551aa80d45b721bbcd8823e441b99b6a0cf60ae53db824",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "Two men in business attire are standing at a desk with multiple vintage alarm clocks. One man is pointing at the clocks while the other appears to be adjusting his coat.",
+        "explanation": "The image shows two men interacting with multiple vintage alarm clocks on a desk, which aligns with the joke about adjusting clocks. The actions of the men, particularly one pointing and the other adjusting his coat, are consistent with the scenario described in the joke. The large Cyrillic text at the top and bottom of the image is clearly legible.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "ПЕРЕВЁЛ ЧАСЫ НА ЧАС ВПЕРЁД",
+      "bottom": "РАБОТА ОБРАДОВАЛАСЬ ПЕРВОЙ.",
+      "media_id": 3483,
+      "post_id": 5358,
+      "vedismm_status": "scheduled"
     }
   ]
 }

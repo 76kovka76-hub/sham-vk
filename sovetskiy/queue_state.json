@@ -1333,6 +1333,32 @@
       "media_id": 3466,
       "post_id": 5341,
       "vedismm_status": "scheduled"
+    },
+    {
+      "slot": "20261114-56",
+      "scheduled_at": "2026-11-14T14:00:00Z",
+      "story_id": "midnight_tea",
+      "theme": "sleep",
+      "sha256": "6734140b962e9af303605020434fdb168a1eb1d674a695418c39de8859c3b7d5",
+      "source_type": "original_soviet_photo",
+      "frame_ids": [],
+      "group_id": "243244760",
+      "status": "scheduled",
+      "visual_qa": {
+        "passed": true,
+        "description": "A man is sitting on a bed in a modestly furnished room with old photographs on the wall. He is looking upwards with a concerned expression, holding a teacup. There is a thermos and some papers on the bedside table.",
+        "explanation": "The man is visibly looking upwards, which aligns with the joke about counting cracks in the ceiling. The empty teacup on the bedside table supports the context of having drunk tea before bed. The large Cyrillic text is legible and matches the joke's theme. The scene is consistent with the described setting of a Soviet apartment at night.",
+        "central_prop_visible": true,
+        "action_matches_joke": true,
+        "large_caption_legible": true,
+        "model": "Mistral-Small-3.2-24B-Instruct-2506",
+        "source": "anonymous_free_vision"
+      },
+      "top": "ВЫПИЛ ЧАЙ ПЕРЕД СНОМ",
+      "bottom": "В ТРИ НОЧИ СЧИТАЮ ТРЕЩИНЫ В ПОТОЛКЕ.",
+      "media_id": 3473,
+      "post_id": 5348,
+      "vedismm_status": "scheduled"
     }
   ]
 }

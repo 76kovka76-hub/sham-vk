@@ -114,6 +114,20 @@
       "group_id": "243241856",
       "generator": "FREE_OVH_SDXL",
       "pilot": true
+    },
+    {
+      "slot": "20261114-32",
+      "scheduled_at": "2026-11-14T15:21:00Z",
+      "asset_id": "auto_todo_scroll",
+      "sha256": "c8659b0199e301eafd355272af113e4b147eca74f2ffa2d9ce7cee2a31628eb1",
+      "story_id": "todo_scroll",
+      "topic": "life",
+      "panels": 1,
+      "post_id": 5247,
+      "status": "scheduled",
+      "group_id": "243241856",
+      "generator": "FREE_OVH_SDXL",
+      "pilot": true
     }
   ]
 }
